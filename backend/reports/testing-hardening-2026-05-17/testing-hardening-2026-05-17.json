@@ -6,7 +6,11 @@
     "Expanded backend test suites across unit, web, component, architecture, contract, and integration layers.",
     "Added Maven JaCoCo coverage-check profile for 99% instruction and line coverage.",
     "Updated backend coverage script to enforce thresholds and report executed test counts.",
-    "Updated backend tagged-suite scripts to fail on zero executed tests.",
+    "Updated backend tagged-suite scripts to fail on zero executed tests and print actual Surefire execution counts.",
+    "Added CI-visible backend test inventory listing total classes, declared methods, suite tags, and every backend test class.",
+    "Added Backend test inventory jobs to dev and main runtime CI workflows.",
+    "Added scripts/list-backend-tests.sh to the main runtime promotion allowlist.",
+    "Tagged previously untagged load-test diagnostics tests and the Spring context test so suite CI cannot miss them.",
     "Added backend coverage jobs to dev and main runtime CI workflows.",
     "Added tests/contracts/pacts to the main runtime promotion allowlist for promoted coverage and contract jobs.",
     "Added Spring Boot real backend load-test endpoints for start/status/metrics/stop.",
@@ -14,7 +18,8 @@
     "Added JVM runtime diagnostics while preserving frontend-compatible legacy process/gc/threadPool/database fields.",
     "Updated load-test configuration for base-url, report-root, and k6-bin.",
     "Updated frontend load-test dashboard visible wording to backend runtime and JDBC terminology.",
-    "Fixed ContentService context null PublishedAt handling exposed by tests."
+    "Fixed ContentService context null PublishedAt handling exposed by tests.",
+    "Stabilized load-test terminal status/error publication ordering exposed by CI."
   ],
   "intentionallyNotChanged": [
     "Branch coverage is measured but not gated.",
@@ -51,6 +56,43 @@
       "duration": "01:20",
       "timeout": false
     },
+    "backendInventory": {
+      "classes": 42,
+      "declaredTestMethods": 198,
+      "untaggedClasses": 0,
+      "suiteCounts": {
+        "unit": {
+          "classes": 30,
+          "declaredTestMethods": 141
+        },
+        "web": {
+          "classes": 7,
+          "declaredTestMethods": 34
+        },
+        "integration": {
+          "classes": 2,
+          "declaredTestMethods": 16
+        },
+        "architecture": {
+          "classes": 1,
+          "declaredTestMethods": 5
+        },
+        "component": {
+          "classes": 1,
+          "declaredTestMethods": 1
+        },
+        "contract": {
+          "classes": 1,
+          "declaredTestMethods": 1
+        }
+      }
+    },
+    "targetedUnitSuiteCountCheck": {
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "scriptOutput": "Backend unit tests executed: 19"
+    },
     "frontendLoadTestDashboard": {
       "tests": 29,
       "failures": 0,
@@ -58,7 +100,9 @@
     }
   },
   "validations": [
-    "bash -n backend test and coverage scripts",
+    "bash -n backend test, inventory, coverage, and promotion scripts",
+    "bash ./scripts/list-backend-tests.sh",
+    "Docker Java 21 targeted run-unit-tests.sh count check for load-test diagnostics unit tests",
     "git diff --check",
     "Docker Java 21 focused diagnostics/load-test suite",
     "Docker Java 21 full backend coverage gate against fresh PostgreSQL",
@@ -87,14 +131,17 @@
     ".github/workflows/ci-dev.yml",
     ".github/workflows/ci-main-runtime.yml",
     "scripts/run-backend-coverage.sh",
+    "scripts/list-backend-tests.sh",
+    "backend/reports/testing-hardening-2026-05-17/backend-test-inventory-2026-05-17.md",
     "scripts/main-runtime-allowlist.txt"
   ],
   "risks": [
     "Branch coverage remains measured but not part of the 99% gate.",
     "Automatic promotion fails before checkout when PROMOTION_TOKEN is absent; manual release/main-promote PR promotion is being used.",
     "After the load-test parity commit, dev CI, staging image publish, promotion PR CI, main merge, and main publish gates still require observation.",
+    "Backend inventory counts declared parameterized test methods once; runtime suite scripts and full coverage logs remain the source of actual Surefire execution counts.",
     "k6 must be installed in the runtime environment for real backend load-test runs; the fake runner is retained for deterministic tests.",
     "The external coverage database container remains running for local evidence inspection."
   ],
-  "recommendation": "Commit and push the load-test parity slice to dev, verify CI Dev and Publish GHCR Dev, regenerate release/main-promote, verify CI Main Runtime, merge to main, and observe main push/publish gates."
+  "recommendation": "Commit and push the load-test race fix plus backend test inventory/count visibility slice to dev, verify CI Dev and Publish GHCR Dev, regenerate release/main-promote, verify CI Main Runtime, merge to main, and observe main push/publish gates."
 }

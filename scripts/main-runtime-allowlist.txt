@@ -42,6 +42,7 @@ scripts/run-backend-tests.sh
 scripts/run-backend-coverage.sh
 scripts/run-component-tests.sh
 scripts/run-integration-tests.sh
+scripts/list-backend-tests.sh
 scripts/run-unit-tests.sh
 scripts/run-web-tests.sh
 scripts/azure-backup-lib.mjs

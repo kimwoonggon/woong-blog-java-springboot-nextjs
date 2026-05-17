@@ -20,3 +20,5 @@ if [[ "$test_count" -eq 0 ]]; then
   echo 'Integration test suite executed zero backend tests.' >&2
   exit 1
 fi
+
+printf 'Backend integration tests executed: %s\n' "$test_count"

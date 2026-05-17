@@ -319,28 +319,28 @@ public class RealLoadTestService {
         private void complete(int exitCode, Summary summary, Map<String, Object> diagnosticsSnapshot) {
             this.summary = summary;
             this.finishedAt = Instant.now();
-            this.status = exitCode == 0 ? "completed" : "failed";
             this.error = exitCode == 0 ? null : "k6 exited with code " + exitCode + ".";
             addDiagnostics(diagnosticsSnapshot);
+            this.status = exitCode == 0 ? "completed" : "failed";
         }
 
         private void fail(String message, Map<String, Object> diagnosticsSnapshot) {
             this.finishedAt = Instant.now();
-            this.status = "failed";
             this.error = message;
             addDiagnostics(diagnosticsSnapshot);
+            this.status = "failed";
         }
 
         private void stop(Map<String, Object> diagnosticsSnapshot) {
             if (!active()) {
                 return;
             }
+            this.finishedAt = Instant.now();
+            this.status = "stopped";
             LoadTestExecution currentExecution = execution;
             if (currentExecution != null && currentExecution.isAlive()) {
                 currentExecution.stop();
             }
-            this.finishedAt = Instant.now();
-            this.status = "stopped";
             addDiagnostics(diagnosticsSnapshot);
         }
 
