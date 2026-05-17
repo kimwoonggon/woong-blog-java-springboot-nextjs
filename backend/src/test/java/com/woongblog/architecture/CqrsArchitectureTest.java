@@ -87,6 +87,21 @@ class CqrsArchitectureTest {
                 .contains("-Dspring-boot.run.useTestClasspath=true");
     }
 
+    @Test
+    void mainRuntimeAllowlistKeepsMainCiWorkflowInputsAvailable() throws IOException {
+        String allowlist = read(repoPath("scripts/main-runtime-allowlist.txt"));
+
+        assertThat(allowlist)
+                .contains(".github/workflows/ci-dev.yml")
+                .contains(".github/workflows/ci-main-runtime.yml")
+                .contains("scripts/run-unit-tests.sh")
+                .contains("scripts/run-component-tests.sh")
+                .contains("scripts/run-architecture-tests.sh")
+                .contains("scripts/run-web-tests.sh")
+                .contains("scripts/run-integration-tests.sh")
+                .contains("scripts/pact-provider-verify.sh");
+    }
+
     private static String read(Path path) throws IOException {
         assertThat(path).exists();
         return Files.readString(path);

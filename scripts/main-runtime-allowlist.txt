@@ -1,5 +1,6 @@
 # Runtime tree for main promotion
 .dockerignore
+.github/workflows/ci-dev.yml
 .github/workflows/ci-main-runtime.yml
 .github/workflows/promote-main-runtime.yml
 .github/workflows/prod-runtime-redeploy.yml
@@ -42,6 +43,7 @@ scripts/run-backend-coverage.sh
 scripts/run-component-tests.sh
 scripts/run-integration-tests.sh
 scripts/run-unit-tests.sh
+scripts/run-web-tests.sh
 scripts/azure-backup-lib.mjs
 scripts/azure-backup.mjs
 scripts/azure-restore.mjs
