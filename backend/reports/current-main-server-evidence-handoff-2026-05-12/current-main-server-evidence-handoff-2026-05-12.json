@@ -1,0 +1,7 @@
+{
+  "currentMainResolution": "dynamic-origin-main",
+  "scriptGuarantees": [
+    "Defaults to the latest fetched origin/main instead of a hard-coded commit SHA",
+    "Fails immediately if provided expected image digests do not match the resolved GHCR manifest digests"
+  ]
+}

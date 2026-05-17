@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Frontend Batch 28 - Admin Video Secondary Failure Sanitization Reinforcement</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 880px; margin: 40px auto; padding: 0 24px; line-height: 1.55; color: #111827; }
+      code { background: #f3f4f6; padding: 2px 4px; border-radius: 4px; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #d1d5db; padding: 8px; text-align: left; vertical-align: top; }
+      th { background: #f9fafb; }
+    </style>
+  </head>
+  <body>
+    <h1>Frontend Batch 28 - Admin Video Secondary Failure Sanitization Reinforcement</h1>
+    <p><strong>Date:</strong> 2026-04-28</p>
+    <p>Reinforced Work editor secondary video failure states for saved video removal, saved video reordering, and fallback thumbnail regeneration without losing rendered state.</p>
+    <h2>Changed Files</h2>
+    <ul>
+      <li><code>src/components/admin/WorkEditor.tsx</code></li>
+      <li><code>src/test/work-editor.test.tsx</code></li>
+    </ul>
+    <h2>Validation</h2>
+    <table>
+      <tr><th>Command</th><th>Result</th></tr>
+      <tr><td><code>npm test -- --run src/test/work-editor.test.tsx</code></td><td>Failed before fixes, then passed</td></tr>
+      <tr><td><code>npm test -- --run</code></td><td>Passed: 78 files, 530 tests</td></tr>
+      <tr><td><code>npm run lint</code></td><td>Passed: 0 errors, 6 existing warnings</td></tr>
+      <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+      <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+      <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+    </table>
+    <h2>Next Recommended Batch</h2>
+    <p>Proceed to <strong>Frontend Batch 29 - Admin Inline Editor Routing and Return Path Reinforcement</strong>.</p>
+  </body>
+</html>

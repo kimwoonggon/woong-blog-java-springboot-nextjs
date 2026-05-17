@@ -1,0 +1,57 @@
+server:
+  port: ${SERVER_PORT:8080}
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        same-site: lax
+
+spring:
+  application:
+    name: woong-blog-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/portfolio}
+    username: ${SPRING_DATASOURCE_USERNAME:portfolio}
+    password: ${SPRING_DATASOURCE_PASSWORD:portfolio}
+    hikari:
+      maximum-pool-size: ${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE:${POSTGRES_MAX_POOL_SIZE:40}}
+      minimum-idle: ${SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE:${POSTGRES_MIN_POOL_SIZE:0}}
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  jackson:
+    property-naming-strategy: LOWER_CAMEL_CASE
+    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: ${MAX_UPLOAD_SIZE:512MB}
+      max-request-size: ${MAX_UPLOAD_SIZE:512MB}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  auth:
+    enabled: ${APP_AUTH_ENABLED:${AUTH_ENABLED:false}}
+    cookie-name: ${APP_AUTH_COOKIE_NAME:${AUTH_COOKIE_NAME:portfolio_auth}}
+    admin-emails: ${APP_AUTH_ADMIN_EMAILS:${AUTH_ADMIN_EMAILS:admin@example.com}}
+    enable-test-login-endpoint: ${APP_AUTH_ENABLE_TEST_LOGIN_ENDPOINT:${APP_ENABLE_TEST_LOGIN_ENDPOINT:${AUTH_ENABLE_TEST_LOGIN_ENDPOINT:${AUTH__ENABLETESTLOGINENDPOINT:false}}}}
+    secure-cookies: ${APP_AUTH_SECURE_COOKIES:${APP_SECURE_COOKIES:${AUTH_SECURE_COOKIES:${AUTH__SECURECOOKIES:false}}}}
+    media-root: ${APP_AUTH_MEDIA_ROOT:${APP_MEDIA_ROOT:${AUTH_MEDIA_ROOT:${AUTH__MEDIAROOT:/app/media}}}}
+    session-ttl: ${APP_AUTH_SESSION_TTL:${AUTH_SESSION_TTL:PT8H}}
+  ai:
+    provider: ${AI_PROVIDER:fake}
+    default-model: ${AI_DEFAULT_MODEL:gpt-5.4-mini}
+    codex-model: ${AI_CODEX_MODEL:gpt-5.4-mini}
+    codex-reasoning-effort: ${AI_CODEX_REASONING_EFFORT:medium}
+    batch-concurrency: ${AI_BATCH_CONCURRENCY:2}
+    batch-completed-retention-days: ${AI_BATCH_COMPLETED_RETENTION_DAYS:7}
+  load-testing:
+    base-url: ${LOAD_TESTING_BASE_URL:${LoadTesting__BaseUrl:http://localhost}}

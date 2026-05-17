@@ -1,0 +1,60 @@
+{
+  "task": "Frontend Batch 5 - AI Failure and Partial Failure UI Reinforcement",
+  "date": "2026-04-27",
+  "scope": "frontend AI failure and partial-failure UI tests with minimal frontend fixes",
+  "testsAddedOrReinforced": [
+    "AIFixDialog runtime config failure, malformed config, empty provider fallback, POST 504/500, retry, and work enrich failure/retry component tests",
+    "AdminBlogBatchAiPanel runtime fallback, mixed succeeded/failed item rendering, partial apply failure, cancel failure, remove failure, and retry-safe component tests",
+    "Route-mocked Playwright blog AI failure/retry and work enrich failure-to-success tests"
+  ],
+  "productionFilesChanged": [
+    {
+      "path": "src/components/admin/AdminBlogBatchAiPanel.tsx",
+      "reason": "Report partial apply responses with failed items as partial failures instead of full success."
+    }
+  ],
+  "harnessFilesChanged": [
+    {
+      "path": "playwright.config.ts",
+      "reason": "Allow explicitly requested optional specs to run under the forced core test:e2e profile."
+    }
+  ],
+  "behaviorBugsFound": [
+    {
+      "summary": "Batch partial apply could show a full-success toast even when failed items remained.",
+      "rootCause": "applyJobResults treated every successful HTTP response as full UI success without checking failedCount, item failed status, or item errors.",
+      "fix": "Inspect the returned job and show a partial-failure error toast when failed items remain."
+    }
+  ],
+  "harnessIssuesFound": [
+    {
+      "summary": "Explicitly named optional batch AI specs were ignored by npm run test:e2e.",
+      "rootCause": "The npm script forces PLAYWRIGHT_E2E_PROFILE=core and the config still applied optional spec ignores to explicitly requested optional files.",
+      "fix": "Disable optional ignores when process argv explicitly requests an optional spec path."
+    }
+  ],
+  "validations": [
+    { "command": "npm test -- --run src/test/admin-ai-fix-dialog.test.tsx", "result": "passed", "details": "1 file, 11 tests" },
+    { "command": "npm test -- --run src/test/admin-blog-batch-ai-panel.test.tsx", "result": "failed_before_fix", "details": "RED: partial apply did not show partial-failure toast" },
+    { "command": "npm test -- --run src/test/admin-blog-batch-ai-panel.test.tsx", "result": "passed", "details": "1 file, 17 tests" },
+    { "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/admin-blog-ai-dialog.spec.ts tests/admin-ai-batch-jobs.spec.ts tests/admin-ai-batch-cancel.spec.ts", "result": "passed", "details": "6 tests, 0 latency budget failures" },
+    { "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e", "result": "passed", "details": "418 passed, 5 skipped, 0 latency budget failures, 46 warnings" },
+    { "command": "npm test -- --run", "result": "passed", "details": "65 files, 382 tests" },
+    { "command": "npm run lint", "result": "passed", "details": "0 errors, 6 existing warnings" },
+    { "command": "npm run typecheck", "result": "passed", "details": "tsc --noEmit completed" },
+    { "command": "npm run build", "result": "passed", "details": "Next.js production build completed" },
+    { "command": "git diff --check", "result": "passed", "details": "No whitespace errors" }
+  ],
+  "notChanged": [
+    "backend behavior",
+    "live AI or external AI providers",
+    "WorkVideo tests",
+    "public API error-boundary tests",
+    "dark mode/code block readability"
+  ],
+  "remainingRisks": [
+    "Batch partial apply browser flow is covered at component level rather than Playwright level.",
+    "Work enrich browser coverage targets the new work form only; edit form uses the same shared dialog path."
+  ],
+  "finalRecommendation": "Proceed to public API error states coverage next."
+}

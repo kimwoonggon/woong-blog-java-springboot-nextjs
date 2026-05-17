@@ -1,0 +1,76 @@
+{
+  "title": "Frontend Batch 37 - Full-Suite Stability and E2E Readiness Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend test infrastructure only",
+  "summary": "Added deterministic e2e readiness checks and stabilized the full Vitest command by bounding threads workers.",
+  "changed": {
+    "testsAdded": [
+      "src/test/e2e-readiness.test.ts"
+    ],
+    "testInfrastructureChanged": [
+      "scripts/check-e2e-readiness.mjs",
+      "package.json",
+      "docs/e2e-readiness.md"
+    ],
+    "productionFilesChanged": [],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "behaviorBugsFound": [],
+  "testInfrastructureFindings": [
+    "Unbounded Vitest worker startup could fail the run under WSL load even after test files had passed.",
+    "Switching to the forks pool worsened worker startup failures.",
+    "Keeping the threads pool and bounding workers to 4 allowed the full suite to pass."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find vitest playwright e2e readiness stability docker",
+      "result": "passed",
+      "notes": "Results were general Playwright/e2e skills; no new skill was installed."
+    },
+    {
+      "command": "npm test -- --run src/test/e2e-readiness.test.ts",
+      "result": "failed once, then passed",
+      "notes": "RED failed before helper implementation. Final focused run: 1 file, 5 tests."
+    },
+    {
+      "command": "npm run test:e2e:readiness",
+      "result": "blocked",
+      "notes": "Docker daemon, backend health URL, and frontend URL are unavailable in the current environment; output is sanitized."
+    },
+    {
+      "command": "npm test -- --run src/test/e2e-readiness.test.ts src/test/tiptap-editor.test.tsx",
+      "result": "passed",
+      "notes": "Worker-bound focused stability run: 2 files, 17 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 81 files, 559 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Full Playwright e2e still needs Docker Desktop WSL integration or an already running local stack.",
+    "The known jsdom navigation warning remains to be isolated.",
+    "Full Vitest now passes but takes roughly 14 minutes with bounded workers."
+  ],
+  "recommendation": "Proceed to Frontend Batch 38 - JSDOM Navigation Warning Isolation."
+}

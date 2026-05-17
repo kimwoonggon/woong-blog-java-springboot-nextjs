@@ -1,0 +1,87 @@
+{
+  "title": "Frontend Batch 13 - Public Metadata and Server Route Fallback Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced public blog/work metadata generation and shared SEO metadata safety for malformed route slugs, fetch failures, canonical paths, social images, and Work YouTube thumbnails.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/public-detail-metadata-fallback.test.ts",
+      "src/test/seo-metadata.test.ts",
+      "src/test/work-detail-metadata.test.ts"
+    ],
+    "productionFilesChanged": [
+      "src/app/(public)/blog/[slug]/page.tsx",
+      "src/app/(public)/works/[slug]/page.tsx",
+      "src/app/(public)/works/[slug]/work-detail-metadata.ts",
+      "src/lib/seo.ts"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "Public error-boundary UI",
+    "Pagination/search UI",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Blog/work generateMetadata could throw URIError for malformed route slug encodings.",
+    "Blog/work generateMetadata could throw raw fetch errors during metadata generation.",
+    "Blog/work canonical metadata paths could include raw unsafe-looking slug text.",
+    "createPublicMetadata could emit protocol-relative canonical paths.",
+    "createPublicMetadata could emit unsafe javascript or protocol-relative social image URLs.",
+    "Work detail metadata could build YouTube thumbnail URLs from full YouTube URLs instead of normalized video IDs."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find nextjs metadata testing",
+      "result": "passed",
+      "notes": "Low-install external skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/seo-metadata.test.ts src/test/work-detail-metadata.test.ts src/test/public-detail-metadata-fallback.test.ts",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final focused run: 3 files, 13 tests."
+    },
+    {
+      "command": "npm test -- --run src/test/admin-page-success-states.test.tsx",
+      "result": "passed",
+      "notes": "Isolation check after an interrupted full run; 1 file, 18 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 72 files, 493 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "robots.ts is not directly unit-tested.",
+    "Public list/card date formatting remains component-local.",
+    "Blog/work generateStaticParams malformed slug filtering is not covered.",
+    "Public page/contact/introduction metadata is less explicit than blog/work detail metadata."
+  ],
+  "recommendation": "Proceed to Frontend Batch 14 - Public Static Route and Date Display Reinforcement."
+}

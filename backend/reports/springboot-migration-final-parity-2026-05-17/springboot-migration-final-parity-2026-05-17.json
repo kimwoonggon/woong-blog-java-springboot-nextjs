@@ -1,0 +1,70 @@
+{
+  "report": "springboot-migration-final-parity-2026-05-17",
+  "date": "2026-05-17",
+  "scope": "Final local parity audit for replacing the ASP.NET Core backend with Java 21 Spring Boot while preserving the Next.js frontend, Docker/nginx topology, API behavior, and browser workflows.",
+  "status": "local_parity_validated_ready_for_dev_push",
+  "changed": [
+    "Replaced the backend runtime with Spring Boot 3.5.x, Java 21, Maven, Flyway, PostgreSQL JDBC persistence, Spring Security session auth, OAuth2 login handoff, CSRF validation, security headers, health checks, media handling, diagnostics, and admin/public API endpoints.",
+    "Preserved frontend API contracts for public content, admin content, auth, site settings, media uploads, work videos, AI fix flows, batch AI flows, and Docker/nginx routing.",
+    "Added CQRS-style application handlers for AI and media/work-video flows without adding a mediator library.",
+    "Updated Docker, nginx, compose, runtime scripts, environment examples, and GitHub Actions from ASP.NET Core/.NET to Spring Boot/Maven while keeping the repository git-flow shape.",
+    "Fixed final parity gaps found by exhaustive Docker-dev Playwright validation."
+  ],
+  "intentionally_not_changed": [
+    "The Next.js app remains the existing App Router frontend.",
+    "Historical migration/evidence docs remain historical records.",
+    "Google OAuth2 still requires production client ID, secret, and redirect configuration outside the repository.",
+    "AI provider behavior remains a deterministic compatibility implementation.",
+    "Local Docker data volumes, temporary validation containers, and generated Playwright artifacts are not product code changes."
+  ],
+  "validations": [
+    {
+      "name": "backend_full_suite",
+      "command": "docker run ... ./mvnw -q clean -Dtestcontainers.enabled=false test",
+      "result": "passed against clean Postgres wb-final-test-db-20260517"
+    },
+    {
+      "name": "frontend_lint",
+      "command": "npm run lint",
+      "result": "passed with 5 existing warnings"
+    },
+    {
+      "name": "frontend_typecheck",
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "name": "frontend_build",
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "name": "frontend_unit",
+      "command": "npm test -- --run",
+      "result": "passed with 95 files and 659 tests"
+    },
+    {
+      "name": "docker_dev_health",
+      "command": "health probes through backend and nginx loopback URLs",
+      "result": "passed"
+    },
+    {
+      "name": "playwright_readiness",
+      "command": "BACKEND_PUBLISH_PORT=18080 PLAYWRIGHT_BASE_URL=http://127.0.0.1:13000 npm run test:e2e:readiness",
+      "result": "passed"
+    },
+    {
+      "name": "playwright_exhaustive",
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:13000 npm run test:e2e:exhaustive",
+      "result": "passed with 603 passed and 9 skipped"
+    }
+  ],
+  "risks": [
+    "GitHub-hosted CI was pending at report generation because the branch did not yet exist remotely.",
+    "The local Docker-dev stack used alternate ports because default ports were occupied.",
+    "Temporary validation containers/networks may remain on the local Docker host.",
+    "The exhaustive Playwright suite has 9 intentional skips.",
+    "Production OAuth and secret configuration must be supplied outside the repository before real Google login can be used."
+  ],
+  "recommendation": "Commit this migration state, push it to dev, verify GitHub CI on the pushed commit, promote the same verified commit to main, and verify main CI."
+}

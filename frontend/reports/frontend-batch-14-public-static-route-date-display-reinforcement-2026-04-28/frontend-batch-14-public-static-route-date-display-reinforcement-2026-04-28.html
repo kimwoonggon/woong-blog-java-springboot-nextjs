@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 14 - Public Static Route and Date Display Reinforcement</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #1f2937; }
+    h1, h2 { color: #111827; }
+    code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; vertical-align: top; }
+  </style>
+</head>
+<body>
+  <h1>Frontend Batch 14 - Public Static Route and Date Display Reinforcement</h1>
+  <p><strong>Date:</strong> 2026-04-28</p>
+  <h2>Summary</h2>
+  <p>Reinforced robots output, blog/work static params slug filtering, public feed date fallbacks, and related-content date fallbacks.</p>
+  <h2>Production Fixes</h2>
+  <ul>
+    <li><code>blog/[slug]/page.tsx</code> and <code>works/[slug]/page.tsx</code>: static params now trim and filter malformed slugs.</li>
+    <li><code>PublicResponsiveFeed.tsx</code>: invalid public dates render <code>Unknown Date</code>.</li>
+    <li><code>RelatedContentList.tsx</code>: invalid related dates render <code>—</code> without throwing.</li>
+  </ul>
+  <h2>Validation</h2>
+  <table>
+    <tr><th>Command</th><th>Result</th></tr>
+    <tr><td><code>npm test -- --run src/test/public-static-routes.test.ts src/test/public-responsive-feed.test.tsx src/test/related-content-list.test.tsx</code></td><td>Passed after fixes: 3 files, 25 tests</td></tr>
+    <tr><td><code>npm test -- --run</code></td><td>Passed: 73 files, 498 tests</td></tr>
+    <tr><td><code>npm run lint</code></td><td>Passed: 0 errors, 6 existing warnings</td></tr>
+    <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+    <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+    <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+  </table>
+  <h2>Recommendation</h2>
+  <p>Proceed to Frontend Batch 15 - Public Home Date and Detail Ordering Reinforcement.</p>
+</body>
+</html>

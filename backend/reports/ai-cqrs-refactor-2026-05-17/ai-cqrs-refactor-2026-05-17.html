@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AI CQRS Refactor Audit - 2026-05-17</title>
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.5; margin: 2rem; color: #1f2933; }
+    main { max-width: 920px; }
+    h1, h2 { line-height: 1.2; }
+    code { background: #f2f4f7; padding: 0.1rem 0.25rem; border-radius: 4px; }
+    li { margin: 0.25rem 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>AI CQRS Refactor Audit - 2026-05-17</h1>
+    <h2>Summary</h2>
+    <p>Refactored the Spring Boot AI HTTP path from direct <code>AiController -> AiService</code> calls into <code>AiController -> command/query handlers -> AiService</code>, without adding a Mediator library and without changing <code>AiService</code> behavior.</p>
+    <h2>Changed</h2>
+    <ul>
+      <li>Added command/query records and handler beans under <code>backend/src/main/java/com/woongblog/application/ai/</code>.</li>
+      <li>Updated <code>AiController.java</code> to inject handlers and call <code>handle(...)</code>.</li>
+      <li>Added focused handler and controller binding tests.</li>
+      <li>Updated the dated TODO file with scope, mapping, backup, and validation evidence.</li>
+    </ul>
+    <h2>Intentionally Not Changed</h2>
+    <ul>
+      <li><code>AiService.java</code> was not changed.</li>
+      <li>No Mediator, dispatch bus, or third-party CQRS dependency was introduced.</li>
+      <li>No endpoint paths, methods, request field names, or response keys were intentionally changed.</li>
+    </ul>
+    <h2>Validations</h2>
+    <ul>
+      <li>Backed up in-scope AI files under <code>.agent-backups/2026-05-17-ai-cqrs-refactor/</code>.</li>
+      <li>Docker Java 21 targeted tests passed with <code>mvn -q -Dtest=AiApplicationHandlersTests,AiControllerCqrsWebMvcTests test</code>.</li>
+      <li><code>rg -n "AiService" backend/src/main/java/com/woongblog/ai/AiController.java</code> returned no matches.</li>
+      <li><code>rg -n "Mediator|MediatR"</code> across the touched AI source returned no matches.</li>
+      <li><code>cmp -s</code> confirmed <code>AiService.java</code> is identical to its backup.</li>
+    </ul>
+    <h2>Risks And Follow-Ups</h2>
+    <ul>
+      <li>The controller constructor is longer because the requested style uses explicit handler dependencies without a mediator.</li>
+      <li>Full backend integration tests and Playwright tests were not run for this narrow backend refactor.</li>
+      <li>Local Maven uses Java 17; local non-Docker verification needs Java 21.</li>
+    </ul>
+    <h2>Recommendation</h2>
+    <p>Keep the refactor. The requested CQRS-style boundary is in place, service behavior is unchanged, and focused Java 21 tests passed.</p>
+  </main>
+</body>
+</html>

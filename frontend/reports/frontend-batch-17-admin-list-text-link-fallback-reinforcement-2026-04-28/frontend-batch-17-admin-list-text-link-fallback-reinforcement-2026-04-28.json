@@ -1,0 +1,82 @@
+{
+  "title": "Frontend Batch 17 - Admin List Text and Link Fallback Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced admin blog/work table and admin dashboard list text/link fallbacks for malformed item values.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/admin-bulk-table.test.tsx",
+      "src/test/admin-dashboard-collections.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/components/admin/AdminBlogTableClient.tsx",
+      "src/components/admin/AdminWorksTableClient.tsx",
+      "src/components/admin/AdminDashboardCollections.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "Public pages",
+    "Public error-boundary UI",
+    "Pagination/search UI",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Admin fetch/data source behavior",
+    "Admin mutation payload contracts",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Admin blog table rendering could crash when a malformed item contained tags: null.",
+    "Admin table and dashboard list titles could render as empty UI when malformed item titles were nullish.",
+    "Admin table and dashboard edit links could include /null when malformed item ids were nullish.",
+    "Admin public view links could include raw unsafe-looking slug text instead of an encoded path segment.",
+    "Work table category and thumbnail alt text could use nullish/raw title values without a user-facing fallback."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find react admin link fallback testing",
+      "result": "passed",
+      "notes": "React/admin skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/admin-bulk-table.test.tsx src/test/admin-dashboard-collections.test.tsx",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final focused run: 2 files, 28 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 75 files, 507 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Admin list delete flows still assume malformed ids should not be submitted.",
+    "Admin list fetch failure UI remains outside this batch.",
+    "Admin dashboard collection search behavior with malformed tag/category payloads is not covered as a standalone assertion.",
+    "Text and route normalization logic is duplicated in multiple admin components."
+  ],
+  "recommendation": "Proceed to Frontend Batch 18 - Admin Mutation Guard and Fetch Failure Reinforcement."
+}

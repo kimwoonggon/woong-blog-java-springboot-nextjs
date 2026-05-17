@@ -1,0 +1,89 @@
+{
+  "title": "Frontend Batch 11 - Helper Edge Case Reinforcement",
+  "date": "2026-04-27",
+  "scope": "Frontend only",
+  "summary": "Reinforced helper edge cases for search normalization, revalidation paths, content parsing, SEO metadata, public detail date/content helpers, WorkVideo embeds, and YouTube thumbnail ID parsing.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/normalized-search.test.ts",
+      "src/test/public-revalidation-paths.test.ts",
+      "src/test/blog-content.test.ts",
+      "src/test/page-content.test.ts",
+      "src/test/seo-metadata.test.ts",
+      "src/test/public-detail-helper-edge-cases.test.ts",
+      "src/test/work-thumbnail-resolution.test.ts",
+      "src/test/work-video-embeds.test.ts"
+    ],
+    "productionFilesChanged": [
+      "src/lib/content/page-content.ts",
+      "src/lib/public-revalidation-paths.ts",
+      "src/lib/seo.ts",
+      "src/app/(public)/blog/[slug]/blog-detail-helpers.ts",
+      "src/app/(public)/works/[slug]/work-detail-helpers.ts",
+      "src/lib/content/work-thumbnail-resolution.ts"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Public API error boundaries",
+    "Pagination/search UI",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Malformed page content JSON could throw parser errors.",
+    "Malformed percent-encoded public revalidation paths could throw URI errors.",
+    "Encoded slash detail segments could reach public revalidation tag mapping.",
+    "Invalid blog/work detail dates rendered Invalid Date.",
+    "Work detail content parsing could return non-string renderable output.",
+    "Blank SEO titles and whitespace social images were preserved in metadata.",
+    "YouTube watch URLs with v after another query parameter were not recognized."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find \"typescript helper parsing seo testing\"",
+      "result": "passed",
+      "notes": "Low-install external skills found; no skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/normalized-search.test.ts src/test/public-revalidation-paths.test.ts src/test/blog-content.test.ts src/test/page-content.test.ts src/test/seo-metadata.test.ts src/test/work-detail-metadata.test.ts src/test/public-detail-helper-edge-cases.test.ts src/test/work-video-embeds.test.ts src/test/work-thumbnail-resolution.test.ts",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final run: 9 files, 68 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "69 files, 482 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Public list/card date formatting helpers remain component-local.",
+    "Sitemap date fallback behavior remains untested at the helper level.",
+    "HTML sanitizer edge cases were not expanded in this batch.",
+    "WorkVideo player runtime fallback remains component-level rather than helper-owned."
+  ],
+  "recommendation": "Proceed to a focused frontend security/sanitization or sitemap/metadata helper batch."
+}

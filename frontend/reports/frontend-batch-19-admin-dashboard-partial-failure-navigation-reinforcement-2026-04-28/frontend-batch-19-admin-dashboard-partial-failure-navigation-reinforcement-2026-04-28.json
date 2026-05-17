@@ -1,0 +1,81 @@
+{
+  "title": "Frontend Batch 19 - Admin Dashboard Partial Failure and Navigation Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced admin dashboard partial collection failure behavior and static navigation link safety.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/admin-page-success-states.test.tsx",
+      "src/test/admin-dashboard-collections.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/app/admin/dashboard/page.tsx",
+      "src/components/admin/AdminDashboardCollections.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "Public pages",
+    "Public error-boundary UI",
+    "Pagination/search UI",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "A single dashboard collection fetch failure hid both Work and Blog dashboard collections.",
+    "Dashboard used the same full-unavailable copy for partial collection failures.",
+    "Loaded collection content was not preserved when the sibling collection failed."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find nextjs admin dashboard navigation testing",
+      "result": "passed",
+      "notes": "Admin-dashboard and Next.js skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/admin-page-success-states.test.tsx",
+      "result": "failed before fixes",
+      "notes": "RED run: 1 file, 2 failing assertions."
+    },
+    {
+      "command": "npm test -- --run src/test/admin-page-success-states.test.tsx src/test/admin-dashboard-collections.test.tsx",
+      "result": "passed",
+      "notes": "Final focused run: 2 files, 25 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 75 files, 511 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Dashboard summary card numeric fallbacks are not yet audited for malformed non-number payloads.",
+    "Admin sidebar active-state routing is covered only indirectly by existing layout tests.",
+    "Admin dashboard error boundary still renders error.message directly."
+  ],
+  "recommendation": "Proceed to Frontend Batch 20 - Admin Error Boundary and Layout Navigation Reinforcement."
+}

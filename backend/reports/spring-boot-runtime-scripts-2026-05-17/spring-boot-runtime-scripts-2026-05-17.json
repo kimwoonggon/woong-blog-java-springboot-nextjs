@@ -1,0 +1,43 @@
+{
+  "task": "spring-boot-runtime-scripts",
+  "date": "2026-05-17",
+  "changed_scope": [
+    "docker compose backend runtime environment",
+    "backend Dockerfile",
+    "backend runtime and test shell scripts",
+    "backend testing documentation",
+    "todo and audit artifacts"
+  ],
+  "intentionally_not_changed": [
+    "Java source",
+    "frontend source",
+    "secrets",
+    "Spring security or CSRF Java configuration"
+  ],
+  "validations": [
+    "npx skills find \"spring boot docker testing\"",
+    "read java-springboot, springboot-security, springboot-tdd, spring-boot-test-patterns skills",
+    "bash -n patched scripts",
+    "grep check for stale ASP.NET Core/dotnet env and test names",
+    "docker compose config for dev, prod, and staging",
+    "docker build --target build -f backend/Dockerfile -t woong-blog-backend-buildcheck:local .",
+    "docker build -f backend/Dockerfile -t woong-blog-backend-runtimecheck:local .",
+    "docker run runtime tool checks for node, ffmpeg, k6, codex"
+  ],
+  "validation_notes": {
+    "host_maven_test": "Failed because local Java does not support release 21.",
+    "docker_java21_build": "Succeeded.",
+    "runtime_tools": {
+      "node": "v20.20.2",
+      "ffmpeg": "4.4.2-0ubuntu0.22.04.1",
+      "k6": "v2.0.0",
+      "codex": "0.130.0"
+    }
+  },
+  "risks": [
+    "JUnit group filters require matching test tags.",
+    "Coverage script behavior depends on finalized JaCoCo Maven reporting configuration.",
+    "Codex CLI warns if CODEX_HOME is absent; compose mounts /root/.codex for normal runtime usage."
+  ],
+  "recommendation": "Proceed with the runtime/docs changes, and run backend tests on Java 21 or inside the Docker build environment before CI gating."
+}

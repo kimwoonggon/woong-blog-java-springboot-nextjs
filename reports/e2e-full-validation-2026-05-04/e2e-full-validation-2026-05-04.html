@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Playwright Full E2E Validation - 2026-05-04</title>
+  </head>
+  <body>
+    <h1>Playwright Full E2E Validation</h1>
+    <h2>Summary</h2>
+    <ul>
+      <li><strong>Command</strong>: <code>PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 ENABLE_LOCAL_ADMIN_SHORTCUT=true PLAYWRIGHT_EXPECT_LOCAL_ADMIN_SHORTCUT=visible PLAYWRIGHT_E2E_PROFILE=core node scripts/run-e2e-latency.mjs -- --workers=1</code></li>
+      <li><strong>Full run</strong>: 434 total, 14 failed, 4 skipped, 38.2m</li>
+      <li><strong>Focused rerun</strong>: 43 total, 6 failed, 1 skipped, 5.5m</li>
+    </ul>
+    <h2>0 failed goal</h2>
+    <p>No. Requires corrective action for AI dialog, SEO metadata, and keyboard accessibility failures.</p>
+  </body>
+</html>
+
+cat > reports/e2e-full-validation-2026-05-04/e2e-full-validation-2026-05-04.json <<'EOF'
+{
+  "objective": "Run full Playwright validation with requested command and report results",
+  "date": "2026-05-04",
+  "fullRun": {
+    "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 ENABLE_LOCAL_ADMIN_SHORTCUT=true PLAYWRIGHT_EXPECT_LOCAL_ADMIN_SHORTCUT=visible PLAYWRIGHT_E2E_PROFILE=core node scripts/run-e2e-latency.mjs -- --workers=1",
+    "total": 434,
+    "failed": 14,
+    "skipped": 4,
+    "passed": 416,
+    "durationMinutes": 38.2,
+    "zeroFailedGoal": false,
+    "failedSpecs": [
+      "public-seo-metadata.spec.ts:21",
+      "ui-improvement-featured-works-grid.spec.ts:141",
+      "ui-improvement-featured-works-grid.spec.ts:200",
+      "admin-blog-ai-dialog.spec.ts:29",
+      "admin-blog-ai-dialog.spec.ts:90",
+      "admin-blog-ai-dialog.spec.ts:156",
+      "admin-work-edit.spec.ts:7",
+      "public-blog-detail-inline-edit.spec.ts:8",
+      "public-inline-editors-unsaved-warning.spec.ts:27",
+      "ui-admin-keyboard-accessibility.spec.ts:45",
+      "ui-admin-keyboard-accessibility.spec.ts:66",
+      "ui-quality-layout-rhythm.spec.ts:7",
+      "ui-quality-visual-metrics.spec.ts:61",
+      "work-inline-create-flow.spec.ts:58"
+    ]
+  },
+  "focusedRerun": {
+    "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 ENABLE_LOCAL_ADMIN_SHORTCUT=true PLAYWRIGHT_EXPECT_LOCAL_ADMIN_SHORTCUT=visible PLAYWRIGHT_E2E_PROFILE=core node scripts/run-e2e-latency.mjs -- --workers=1 tests/public-seo-metadata.spec.ts tests/ui-improvement-featured-works-grid.spec.ts tests/admin-blog-ai-dialog.spec.ts tests/admin-work-edit.spec.ts tests/public-blog-detail-inline-edit.spec.ts tests/public-inline-editors-unsaved-warning.spec.ts tests/ui-admin-keyboard-accessibility.spec.ts tests/ui-quality-layout-rhythm.spec.ts tests/ui-quality-visual-metrics.spec.ts tests/work-inline-create-flow.spec.ts",
+    "total": 43,
+    "failed": 6,
+    "skipped": 1,
+    "passed": 36,
+    "durationMinutes": 5.5,
+    "zeroFailedGoal": false,
+    "reproduced": [
+      "public-seo-metadata.spec.ts:21",
+      "admin-blog-ai-dialog.spec.ts:29",
+      "admin-blog-ai-dialog.spec.ts:90",
+      "admin-blog-ai-dialog.spec.ts:156",
+      "ui-admin-keyboard-accessibility.spec.ts:45",
+      "ui-admin-keyboard-accessibility.spec.ts:66"
+    ],
+    "notReproduced": [
+      "ui-improvement-featured-works-grid.spec.ts:141",
+      "ui-improvement-featured-works-grid.spec.ts:200",
+      "admin-work-edit.spec.ts:7",
+      "public-blog-detail-inline-edit.spec.ts:8",
+      "public-inline-editors-unsaved-warning.spec.ts:27",
+      "ui-quality-layout-rhythm.spec.ts:7",
+      "ui-quality-visual-metrics.spec.ts:61",
+      "work-inline-create-flow.spec.ts:58"
+    ]
+  },
+  "rootCauseActions": [
+    "admin-blog-ai-dialog.spec.ts: disambiguate Start AI Fix buttons in dialog selectors",
+    "public-seo-metadata.spec.ts: ensure page has meta description node before assertion",
+    "ui-admin-keyboard-accessibility.spec.ts: validate and stabilize focus order and dialog button visibility handling"
+  ]
+}

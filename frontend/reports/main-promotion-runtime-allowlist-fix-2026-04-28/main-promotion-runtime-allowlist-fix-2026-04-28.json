@@ -1,0 +1,35 @@
+{
+  "name": "Main Promotion Runtime Allowlist Fix",
+  "date": "2026-04-28",
+  "summary": "Adds files required by CI Main Runtime to the runtime promotion allowlist.",
+  "filesChanged": [
+    "scripts/main-runtime-allowlist.txt",
+    "src/test/inline-blog-editor-section.test.tsx"
+  ],
+  "productionFilesChanged": [],
+  "behaviorBugsFound": [
+    "No application runtime behavior bug was found.",
+    "The runtime promotion allowlist omitted test runner scripts and scripts/check-e2e-readiness.mjs required by CI Main Runtime."
+  ],
+  "commands": [
+    {
+      "command": "gh run watch 25060857252 --interval 20",
+      "result": "failed as expected",
+      "notes": "Main runtime compose verification passed; quality jobs failed due missing allowlist files."
+    },
+    {
+      "command": "ls scripts/run-*-tests.sh scripts/check-e2e-readiness.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "npm test -- --run src/test/inline-blog-editor-section.test.tsx src/test/public-detail-admin-actions.test.tsx",
+      "result": "passed",
+      "notes": "2 files, 12 tests"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "finalRecommendation": "Merge into dev, wait for green dev CI and staging publish, then rerun main runtime promotion."
+}

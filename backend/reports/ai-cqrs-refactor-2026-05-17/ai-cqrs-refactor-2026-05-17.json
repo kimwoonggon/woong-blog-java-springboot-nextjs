@@ -1,0 +1,52 @@
+{
+  "task": "ai-cqrs-refactor",
+  "date": "2026-05-17",
+  "status": "complete",
+  "summary": "Refactored the AI HTTP path from direct controller-to-service calls into controller-to-command/query-handler-to-service calls without adding a Mediator library or changing AiService behavior.",
+  "changed": [
+    "backend/src/main/java/com/woongblog/application/ai/**",
+    "backend/src/main/java/com/woongblog/ai/AiController.java",
+    "backend/src/test/java/com/woongblog/application/ai/AiApplicationHandlersTests.java",
+    "backend/src/test/java/com/woongblog/ai/AiControllerCqrsWebMvcTests.java",
+    "todolist-2026-05-17.md"
+  ],
+  "intentionally_not_changed": [
+    "backend/src/main/java/com/woongblog/ai/AiService.java",
+    "Endpoint paths and HTTP methods",
+    "Request JSON field names",
+    "Response map keys and shapes",
+    "Frontend, Docker, database migrations, and non-AI backend modules"
+  ],
+  "validations": [
+    {
+      "command": "npx skills find \"spring boot cqrs tdd\"",
+      "result": "Found public springboot-tdd skill; used existing local Spring Boot TDD skill."
+    },
+    {
+      "command": "./mvnw -q -Dtest=AiApplicationHandlersTests test",
+      "result": "Failed before test compilation because local Java is 17 and project requires Java 21."
+    },
+    {
+      "command": "docker run --rm -v /mnt/d/woong-blog-springboot-nextjs/backend:/workspace -v /home/kimwoonggon/.m2:/root/.m2 -w /workspace maven:3.9.9-eclipse-temurin-21 mvn -q -Dtest=AiApplicationHandlersTests,AiControllerCqrsWebMvcTests test",
+      "result": "Passed."
+    },
+    {
+      "command": "rg -n \"AiService\" backend/src/main/java/com/woongblog/ai/AiController.java",
+      "result": "No matches."
+    },
+    {
+      "command": "rg -n \"Mediator|MediatR\" backend/src/main/java/com/woongblog/application/ai backend/src/main/java/com/woongblog/ai/AiController.java",
+      "result": "No matches."
+    },
+    {
+      "command": "cmp -s backend/src/main/java/com/woongblog/ai/AiService.java .agent-backups/2026-05-17-ai-cqrs-refactor/backend/src/main/java/com/woongblog/ai/AiService.java",
+      "result": "Identical."
+    }
+  ],
+  "risks": [
+    "Controller constructor has many explicit handler dependencies by design.",
+    "Full backend integration tests and Playwright tests were not run.",
+    "Local shell Maven verification requires Java 21 instead of the current Java 17."
+  ],
+  "recommendation": "Keep the refactor as-is."
+}

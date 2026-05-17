@@ -1,0 +1,86 @@
+{
+  "title": "Frontend Batch 10 - Pagination and Search Failure State Reinforcement",
+  "date": "2026-04-27",
+  "scope": "Frontend only",
+  "summary": "Reinforced deterministic public and admin pagination/search failure-state coverage with minimal production fixes for unsafe public error copy, stale Study restore query handling, search-empty copy, and admin bulk selection leakage.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/public-responsive-feed.test.tsx",
+      "src/test/responsive-page-size-sync.test.tsx",
+      "src/test/admin-bulk-table.test.tsx",
+      "src/test/admin-page-success-states.test.tsx",
+      "src/test/public-page-error-states.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/components/content/PublicResponsiveFeed.tsx",
+      "src/components/layout/ResponsivePageSizeSync.tsx",
+      "src/components/admin/AdminBlogTableClient.tsx",
+      "src/components/admin/AdminWorksTableClient.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "Live external services",
+    "Real storage or seeded backend data",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Public API error-boundary behavior",
+    "Full Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Public incremental load failures could display arbitrary thrown error text.",
+    "Stale mobile Study restore state for a different query could suppress current mobile responsive query normalization.",
+    "Public Works and admin blog/work search-empty states used generic empty-list copy.",
+    "Admin blog/work bulk selection could remain active after search or page changes."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find \"nextjs pagination search failure testing\"",
+      "result": "passed",
+      "notes": "Low-install external skills found; no skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/public-responsive-feed.test.tsx src/test/responsive-page-size-sync.test.tsx",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final run: 2 files, 24 tests."
+    },
+    {
+      "command": "npm test -- --run src/test/public-responsive-feed.test.tsx src/test/responsive-page-size-sync.test.tsx src/test/admin-bulk-table.test.tsx src/test/admin-page-success-states.test.tsx",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final run: 4 files, 61 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "failed once, then passed",
+      "notes": "Final run: 68 files, 447 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "failed once, then passed",
+      "notes": "Final run: 0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Browser-level public initial server-component empty/search states still need deterministic API mocking infrastructure.",
+    "Admin URL-driven selection clearing was covered through component behavior rather than browser history E2E.",
+    "Normalized search helper edge cases were not broadened because no relevant helper bug was found."
+  ],
+  "recommendation": "Proceed to the next frontend reinforcement batch around helper edge cases or remaining P2 gaps from the coverage audit."
+}

@@ -1,0 +1,31 @@
+{
+  "title": "Frontend Batch 29 - Admin Inline Editor Routing and Return Path Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced public inline Work editor return path behavior so unsafe protocol-relative returnTo values are rejected and sanitized save failures preserve inline editor state.",
+  "changed": {
+    "testsReinforced": ["src/test/work-editor.test.tsx", "src/test/blog-editor.test.tsx"],
+    "productionFilesChanged": ["src/components/admin/WorkEditor.tsx"],
+    "reportsUpdated": ["frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"]
+  },
+  "behaviorBugsFound": [
+    "Work inline edit save could navigate to a protocol-relative returnTo such as //evil.example.",
+    "Work inline detail fallback navigation could retain unsafe returnTo in the resulting public detail URL."
+  ],
+  "validation": [
+    { "command": "npx skills find nextjs inline editor routing return path testing", "result": "passed" },
+    { "command": "npm test -- --run src/test/work-editor.test.tsx", "result": "failed before fixes", "notes": "RED run failed with 1 unsafe returnTo assertion." },
+    { "command": "npm test -- --run src/test/work-editor.test.tsx src/test/blog-editor.test.tsx", "result": "passed", "notes": "Focused GREEN run: 2 files, 50 tests." },
+    { "command": "npm test -- --run", "result": "passed", "notes": "Final run: 78 files, 532 tests." },
+    { "command": "npm run lint", "result": "passed", "notes": "0 errors, 6 existing warnings." },
+    { "command": "npm run typecheck", "result": "passed" },
+    { "command": "npm run build", "result": "passed" },
+    { "command": "git diff --check", "result": "passed" }
+  ],
+  "remainingGaps": [
+    "Browser history/back-button behavior remains better suited to Playwright once Docker/backend e2e is available.",
+    "Inline Blog unsaved dialog browser integration can be revisited during e2e stabilization.",
+    "Full e2e needs Docker Desktop WSL integration or an already running backend on 127.0.0.1:8080."
+  ],
+  "recommendation": "Proceed to Frontend Batch 30 - Admin Remaining Mutation Confirmation Failure Reinforcement."
+}

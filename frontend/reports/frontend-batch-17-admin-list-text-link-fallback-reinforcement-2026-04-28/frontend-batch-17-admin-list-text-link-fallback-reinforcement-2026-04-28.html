@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Frontend Batch 17 - Admin List Text and Link Fallback Reinforcement</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #111827; }
+      h1, h2 { line-height: 1.2; }
+      code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+      table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+      th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; vertical-align: top; }
+      th { background: #f9fafb; }
+    </style>
+  </head>
+  <body>
+    <h1>Frontend Batch 17 - Admin List Text and Link Fallback Reinforcement</h1>
+    <p><strong>Date:</strong> 2026-04-28</p>
+    <h2>Summary</h2>
+    <p>Reinforced admin blog/work table and admin dashboard collection text/link fallbacks for malformed item values.</p>
+    <h2>Tests Added Or Reinforced</h2>
+    <ul>
+      <li><code>src/test/admin-bulk-table.test.tsx</code>: malformed table item text and links render safe deterministic fallbacks.</li>
+      <li><code>src/test/admin-dashboard-collections.test.tsx</code>: malformed dashboard collection text and edit links render safe deterministic fallbacks.</li>
+    </ul>
+    <h2>Production Files Changed</h2>
+    <ul>
+      <li><code>src/components/admin/AdminBlogTableClient.tsx</code></li>
+      <li><code>src/components/admin/AdminWorksTableClient.tsx</code></li>
+      <li><code>src/components/admin/AdminDashboardCollections.tsx</code></li>
+    </ul>
+    <h2>Behavior Bugs Found</h2>
+    <ul>
+      <li>Blog table could crash on <code>tags: null</code>.</li>
+      <li>Nullish titles could render empty UI.</li>
+      <li>Nullish ids could create <code>/null</code> edit links.</li>
+      <li>Unsafe-looking slugs could be emitted as raw route text.</li>
+    </ul>
+    <h2>Commands Run And Results</h2>
+    <table>
+      <thead><tr><th>Command</th><th>Result</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>npx skills find react admin link fallback testing</code></td><td>Passed</td><td>No new skill installed.</td></tr>
+        <tr><td><code>npm test -- --run src/test/admin-bulk-table.test.tsx src/test/admin-dashboard-collections.test.tsx</code></td><td>Failed before fixes, then passed</td><td>Final focused run: 2 files, 28 tests.</td></tr>
+        <tr><td><code>npm test -- --run</code></td><td>Passed</td><td>Final run: 75 files, 507 tests.</td></tr>
+        <tr><td><code>npm run lint</code></td><td>Passed</td><td>0 errors, 6 existing warnings.</td></tr>
+        <tr><td><code>npm run typecheck</code></td><td>Passed</td><td>TypeScript completed successfully.</td></tr>
+        <tr><td><code>npm run build</code></td><td>Passed</td><td>Next.js production build completed successfully.</td></tr>
+        <tr><td><code>git diff --check</code></td><td>Passed</td><td>No whitespace errors.</td></tr>
+      </tbody>
+    </table>
+    <h2>Next Recommended Batch</h2>
+    <p>Proceed to <strong>Frontend Batch 18 - Admin Mutation Guard and Fetch Failure Reinforcement</strong>.</p>
+  </body>
+</html>

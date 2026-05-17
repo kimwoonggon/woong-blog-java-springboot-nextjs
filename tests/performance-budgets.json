@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "defaults": {
+    "testDuration": {
+      "warnMs": 30000,
+      "failOnHard": false
+    },
+    "navigation": {
+      "warnMs": 1000,
+      "hardMs": 1500,
+      "failOnHard": false
+    },
+    "api": {
+      "warnMs": 350,
+      "hardMs": 600,
+      "failOnHard": false
+    },
+    "interaction": {
+      "warnMs": 150,
+      "hardMs": 250,
+      "failOnHard": false
+    }
+  },
+  "steps": {
+    "publicRouteLoad": {
+      "warnMs": 1000,
+      "hardMs": 1500,
+      "failOnHard": true
+    },
+    "publicPagination": {
+      "warnMs": 800,
+      "hardMs": 1200,
+      "failOnHard": true
+    },
+    "publicSearch": {
+      "warnMs": 1000,
+      "hardMs": 1500,
+      "failOnHard": true
+    },
+    "publicNavClick": {
+      "warnMs": 1000,
+      "hardMs": 1500,
+      "failOnHard": true
+    },
+    "publicDetailOpen": {
+      "warnMs": 1500,
+      "hardMs": 2500,
+      "failOnHard": true
+    },
+    "publicClickInteraction": {
+      "warnMs": 150,
+      "hardMs": 250,
+      "failOnHard": true
+    },
+    "adminCrud": {
+      "warnMs": 2000,
+      "hardMs": 3000,
+      "failOnHard": true
+    },
+    "adminMutationPublicRefresh": {
+      "warnMs": 3000,
+      "hardMs": 4500,
+      "failOnHard": true
+    },
+    "editorOpen": {
+      "warnMs": 1800,
+      "hardMs": 2500,
+      "failOnHard": true
+    },
+    "editorSave": {
+      "warnMs": 2000,
+      "hardMs": 3000,
+      "failOnHard": true
+    },
+    "aiDialogOpen": {
+      "warnMs": 1000,
+      "hardMs": 1500,
+      "failOnHard": true
+    },
+    "aiRuntimeConfig": {
+      "warnMs": 400,
+      "hardMs": 700,
+      "failOnHard": true
+    }
+  },
+  "api": [
+    {
+      "name": "public-api-get",
+      "method": "GET",
+      "urlPattern": "/api/public/**",
+      "warnMs": 350,
+      "hardMs": 600,
+      "failOnHard": true
+    },
+    {
+      "name": "ai-runtime-config",
+      "method": "GET",
+      "urlPattern": "/api/admin/ai/runtime-config",
+      "warnMs": 400,
+      "hardMs": 700,
+      "failOnHard": true
+    },
+    {
+      "name": "public-revalidation",
+      "method": "POST",
+      "urlPattern": "/revalidate-public",
+      "warnMs": 500,
+      "hardMs": 1000,
+      "failOnHard": true
+    }
+  ],
+  "interactions": [
+    {
+      "name": "interaction-click-family",
+      "namePattern": "click",
+      "warnMs": 300,
+      "hardMs": 550,
+      "failOnHard": false
+    },
+    {
+      "name": "interaction-keyboard-family",
+      "namePattern": "keydown",
+      "warnMs": 260,
+      "hardMs": 450,
+      "failOnHard": false
+    },
+    {
+      "name": "interaction-input-family",
+      "namePattern": "input",
+      "warnMs": 260,
+      "hardMs": 450,
+      "failOnHard": false
+    },
+    {
+      "name": "interaction-hover-enter-family",
+      "namePattern": "hover-enter",
+      "warnMs": 220,
+      "hardMs": 360,
+      "failOnHard": false
+    },
+    {
+      "name": "interaction-hover-leave-family",
+      "namePattern": "hover-leave",
+      "warnMs": 220,
+      "hardMs": 360,
+      "failOnHard": false
+    }
+  ],
+  "tests": [
+    {
+      "name": "media-and-corpus-measurement-only",
+      "filePattern": "**/{mermaid-*,plain-baseline-*,feature-recording-*,admin-work-video-*}.spec.ts",
+      "warnMs": 60000,
+      "hardMs": 180000,
+      "failOnHard": false
+    },
+    {
+      "name": "visual-regression-measurement-only",
+      "filePattern": "**/{regression-screenshot-capture,admin-regression-screenshot-capture,admin-regression-flow-captures}.spec.ts",
+      "warnMs": 60000,
+      "hardMs": 180000,
+      "failOnHard": false
+    },
+    {
+      "name": "response-time-spec",
+      "filePattern": "**/e2e-response-time.spec.ts",
+      "warnMs": 15000,
+      "hardMs": 30000,
+      "failOnHard": true
+    }
+  ]
+}

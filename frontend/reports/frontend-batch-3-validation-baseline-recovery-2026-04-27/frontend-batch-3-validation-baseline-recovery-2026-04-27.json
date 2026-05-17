@@ -1,0 +1,77 @@
+{
+  "task": "Frontend Batch 3 Validation Baseline Recovery",
+  "date": "2026-04-27",
+  "scope": "frontend validation/test-infrastructure stabilization only",
+  "changedFiles": [
+    "scripts/dev-up.sh",
+    "src/app/(public)/works/[slug]/page.tsx",
+    "src/app/(public)/works/[slug]/work-detail-metadata.ts",
+    "src/test/work-detail-metadata.test.ts",
+    "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md",
+    "frontend/reports/frontend-batch-3-validation-baseline-recovery-2026-04-27/frontend-batch-3-validation-baseline-recovery-2026-04-27.md",
+    "frontend/reports/frontend-batch-3-validation-baseline-recovery-2026-04-27/frontend-batch-3-validation-baseline-recovery-2026-04-27.html",
+    "frontend/reports/frontend-batch-3-validation-baseline-recovery-2026-04-27/frontend-batch-3-validation-baseline-recovery-2026-04-27.json",
+    "frontend/reports/frontend-batch-3-workvideo-failure-reinforcement-2026-04-27/",
+    "todolist-2026-04-27.md"
+  ],
+  "rootCauses": {
+    "vitestTimeout": "src/test/work-detail-metadata.test.ts imported the full work detail page server-component tree only to test metadata generation; the import timed out under full threaded suite contention.",
+    "docker8080Failure": "Windows IP Helper owned 0.0.0.0:8080 through a stale portproxy rule forwarding to the WSL IP, so Docker Desktop could not publish backend 127.0.0.1:8080."
+  },
+  "fixes": [
+    "Extracted buildWorkDetailMetadata into a deterministic helper used by generateMetadata and tested directly.",
+    "Added scripts/dev-up.sh preflight diagnostics for occupied Windows-side backend publish ports.",
+    "Validated Playwright against an intentionally started compose stack with BACKEND_PUBLISH_PORT=18080."
+  ],
+  "validations": [
+    {
+      "command": "npm test -- --run src/test/work-detail-metadata.test.ts",
+      "status": "passed",
+      "result": "1 file / 2 tests"
+    },
+    {
+      "command": "npm test -- --run",
+      "status": "passed",
+      "result": "63 files / 344 tests"
+    },
+    {
+      "command": "npm test -- --run src/test/work-editor.test.tsx src/test/work-video-player.test.tsx",
+      "status": "passed",
+      "result": "2 files / 39 tests"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/admin-work-video-create-flow.spec.ts tests/admin-work-video-edit-flow.spec.ts tests/admin-work-video-drag-order.spec.ts tests/admin-work-video-s3-compatible.spec.ts tests/public-work-videos.spec.ts",
+      "status": "passed",
+      "result": "10 tests"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e",
+      "status": "passed",
+      "result": "409 tests / 6 skipped"
+    },
+    {
+      "command": "npm run lint",
+      "status": "passed",
+      "result": "0 errors / 6 existing warnings"
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "passed",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed",
+      "result": "passed"
+    }
+  ],
+  "fullFrontendValidationGreen": true,
+  "greenCondition": "Green using BACKEND_PUBLISH_PORT=18080 ./scripts/dev-up.sh and PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000",
+  "remainingRisk": "Default backend publish port 8080 remains blocked on this machine until the stale Windows portproxy is removed with elevated permissions.",
+  "batch4SafeToStart": true
+}

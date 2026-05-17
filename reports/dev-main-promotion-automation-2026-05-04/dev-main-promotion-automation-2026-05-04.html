@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Audit Report - dev-main-promotion-automation-2026-05-04</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; color: #1f2937; line-height: 1.6; }
+    h1, h2 { color: #111827; }
+    code { background: #f3f4f6; padding: 0.1rem 0.3rem; border-radius: 4px; }
+    ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Audit Report - dev-main-promotion-automation-2026-05-04</h1>
+
+  <h2>What changed</h2>
+  <ul>
+    <li>Confirmed that <code>dev</code> success did not directly push <code>main</code> in the original state.</li>
+    <li>Updated <code>Promote Main Runtime</code> to run after successful <code>CI Dev</code> completion on <code>dev</code>.</li>
+    <li>Added automatic promotion PR creation or reuse for <code>release/main-promote -&gt; main</code>.</li>
+    <li>Updated release-flow documentation in <code>README.md</code> and <code>docs/walkthroughs/main-flow.md</code>.</li>
+  </ul>
+
+  <h2>Intentionally not changed</h2>
+  <ul>
+    <li>No direct auto-push from <code>dev</code> to <code>main</code>.</li>
+    <li>No changes to runtime CI, GHCR publish workflows, or Docker/runtime assets.</li>
+    <li>No live workflow execution or test run in this pass.</li>
+  </ul>
+
+  <h2>Validations performed</h2>
+  <ul>
+    <li>Static inspection of the relevant CI/CD workflows and release-flow docs.</li>
+    <li>Backup creation under <code>.codex-backups/dev-main-promotion-automation-2026-05-04/</code>.</li>
+    <li>Persistent TODO and audit artifact generation.</li>
+  </ul>
+
+  <h2>Risks and follow-up</h2>
+  <ul>
+    <li>The new GitHub Actions path was not executed live yet.</li>
+    <li>Repository token permissions or branch protections may still need a small adjustment on first run.</li>
+    <li>The production gate remains the explicit merge of the promotion PR.</li>
+  </ul>
+
+  <h2>Recommendation</h2>
+  <p>Observe the next successful <code>dev</code> run in GitHub Actions and confirm that the promotion PR is created or refreshed as expected.</p>
+</body>
+</html>

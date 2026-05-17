@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Frontend Batch 18 - Admin Mutation Guard and Fetch Failure Reinforcement</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #111827; }
+      h1, h2 { line-height: 1.2; }
+      code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+      table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+      th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; vertical-align: top; }
+      th { background: #f9fafb; }
+    </style>
+  </head>
+  <body>
+    <h1>Frontend Batch 18 - Admin Mutation Guard and Fetch Failure Reinforcement</h1>
+    <p><strong>Date:</strong> 2026-04-28</p>
+    <h2>Summary</h2>
+    <p>Reinforced admin blog/work list mutation controls so rows without usable ids cannot be selected or deleted.</p>
+    <h2>Tests Added Or Reinforced</h2>
+    <ul>
+      <li><code>src/test/admin-bulk-table.test.tsx</code>: missing-id blog/work rows disable select-all, row selection, and row delete controls.</li>
+    </ul>
+    <h2>Production Files Changed</h2>
+    <ul>
+      <li><code>src/components/admin/AdminBlogTableClient.tsx</code></li>
+      <li><code>src/components/admin/AdminWorksTableClient.tsx</code></li>
+    </ul>
+    <h2>Behavior Bugs Found</h2>
+    <ul>
+      <li>Missing-id admin blog rows still exposed enabled selection controls.</li>
+      <li>Missing-id admin work rows still exposed enabled selection controls.</li>
+      <li>Missing-id rows could reach mutation affordances without a valid id.</li>
+    </ul>
+    <h2>Commands Run And Results</h2>
+    <table>
+      <thead><tr><th>Command</th><th>Result</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>npx skills find react admin mutation testing error state</code></td><td>Passed</td><td>No new skill installed.</td></tr>
+        <tr><td><code>npm test -- --run src/test/admin-bulk-table.test.tsx</code></td><td>Failed before fixes, then passed</td><td>Final focused run: 1 file, 25 tests.</td></tr>
+        <tr><td><code>npm test -- --run</code></td><td>Passed</td><td>Final run: 75 files, 509 tests.</td></tr>
+        <tr><td><code>npm run lint</code></td><td>Passed</td><td>0 errors, 6 existing warnings.</td></tr>
+        <tr><td><code>npm run typecheck</code></td><td>Passed</td><td>TypeScript completed successfully.</td></tr>
+        <tr><td><code>npm run build</code></td><td>Passed</td><td>Next.js production build completed successfully.</td></tr>
+        <tr><td><code>git diff --check</code></td><td>Passed</td><td>No whitespace errors.</td></tr>
+      </tbody>
+    </table>
+    <h2>Next Recommended Batch</h2>
+    <p>Proceed to <strong>Frontend Batch 19 - Admin Dashboard Partial Failure and Navigation Reinforcement</strong>.</p>
+  </body>
+</html>

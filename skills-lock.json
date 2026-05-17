@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "skills": {
+    "create-github-action-workflow-specification": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "527e6c77d921d58a9d0059aa95d0d14b441d2166f9c20518263048a56ca8fbbb"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "9e1c8b3103f92fa8092568a44fe64858de7c5c9dc65ce4bea8f168080e889cfd"
+    },
+    "optimizing-ef-core-queries": {
+      "source": "dotnet/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/dotnet-data/skills/optimizing-ef-core-queries/SKILL.md",
+      "computedHash": "265a890a57f60bf55d79fb92483176aca3c6e5c88c23cd75d18911e8354d0e87"
+    },
+    "refactor-method-complexity-reduce": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "a09a18f7b370e105c20480f9c772169948262fa07fdf5fbd4c5d45b2def958e0"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "computedHash": "0a413bf988d06481f69bb81df2070741c3ba12dd9f1be2706d57f259c905992d"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "f3bc47f890f42a44db1007ab390709ec368e4b8c089baee6b0007182236ac474"
+    }
+  }
+}

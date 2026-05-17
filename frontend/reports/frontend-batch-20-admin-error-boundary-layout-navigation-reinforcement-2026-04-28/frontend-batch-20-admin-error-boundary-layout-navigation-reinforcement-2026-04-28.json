@@ -1,0 +1,76 @@
+{
+  "title": "Frontend Batch 20 - Admin Error Boundary and Layout Navigation Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced admin dashboard error-boundary sanitization and admin sidebar active-state route matching.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/admin-dashboard-error-boundary.test.tsx",
+      "src/test/admin-sidebar-nav.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/app/admin/dashboard/error.tsx",
+      "src/components/admin/AdminSidebarNav.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "Public pages",
+    "Public error-boundary UI",
+    "Pagination/search UI",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Admin dashboard error boundary rendered raw error.message and could expose backend details.",
+    "Sidebar active matching marked both Blog and Blog Notion View active for /admin/blog/notion.",
+    "Sidebar active matching overmatched similar path text such as /admin/blogger."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find nextjs error boundary admin navigation testing",
+      "result": "passed",
+      "notes": "Next.js and error-boundary skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/admin-dashboard-error-boundary.test.tsx src/test/admin-sidebar-nav.test.tsx",
+      "result": "failed before fixes, then passed",
+      "notes": "RED run: 2 files, 3 failing assertions. Final focused run: 2 files, 4 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 77 files, 515 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Admin root error boundary sanitization is not yet covered by the new tests.",
+    "Admin layout session failure and non-admin role redirect branches remain mostly E2E-covered.",
+    "Dashboard summary card numeric fallbacks are not yet audited for malformed non-number payloads."
+  ],
+  "recommendation": "Proceed to Frontend Batch 21 - Admin Root Boundary and Layout Auth Branch Reinforcement."
+}

@@ -1,0 +1,74 @@
+{
+  "title": "Frontend Batch 21 - Admin Root Boundary and Layout Auth Branch Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced admin root error-boundary sanitization and admin layout auth edge-branch coverage.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/admin-root-error-boundary.test.tsx",
+      "src/test/admin-layout-auth.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/app/admin/error.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "Public pages",
+    "Public error-boundary UI",
+    "Pagination/search UI",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Playwright coverage",
+    "Admin layout redirect behavior"
+  ],
+  "behaviorBugsFound": [
+    "Admin root error boundary rendered raw error.message and could expose backend details."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find nextjs admin error boundary layout auth testing",
+      "result": "passed",
+      "notes": "Admin-dashboard, Next.js, and error-boundary skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/admin-root-error-boundary.test.tsx src/test/admin-layout-auth.test.tsx",
+      "result": "failed before fixes, then passed",
+      "notes": "Initial import setup correction was needed. RED run: 1 root-boundary failing assertion. Final focused run: 2 files, 6 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 78 files, 518 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Dashboard summary card numeric fallbacks are not yet audited for malformed non-number payloads.",
+    "Admin layout session fetch failures are covered as thrown server errors, but route-level integration into the sanitized root boundary is not covered with Playwright.",
+    "Admin members/pages/Notion list page malformed data fallbacks remain less complete than blog/work list fallbacks."
+  ],
+  "recommendation": "Proceed to Frontend Batch 22 - Admin Dashboard Summary Fallback Reinforcement."
+}

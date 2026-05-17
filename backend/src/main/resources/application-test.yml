@@ -1,0 +1,10 @@
+spring:
+  flyway:
+    clean-disabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+app:
+  auth:
+    enable-test-login-endpoint: true
+    media-root: ${java.io.tmpdir}/woong-blog-test-media

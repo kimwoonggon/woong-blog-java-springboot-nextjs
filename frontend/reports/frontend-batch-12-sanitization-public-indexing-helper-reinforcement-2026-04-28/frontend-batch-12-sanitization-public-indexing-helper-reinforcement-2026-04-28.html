@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 12 - Sanitization and Public Indexing Helper Reinforcement</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #1f2937; }
+    h1, h2 { color: #111827; }
+    code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; vertical-align: top; }
+  </style>
+</head>
+<body>
+  <h1>Frontend Batch 12 - Sanitization and Public Indexing Helper Reinforcement</h1>
+  <p><strong>Date:</strong> 2026-04-28</p>
+  <h2>Summary</h2>
+  <p>Reinforced HTML sanitizer URL and attribute safety plus public sitemap date and slug fallbacks.</p>
+  <h2>Production Fixes</h2>
+  <ul>
+    <li><code>html-sanitizer.ts</code>: protocol-relative URLs are rejected and server fallback strips unquoted unsafe attributes.</li>
+    <li><code>sitemap.ts</code>: invalid dates fall back to the generated timestamp and nullish/blank slugs are skipped.</li>
+  </ul>
+  <h2>Validation</h2>
+  <table>
+    <tr><th>Command</th><th>Result</th></tr>
+    <tr><td><code>npm test -- --run src/test/html-sanitizer.test.ts src/test/sitemap.test.ts</code></td><td>Passed after fixes: 2 files, 4 tests</td></tr>
+    <tr><td><code>npm test -- --run src/test/pact/public-api-consumer.pact.test.ts</code></td><td>Passed: 1 file, 6 tests</td></tr>
+    <tr><td><code>npm test -- --run</code></td><td>Passed: 71 files, 486 tests</td></tr>
+    <tr><td><code>npm run lint</code></td><td>Passed: 0 errors, 6 existing warnings</td></tr>
+    <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+    <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+    <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+  </table>
+  <h2>Recommendation</h2>
+  <p>Proceed to Frontend Batch 13 - Public Metadata and Server Route Fallback Reinforcement.</p>
+</body>
+</html>

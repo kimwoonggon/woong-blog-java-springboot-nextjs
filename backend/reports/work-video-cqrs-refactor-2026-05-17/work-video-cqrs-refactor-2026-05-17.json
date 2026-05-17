@@ -1,0 +1,50 @@
+{
+  "task": "work-video-cqrs-refactor",
+  "date": "2026-05-17",
+  "summary": "Refactored WorkVideoController into a thin HTTP-to-command mapper with application/media command records, Spring service handlers, and a JDBC-backed WorkVideoStore for upload-session persistence.",
+  "changed": [
+    "backend/src/main/java/com/woongblog/application/media/**",
+    "backend/src/main/java/com/woongblog/media/WorkVideoController.java",
+    "backend/src/test/java/com/woongblog/application/media/WorkVideoCommandHandlersTest.java",
+    "todolist-2026-05-17.md"
+  ],
+  "intentionally_not_changed": [
+    "AI files",
+    "ContentService behavior or signatures",
+    "MediaService behavior or signatures",
+    "Endpoint paths and JSON response shapes",
+    "Multipart request behavior",
+    "Database schema or migrations",
+    "Mediator or dispatcher library usage"
+  ],
+  "goal_verification": {
+    "controller_to_handler": "passed",
+    "handler_to_store_service": "passed",
+    "behavior_preservation": "passed by focused handler tests",
+    "scope_control": "passed"
+  },
+  "validations": [
+    {
+      "command": "./mvnw -q -Dtest=WorkVideoCommandHandlersTest test",
+      "result": "failed before compilation because the host JDK is Java 17 and the backend requires Java 21"
+    },
+    {
+      "command": "DOCKER_CONFIG=/tmp/codex-docker-config docker run --rm --user 1000:1000 -e MAVEN_CONFIG=/tmp/.m2 -v /home/kimwoonggon/.m2:/tmp/.m2 -v /mnt/d/woong-blog-springboot-nextjs:/workspace -w /workspace/backend maven:3.9-eclipse-temurin-21 ./mvnw -q -Dtest=WorkVideoCommandHandlersTest test",
+      "result": "passed, 5 tests"
+    },
+    {
+      "command": "DOCKER_CONFIG=/tmp/codex-docker-config docker run --rm --user 1000:1000 --network wb-spring-test -e MAVEN_CONFIG=/tmp/.m2 -e SPRING_DATASOURCE_URL=jdbc:postgresql://wb-spring-test-db:5432/portfolio -e SPRING_DATASOURCE_USERNAME=portfolio -e SPRING_DATASOURCE_PASSWORD=portfolio -v /home/kimwoonggon/.m2:/tmp/.m2 -v /mnt/d/woong-blog-springboot-nextjs:/workspace -w /workspace/backend maven:3.9-eclipse-temurin-21 ./mvnw -q -Dproject.build.directory=/tmp/wb-work-video-cqrs-target-20260517 -Dtestcontainers.enabled=false -Dtest=BackendApplicationTests,WorkVideoCommandHandlersTest test",
+      "result": "passed"
+    },
+    {
+      "command": "rg -n \"JdbcTemplate|ContentService|MediaService\" backend/src/main/java/com/woongblog/media/WorkVideoController.java",
+      "result": "no matches"
+    }
+  ],
+  "risks": [
+    "HLS remains a deterministic compatibility implementation, not full transcoding.",
+    "Host Maven verification requires Java 21; Docker was used because the host JDK is Java 17.",
+    "Shared backend/target can be affected by concurrent workers; final context verification used an isolated /tmp build directory."
+  ],
+  "recommendation": "Accept the work-video/media CQRS refactor and run broader compose/API smoke checks after the rest of the backend slices settle."
+}

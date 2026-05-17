@@ -1,0 +1,87 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/.tmp
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/.next-build
+/.next-playwright
+/.next-playwright-verify
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+*.key
+.local-certs/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+!.env.example
+!.env.prod.example
+!.env.staging.example
+.env.prod.ci
+.env.prod.local
+
+# vercel
+.vercel
+
+# local agent/tooling
+.codex/
+.codex-backups/
+.agent-backups/
+.agent-runtime/
+AGENTS.md
+plan-ralph.md
+ralph.config.json
+evolutionary-architecture-by-example/
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+.omx/
+
+# runtime/test artifacts
+test-results/
+playwright-report/
+tests/playwright/test260419/
+tests/playwright/**/*.webm
+tests/playwright/**/*.png
+tests/helpers/admin-storage-state.json
+backend/**/bin/
+backend/**/obj/
+notion-view.png
+*.zip
+supabase/
+appsettings.Development.json
+.refs/
+downloads/
+.devcontainer-data/
+.docker-data/
+.codex-runtime/
+certbot/
+*.lscache
+db_status/current.json
+db_status/notion-*.json
+logs/

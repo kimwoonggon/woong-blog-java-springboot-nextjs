@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 13 - Public Metadata and Server Route Fallback Reinforcement</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #1f2937; }
+    h1, h2 { color: #111827; }
+    code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; vertical-align: top; }
+  </style>
+</head>
+<body>
+  <h1>Frontend Batch 13 - Public Metadata and Server Route Fallback Reinforcement</h1>
+  <p><strong>Date:</strong> 2026-04-28</p>
+  <h2>Summary</h2>
+  <p>Reinforced public blog/work metadata generation and shared SEO metadata safety for malformed route slugs, fetch failures, canonical paths, social images, and Work YouTube thumbnails.</p>
+  <h2>Production Fixes</h2>
+  <ul>
+    <li><code>blog/[slug]/page.tsx</code> and <code>works/[slug]/page.tsx</code>: metadata generation now handles malformed slugs and fetch failures safely.</li>
+    <li><code>work-detail-metadata.ts</code>: canonical slugs are encoded and YouTube thumbnail derivation normalizes URL variants.</li>
+    <li><code>seo.ts</code>: canonical paths stay same-origin and unsafe social images are filtered.</li>
+  </ul>
+  <h2>Validation</h2>
+  <table>
+    <tr><th>Command</th><th>Result</th></tr>
+    <tr><td><code>npm test -- --run src/test/seo-metadata.test.ts src/test/work-detail-metadata.test.ts src/test/public-detail-metadata-fallback.test.ts</code></td><td>Passed after fixes: 3 files, 13 tests</td></tr>
+    <tr><td><code>npm test -- --run src/test/admin-page-success-states.test.tsx</code></td><td>Passed: 1 file, 18 tests</td></tr>
+    <tr><td><code>npm test -- --run</code></td><td>Passed: 72 files, 493 tests</td></tr>
+    <tr><td><code>npm run lint</code></td><td>Passed: 0 errors, 6 existing warnings</td></tr>
+    <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+    <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+    <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+  </table>
+  <h2>Recommendation</h2>
+  <p>Proceed to Frontend Batch 14 - Public Static Route and Date Display Reinforcement.</p>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{
+  "title": "Frontend Batch 14 - Public Static Route and Date Display Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced robots output, blog/work generateStaticParams slug filtering, public feed invalid date fallbacks, and related-content invalid/missing date fallbacks.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/public-static-routes.test.ts",
+      "src/test/public-responsive-feed.test.tsx",
+      "src/test/related-content-list.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/app/(public)/blog/[slug]/page.tsx",
+      "src/app/(public)/works/[slug]/page.tsx",
+      "src/components/content/PublicResponsiveFeed.tsx",
+      "src/components/content/RelatedContentList.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "Public error-boundary UI",
+    "Pagination/search UI",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Home page date formatting",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Blog/work generateStaticParams could return blank, nullish, slash, query, or hash slugs.",
+    "Public feed cards could display Invalid Date for malformed public dates.",
+    "Related content cards could throw RangeError for malformed dates."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find nextjs static params date testing",
+      "result": "passed",
+      "notes": "Low-install external skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/public-static-routes.test.ts src/test/public-responsive-feed.test.tsx src/test/related-content-list.test.tsx",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final focused run: 3 files, 25 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 73 files, 498 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Home page featured/recent card date formatting remains server-component-local.",
+    "Public detail adjacent/related sort ordering is not covered for invalid dates.",
+    "Admin dashboard/list date formatting remains outside this public-only batch.",
+    "Static params filtering is duplicated in blog/work route modules."
+  ],
+  "recommendation": "Proceed to Frontend Batch 15 - Public Home Date and Detail Ordering Reinforcement."
+}

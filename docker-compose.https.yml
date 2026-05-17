@@ -1,0 +1,12 @@
+services:
+  backend:
+    environment:
+      APP_AUTH_SECURE_COOKIES: "true"
+      APP_REQUIRE_HTTPS_METADATA: "true"
+
+  nginx:
+    ports:
+      - "${NGINX_BIND_HOST:-127.0.0.1}:${NGINX_HTTPS_PORT:-443}:443"
+    volumes:
+      - ./nginx/local-https.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./.local-certs:/etc/nginx/certs:ro

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Main Promotion Runtime Allowlist Fix</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #111827; }
+      code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Main Promotion Runtime Allowlist Fix</h1>
+    <p>Date: 2026-04-28</p>
+    <h2>Summary</h2>
+    <p>The generated <code>release/main-promote</code> PR failed quality jobs because the runtime allowlist omitted scripts referenced by <code>ci-main-runtime.yml</code>. Runtime compose verification passed. During the follow-up dev PR, CI also exposed an async delete-failure assertion race in the inline blog editor test, which now waits for the retryable enabled <code>삭제</code> state.</p>
+    <h2>Files Changed</h2>
+    <ul>
+      <li><code>scripts/main-runtime-allowlist.txt</code></li>
+      <li><code>src/test/inline-blog-editor-section.test.tsx</code></li>
+    </ul>
+    <h2>Recommendation</h2>
+    <p>Merge into <code>dev</code>, wait for green dev CI and staging publication, then regenerate the main promotion branch.</p>
+  </body>
+</html>

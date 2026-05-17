@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Frontend Batch 30 - Admin Remaining Mutation Confirmation Failure Reinforcement</title>
+  </head>
+  <body>
+    <main>
+      <h1>Frontend Batch 30 - Admin Remaining Mutation Confirmation Failure Reinforcement</h1>
+      <p>Date: 2026-04-28</p>
+      <h2>Summary</h2>
+      <p>Reinforced frontend-owned admin delete/confirm mutation failures so technical backend, storage, provider, stack, and status details are sanitized while visible rows, selections, dialogs, and retry affordances are preserved.</p>
+      <h2>Tests Added Or Reinforced</h2>
+      <ul>
+        <li>src/test/admin-bulk-table.test.tsx</li>
+        <li>src/test/inline-work-editor-section.test.tsx</li>
+      </ul>
+      <h2>Production Files Changed</h2>
+      <ul>
+        <li>src/lib/admin-save-error.ts</li>
+        <li>src/components/admin/AdminBlogTableClient.tsx</li>
+        <li>src/components/admin/AdminWorksTableClient.tsx</li>
+        <li>src/components/admin/InlineWorkEditorSection.tsx</li>
+      </ul>
+      <h2>Validation</h2>
+      <p>Focused Vitest failed before fixes and passed after fixes. Full Vitest, lint, typecheck, build, and git diff --check passed.</p>
+      <h2>Next Recommended Batch</h2>
+      <p>Frontend Batch 31 - Public Inline Blog Delete Failure Reinforcement.</p>
+    </main>
+  </body>
+</html>

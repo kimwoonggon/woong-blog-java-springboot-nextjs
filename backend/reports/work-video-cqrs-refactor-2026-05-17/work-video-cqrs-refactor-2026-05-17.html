@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Work Video CQRS Refactor Audit - 2026-05-17</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 960px; }
+    code { background: #f4f4f4; padding: 0.1rem 0.25rem; }
+    h1, h2 { line-height: 1.2; }
+  </style>
+</head>
+<body>
+  <h1>Work Video CQRS Refactor Audit - 2026-05-17</h1>
+  <h2>Summary</h2>
+  <p>Refactored <code>WorkVideoController</code> into a thin HTTP-to-command mapper backed by Spring service handlers in <code>com.woongblog.application.media</code>. Upload-session SQL moved into <code>JdbcWorkVideoStore</code>; existing content and media services continue to own video mutation and media writes.</p>
+  <h2>Changed</h2>
+  <ul>
+    <li>Added command records, handlers, upload-session records, <code>WorkVideoStore</code>, and <code>JdbcWorkVideoStore</code>.</li>
+    <li>Refactored <code>WorkVideoController.java</code> to inject handlers only.</li>
+    <li>Added focused handler tests covering upload URL, upload, confirm, HLS, YouTube, reorder, and delete flows.</li>
+  </ul>
+  <h2>Not Changed</h2>
+  <ul>
+    <li>No AI files, schema files, <code>ContentService</code>, or <code>MediaService</code> behavior changed.</li>
+    <li>No endpoint paths, response key shapes, or multipart behavior changed.</li>
+    <li>No Mediator library was introduced.</li>
+  </ul>
+  <h2>Validations</h2>
+  <ul>
+    <li>Host Maven test failed before compile because the host JDK is Java 17 and the backend requires Java 21.</li>
+    <li>Docker Java 21 <code>WorkVideoCommandHandlersTest</code>: passed, 5 tests.</li>
+    <li>Docker Java 21 <code>BackendApplicationTests,WorkVideoCommandHandlersTest</code> with isolated build directory: passed.</li>
+    <li><code>rg</code> confirmed no direct <code>JdbcTemplate</code>, <code>ContentService</code>, or <code>MediaService</code> references remain in <code>WorkVideoController</code>.</li>
+  </ul>
+  <h2>Recommendation</h2>
+  <p>Accept the work-video/media CQRS refactor. Run broader compose/API smoke checks after other backend slices settle.</p>
+</body>
+</html>

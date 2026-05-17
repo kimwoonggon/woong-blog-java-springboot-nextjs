@@ -1,0 +1,56 @@
+{
+  "title": "Frontend Batch 34 - Public Admin Gate Session Failure Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced public admin gate session failure and cache behavior so rejected session fetches, malformed payloads, failed checks, and non-admin roles hide admin affordances while public content remains visible.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/public-admin-client-gate.test.tsx"
+    ],
+    "productionFilesChanged": [],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "behaviorBugsFound": [],
+  "validation": [
+    {
+      "command": "npx skills find react session cache failure gate testing",
+      "result": "passed",
+      "notes": "Results were general session/testing skills; no new skill was installed."
+    },
+    {
+      "command": "npm test -- --run src/test/public-admin-client-gate.test.tsx",
+      "result": "passed",
+      "notes": "Focused run: 1 file, 9 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 79 files, 550 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Browser cookie/session transitions across page reloads remain better suited to Playwright once Docker/backend e2e is available.",
+    "Public admin affordance visibility on fully rendered public pages is partly covered by existing tests and can receive a focused route-level sweep if needed.",
+    "Full e2e needs Docker Desktop WSL integration or an already running backend on 127.0.0.1:8080."
+  ],
+  "recommendation": "Proceed to Frontend Batch 35 - Public Admin Affordance Route Rendering Reinforcement."
+}

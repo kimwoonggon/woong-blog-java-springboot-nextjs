@@ -1,0 +1,56 @@
+{
+  "title": "Frontend Batch 33 - Public Detail Return-To Success Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced public Blog and Work detail delete success navigation for safe local returnTo values, unsafe protocol-relative returnTo rejection, and deterministic related page fallbacks.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/public-detail-admin-actions.test.tsx"
+    ],
+    "productionFilesChanged": [],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "behaviorBugsFound": [],
+  "validation": [
+    {
+      "command": "npx skills find nextjs returnTo navigation test url safety",
+      "result": "passed",
+      "notes": "Results were general/low-install Next.js navigation skills; no new skill was installed."
+    },
+    {
+      "command": "npm test -- --run src/test/public-detail-admin-actions.test.tsx",
+      "result": "passed",
+      "notes": "Focused run: 1 file, 8 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 79 files, 546 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Browser back/forward integration after public detail delete remains better suited to Playwright once Docker/backend e2e is available.",
+    "Public list create/edit success routing can receive a similar local return path sweep if more route-state gaps are found.",
+    "Full e2e needs Docker Desktop WSL integration or an already running backend on 127.0.0.1:8080."
+  ],
+  "recommendation": "Proceed to Frontend Batch 34 - Public Admin Gate Session Failure Reinforcement."
+}

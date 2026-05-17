@@ -1,0 +1,217 @@
+name: CI Dev
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - "feature/**"
+  pull_request:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+
+jobs:
+  frontend-quality:
+    name: Frontend lint, types, and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test -- --run
+
+  backend-unit-tests:
+    name: Backend unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run backend unit tests
+        run: bash ./scripts/run-unit-tests.sh
+
+  backend-component-tests:
+    name: Backend component tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run backend component tests
+        run: bash ./scripts/run-component-tests.sh
+
+  backend-architecture-tests:
+    name: Backend architecture tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run backend architecture tests
+        run: bash ./scripts/run-architecture-tests.sh
+
+  backend-web-tests:
+    name: Backend web tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run backend web tests
+        run: bash ./scripts/run-web-tests.sh
+
+  backend-integration-tests:
+    name: Backend integration tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Check Docker availability for Testcontainers
+        run: docker version
+
+      - name: Run backend integration tests
+        run: bash ./scripts/run-integration-tests.sh
+
+  contract-tests:
+    name: Pact provider verification
+    runs-on: ubuntu-latest
+    needs:
+      - backend-unit-tests
+      - backend-component-tests
+      - backend-architecture-tests
+      - backend-web-tests
+      - backend-integration-tests
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Verify provider contracts
+        run: bash ./scripts/pact-provider-verify.sh
+
+  compose-verify:
+    name: Compose Dev Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compose config and smoke
+        run: bash ./scripts/ci-compose-smoke.sh dev
+
+  browser-smoke:
+    name: Browser smoke
+    runs-on: ubuntu-latest
+    needs:
+      - frontend-quality
+      - backend-unit-tests
+      - backend-component-tests
+      - backend-architecture-tests
+      - backend-web-tests
+      - backend-integration-tests
+      - contract-tests
+      - compose-verify
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start dev compose stack
+        run: KEEP_RUNNING=1 bash ./scripts/ci-compose-smoke.sh dev
+
+      - name: Run public browser smoke
+        env:
+          PLAYWRIGHT_SKIP_AUTH_BOOTSTRAP: "1"
+          PLAYWRIGHT_EXPECT_LOCAL_ADMIN_SHORTCUT: visible
+          PLAYWRIGHT_EXTERNAL_SERVER: "1"
+          PLAYWRIGHT_BASE_URL: https://localhost:3001
+        run: npx playwright test tests/ci-compose-public.spec.ts --project=chromium-public --workers=1
+
+      - name: Run runtime auth smoke
+        env:
+          PLAYWRIGHT_EXPECT_LOCAL_ADMIN_SHORTCUT: visible
+          PLAYWRIGHT_EXTERNAL_SERVER: "1"
+          PLAYWRIGHT_BASE_URL: https://localhost:3001
+        run: npx playwright test tests/test-server-runtime.spec.ts tests/auth-security-browser.spec.ts tests/public-admin-affordances.spec.ts tests/ui-header-overlays.spec.ts --project=chromium-runtime-auth --workers=1
+
+      - name: Tear down compose stack
+        if: always()
+        run: docker compose -f docker-compose.dev.yml down --remove-orphans --volumes

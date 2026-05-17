@@ -1,0 +1,87 @@
+{
+  "task": "Frontend Batch 4A - Editor and Rendered Content Theme Readability",
+  "date": "2026-04-27",
+  "status": "passed",
+  "summary": "Improved light and dark mode readability for Tiptap editor and rendered content code blocks using shared theme tokens and focused tests.",
+  "changedFiles": [
+    "src/app/globals.css",
+    "src/components/admin/tiptap-editor/extensions.ts",
+    "src/components/content/BlockRenderer.tsx",
+    "src/test/interactive-renderer.test.tsx",
+    "src/test/tiptap-editor.test.tsx",
+    "tests/dark-mode.spec.ts",
+    "todolist-2026-04-27.md",
+    "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+  ],
+  "intentionallyNotChanged": [
+    "backend behavior",
+    "saved content schema",
+    "WorkVideo behavior and tests",
+    "AI behavior and tests",
+    "public API error-boundary behavior and tests",
+    "large visual regression infrastructure"
+  ],
+  "testsAdded": [
+    {
+      "file": "src/test/interactive-renderer.test.tsx",
+      "coverage": "pre/code preservation, inline code distinction, Korean text, multiline whitespace"
+    },
+    {
+      "file": "src/test/tiptap-editor.test.tsx",
+      "coverage": "Tiptap code block shared readable styling hook"
+    },
+    {
+      "file": "tests/dark-mode.spec.ts",
+      "coverage": "deterministic public rendered content code block computed styles in light and dark mode"
+    }
+  ],
+  "validations": [
+    {
+      "command": "npm test -- --run src/test/*tiptap*.test.tsx src/test/*renderer*.test.tsx src/test/*content*.test.tsx",
+      "result": "passed",
+      "details": "6 files / 32 tests"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/dark-mode.spec.ts --grep \"DM-18\"",
+      "result": "passed",
+      "details": "1 test, 0 latency budget failures, 0 warnings"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/dark-mode.spec.ts",
+      "result": "passed",
+      "details": "25 tests, 0 latency budget failures, 0 warnings"
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "details": "65 files / 369 tests; known baseline Pact V3 and jsdom navigation warnings appeared"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "details": "0 errors / 6 existing warnings"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "docker compose -f docker-compose.dev.yml down --remove-orphans",
+      "result": "passed"
+    }
+  ],
+  "risks": [
+    "Existing saved Tiptap code blocks with old classes rely on stronger prose selectors for visual normalization.",
+    "Admin AI preview receives shared prose styling but AI-specific tests were deferred by scope.",
+    "Work detail content receives shared renderer styling but WorkVideo browser recovery remained out of scope."
+  ],
+  "recommendation": "Proceed to the AI failure and partial-failure batch if the prior WorkVideo browser recovery baseline remains accepted; this change is also safe to carry into any remaining WorkVideo Browser Recovery Flow."
+}

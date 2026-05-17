@@ -1,0 +1,70 @@
+{
+  "task": "Frontend Batch 3 - WorkVideo Upload and Rich Media Failure Path Reinforcement",
+  "date": "2026-04-27",
+  "changedProductionFiles": [
+    "src/components/admin/WorkEditor.tsx",
+    "src/components/content/WorkVideoPlayer.tsx"
+  ],
+  "changedTestFiles": [
+    "src/test/work-editor.test.tsx",
+    "src/test/work-video-player.test.tsx"
+  ],
+  "behaviorBugsFound": [
+    "Invalid YouTube text could be staged for new works.",
+    "Create-time staged HLS attach failure could leave stale progress text.",
+    "HLS video records without playbackUrl appeared playable."
+  ],
+  "validations": [
+    {
+      "command": "npm test -- --run src/test/work-editor.test.tsx src/test/work-video-player.test.tsx",
+      "status": "passed",
+      "result": "2 files / 39 tests passed"
+    },
+    {
+      "command": "npm run test:e2e -- tests/admin-work-video-create-flow.spec.ts tests/admin-work-video-edit-flow.spec.ts tests/admin-work-video-drag-order.spec.ts tests/admin-work-video-s3-compatible.spec.ts tests/public-work-videos.spec.ts",
+      "status": "blocked",
+      "result": "Playwright web server timed out because backend 127.0.0.1:8080 refused connections"
+    },
+    {
+      "command": "./scripts/dev-up.sh",
+      "status": "failed",
+      "result": "Docker could not bind 127.0.0.1:8080"
+    },
+    {
+      "command": "npm test -- --run",
+      "status": "failed",
+      "result": "Full threaded suite timed out in src/test/work-detail-metadata.test.ts"
+    },
+    {
+      "command": "npm test -- --run src/test/work-detail-metadata.test.ts",
+      "status": "passed",
+      "result": "1 file / 2 tests passed"
+    },
+    {
+      "command": "npm run lint",
+      "status": "passed",
+      "result": "0 errors, 6 existing warnings"
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "passed",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Legacy upload-url/browser PUT/confirm path is not reachable from current WorkEditor UI.",
+    "Focused and full Playwright validation is blocked by local Docker backend port binding.",
+    "Full threaded Vitest run has an unrelated work-detail-metadata timeout, although the file passes in isolation."
+  ],
+  "finalRecommendation": "Keep Batch 3 changes; fix Docker backend port binding and full-suite metadata timing before Batch 4 browser validation."
+}

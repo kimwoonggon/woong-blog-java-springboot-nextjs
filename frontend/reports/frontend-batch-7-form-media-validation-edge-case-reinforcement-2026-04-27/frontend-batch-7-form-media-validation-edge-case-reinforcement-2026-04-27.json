@@ -1,0 +1,74 @@
+{
+  "task": "Frontend Batch 7 - Form and Media Validation Edge Case Reinforcement",
+  "date": "2026-04-27",
+  "scope": "frontend form/media validation tests and minimal production fixes",
+  "changedProductionFiles": [
+    "src/lib/file-validation.ts",
+    "src/components/admin/ResumeEditor.tsx",
+    "src/components/admin/HomePageEditor.tsx",
+    "src/components/admin/WorkEditor.tsx"
+  ],
+  "changedTestFiles": [
+    "src/test/file-validation.test.ts",
+    "src/test/resume-editor.test.tsx",
+    "src/test/tiptap-editor.test.tsx",
+    "src/test/work-editor.test.tsx",
+    "src/test/admin-editor-exceptions.test.tsx"
+  ],
+  "behaviorBugsFound": [
+    "Home image upload accepted non-image files when accept was bypassed.",
+    "Work thumbnail and icon upload accepted non-image files when accept was bypassed.",
+    "Work HLS video staging accepted unsupported non-MP4 files when accept was bypassed.",
+    "Resume validation accepted PDF-like files when only MIME or extension matched and did not reject empty PDFs."
+  ],
+  "validations": [
+    {
+      "command": "npm test -- --run src/test/resume-editor.test.tsx",
+      "result": "passed",
+      "details": "1 file, 13 tests"
+    },
+    {
+      "command": "npm test -- --run src/test/tiptap-editor.test.tsx",
+      "result": "passed",
+      "details": "1 file, 11 tests"
+    },
+    {
+      "command": "npm test -- --run src/test/work-editor.test.tsx",
+      "result": "passed",
+      "details": "1 file, 32 tests"
+    },
+    {
+      "command": "npm test -- --run src/test/file-validation.test.ts src/test/admin-editor-exceptions.test.tsx",
+      "result": "passed",
+      "details": "2 files, 31 tests"
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "details": "67 files, 426 tests"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "details": "0 errors, 6 existing warnings"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "risks": [
+    "Oversized upload tests remain deferred until product-owned frontend size limits are defined.",
+    "Browser E2E upload validation was not expanded because component coverage is deterministic and avoids live storage.",
+    "Deeper direct video upload target progress and retry validation remains WorkVideo-specific."
+  ],
+  "recommendation": "Proceed to loading and empty states for route-level skeletons and deterministic empty list/member/dashboard states."
+}

@@ -1,0 +1,31 @@
+{
+  "task": "dev-main-promotion-automation-2026-05-04",
+  "date": "2026-05-04",
+  "summary": {
+    "current_state_before_change": {
+      "dev_success_pushes_main": false,
+      "dev_success_effect": "Publish GHCR Dev runs after CI Dev success on dev",
+      "main_promotion_path": "manual Promote Main Runtime workflow updates release/main-promote, then maintainer merges PR into main"
+    },
+    "changes": [
+      "Added workflow_run trigger on successful CI Dev completion for dev",
+      "Added automatic promotion PR creation or reuse for release/main-promote -> main",
+      "Updated README and main flow documentation to describe explicit promotion behavior"
+    ],
+    "intentional_non_changes": [
+      "No direct auto-push from dev to main",
+      "No CI Main Runtime or GHCR publish workflow changes",
+      "No live workflow run or automated test execution"
+    ]
+  },
+  "validations": [
+    "Static workflow and documentation inspection",
+    "Backup creation under .codex-backups/dev-main-promotion-automation-2026-05-04/",
+    "Audit artifact generation"
+  ],
+  "risks": [
+    "First live GitHub Actions run is still required to confirm permissions and PR creation behavior",
+    "Branch protection or token scope may require follow-up adjustment"
+  ],
+  "recommendation": "Use the next successful dev run as the first live confirmation of automatic promotion branch and PR refresh behavior."
+}

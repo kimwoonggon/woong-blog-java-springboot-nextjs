@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 4A - Editor and Rendered Content Theme Readability</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; color: #1f2937; }
+    main { max-width: 960px; margin: 0 auto; }
+    h1, h2 { line-height: 1.2; }
+    code { background: #eef1f5; padding: 0.1rem 0.3rem; border-radius: 0.3rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d9dee7; padding: 0.5rem; text-align: left; vertical-align: top; }
+    th { background: #f1f3f5; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Frontend Batch 4A - Editor and Rendered Content Theme Readability</h1>
+    <p><strong>Date:</strong> 2026-04-27</p>
+    <h2>Summary</h2>
+    <p>Improved code block and inline code readability across light and dark themes for rendered content and the Tiptap editor.</p>
+    <h2>Changed</h2>
+    <ul>
+      <li>Added shared code tokens in <code>src/app/globals.css</code>.</li>
+      <li>Applied <code>content-code-block</code> to Tiptap and legacy block-rendered code blocks.</li>
+      <li>Kept public/admin prose rendering on the shared styling path.</li>
+      <li>Added focused Vitest and Playwright computed-style tests.</li>
+    </ul>
+    <h2>Intentionally Not Changed</h2>
+    <p>No backend behavior, saved content schema, WorkVideo behavior, AI behavior, public API error-boundary behavior, or broad visual regression infrastructure was changed.</p>
+    <h2>Validations</h2>
+    <table>
+      <thead><tr><th>Command</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><code>npm test -- --run src/test/*tiptap*.test.tsx src/test/*renderer*.test.tsx src/test/*content*.test.tsx</code></td><td>Passed: 6 files / 32 tests</td></tr>
+        <tr><td><code>PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/dark-mode.spec.ts --grep "DM-18"</code></td><td>Passed: 1 test</td></tr>
+        <tr><td><code>PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/dark-mode.spec.ts</code></td><td>Passed: 25 tests</td></tr>
+        <tr><td><code>npm test -- --run</code></td><td>Passed: 65 files / 369 tests</td></tr>
+        <tr><td><code>npm run lint</code></td><td>Passed: 0 errors / 6 existing warnings</td></tr>
+        <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+        <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+        <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+      </tbody>
+    </table>
+    <h2>Recommendation</h2>
+    <p>Proceed to the AI failure and partial-failure batch if the prior WorkVideo browser recovery baseline remains accepted. This work is also safe to carry into any remaining WorkVideo Browser Recovery Flow because it did not alter WorkVideo behavior.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Pact Provider CI Dotnet Setup Audit - 2026-05-06</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; max-width: 920px; margin: 40px auto; padding: 0 20px; color: #17202a; }
+    h1, h2 { color: #0f172a; }
+    code { background: #f1f5f9; padding: 2px 4px; border-radius: 4px; }
+    .pass { color: #047857; font-weight: 700; }
+    .warn { color: #b45309; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <h1>Pact Provider CI Dotnet Setup Audit - 2026-05-06</h1>
+  <h2>Result</h2>
+  <p class="pass">Ready for focused PR to dev.</p>
+  <h2>Root Cause</h2>
+  <p>PR #68 failed before tests because Docker could not pull <code>mcr.microsoft.com/dotnet/sdk:10.0</code>.</p>
+  <h2>Change</h2>
+  <p>Both CI Dev and CI Main Runtime Pact jobs now use <code>actions/setup-dotnet@v4</code> and run <code>bash ./scripts/pact-provider-verify.sh</code> directly.</p>
+  <h2>Validation</h2>
+  <ul>
+    <li class="pass">Local Pact provider verification passed 1 contract.</li>
+    <li class="pass"><code>git diff --check</code> passed.</li>
+    <li class="pass">Grep guard confirmed the Docker SDK image invocation was removed.</li>
+  </ul>
+  <h2>Recommendation</h2>
+  <p>Merge this CI fix to <code>dev</code>, then verify a fresh main promotion run.</p>
+</body>
+</html>

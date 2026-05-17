@@ -1,0 +1,78 @@
+{
+  "title": "Frontend Batch 18 - Admin Mutation Guard and Fetch Failure Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced admin blog/work list mutation controls for rows without usable ids.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/admin-bulk-table.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/components/admin/AdminBlogTableClient.tsx",
+      "src/components/admin/AdminWorksTableClient.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "Admin fetch/data source behavior",
+    "Admin mutation helper network contracts",
+    "Public pages",
+    "Public error-boundary UI",
+    "Pagination/search UI",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Admin blog rows with missing ids still exposed enabled selection controls.",
+    "Admin work rows with missing ids still exposed enabled selection controls.",
+    "Missing-id rows could reach mutation affordances even though no valid row id could be submitted safely."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find react admin mutation testing error state",
+      "result": "passed",
+      "notes": "Mutation/admin skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/admin-bulk-table.test.tsx",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final focused run: 1 file, 25 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 75 files, 509 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Missing-id edit links route to the list page, but there is no explicit disabled edit affordance.",
+    "Admin mutation helper unit tests still focus on API behavior indirectly through component tests.",
+    "Admin dashboard collection cards remain read-only links and have no mutation controls to guard.",
+    "Dashboard partial failure messaging could be expanded separately."
+  ],
+  "recommendation": "Proceed to Frontend Batch 19 - Admin Dashboard Partial Failure and Navigation Reinforcement."
+}

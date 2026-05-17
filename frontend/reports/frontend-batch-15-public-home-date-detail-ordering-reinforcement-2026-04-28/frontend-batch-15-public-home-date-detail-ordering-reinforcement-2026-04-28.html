@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 15 - Public Home Date and Detail Ordering Reinforcement</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #1f2937; }
+    h1, h2 { color: #111827; }
+    code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; vertical-align: top; }
+  </style>
+</head>
+<body>
+  <h1>Frontend Batch 15 - Public Home Date and Detail Ordering Reinforcement</h1>
+  <p><strong>Date:</strong> 2026-04-28</p>
+  <h2>Summary</h2>
+  <p>Reinforced public home invalid date fallbacks and public blog/work detail related ordering with invalid or missing dates.</p>
+  <h2>Production Fixes</h2>
+  <ul>
+    <li><code>page.tsx</code>: invalid public home dates render <code>Unknown Date</code>.</li>
+    <li><code>blog/[slug]/page.tsx</code> and <code>works/[slug]/page.tsx</code>: detail ordering treats invalid dates like missing dates.</li>
+  </ul>
+  <h2>Validation</h2>
+  <table>
+    <tr><th>Command</th><th>Result</th></tr>
+    <tr><td><code>npm test -- --run src/test/public-home-date-fallback.test.tsx src/test/blog-detail-related.test.tsx src/test/work-detail-related-order.test.tsx</code></td><td>Passed after fixes: 3 files, 4 tests</td></tr>
+    <tr><td><code>npm test -- --run</code></td><td>Passed: 75 files, 501 tests</td></tr>
+    <tr><td><code>npm run lint</code></td><td>Passed: 0 errors, 6 existing warnings</td></tr>
+    <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+    <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+    <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+  </table>
+  <h2>Recommendation</h2>
+  <p>Proceed to Frontend Batch 16 - Admin Date and List Robustness Reinforcement.</p>
+</body>
+</html>

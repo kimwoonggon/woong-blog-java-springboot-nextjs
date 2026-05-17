@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Spring Boot Runtime Scripts Audit - 2026-05-17</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; max-width: 920px; margin: 32px auto; padding: 0 20px; color: #202124; }
+    h1, h2 { line-height: 1.2; }
+    code { background: #f4f6f8; padding: 1px 4px; border-radius: 4px; }
+    li { margin: 4px 0; }
+  </style>
+</head>
+<body>
+  <h1>Spring Boot Runtime Scripts Audit - 2026-05-17</h1>
+  <h2>Summary</h2>
+  <p>Updated Docker/runtime scripts/docs for the Spring Boot backend migration without editing Java source. Compose now uses Spring Boot environment variables, the backend Dockerfile builds with Java 21, and runtime tooling includes ffmpeg, Node 20, Codex CLI, and k6.</p>
+  <h2>Validations</h2>
+  <ul>
+    <li>Shell syntax checks passed for patched scripts.</li>
+    <li>Grep found no stale ASP.NET Core/dotnet env or test names in touched surfaces.</li>
+    <li>Dev, prod, and staging Compose config rendered successfully with Spring env.</li>
+    <li>Java 21 Docker build and full runtime image build succeeded.</li>
+    <li>Runtime image tools checked: Node v20.20.2, ffmpeg 4.4.2, k6 v2.0.0, Codex CLI 0.130.0.</li>
+  </ul>
+  <h2>Risks</h2>
+  <p>Host Maven tests failed because local Java does not support release 21. Suite-specific Maven group filters require matching JUnit tags.</p>
+  <h2>Recommendation</h2>
+  <p>Proceed with these runtime/docs changes and run future backend tests on Java 21 or in the Docker build environment.</p>
+</body>
+</html>

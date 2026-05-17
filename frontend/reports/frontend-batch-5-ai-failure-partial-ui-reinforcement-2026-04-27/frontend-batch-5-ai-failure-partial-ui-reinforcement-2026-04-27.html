@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 5 AI Failure and Partial Failure UI Reinforcement</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; color: #20242a; }
+    main { max-width: 920px; }
+    h1, h2 { line-height: 1.2; }
+    code { background: #f1f3f5; padding: 0.1rem 0.25rem; border-radius: 4px; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { border: 1px solid #d8dde4; padding: 0.5rem; text-align: left; vertical-align: top; }
+    th { background: #f6f8fa; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Frontend Batch 5 - AI Failure and Partial Failure UI Reinforcement</h1>
+  <p><strong>Date:</strong> 2026-04-27</p>
+  <h2>Summary</h2>
+  <p>Added frontend AI failure and partial-failure UI coverage using component mocks and Playwright route mocks only. Fixed one production false-success bug in batch apply handling and one Playwright harness issue for explicitly requested optional specs.</p>
+  <h2>Changed</h2>
+  <ul>
+    <li><code>AIFixDialog</code> tests for runtime config failure, malformed config, empty provider fallback, POST 504/500, retry, and work enrich failure/retry.</li>
+    <li><code>AdminBlogBatchAiPanel</code> tests for mixed succeeded/failed items, partial apply, cancel failure, remove failure, and safe fallback UI.</li>
+    <li>Route-mocked browser AI dialog coverage for blog fix and work enrich.</li>
+    <li>Partial apply responses with failed items now show a partial-failure error instead of full success.</li>
+    <li>Explicit optional Playwright specs can now run under the forced core script profile.</li>
+  </ul>
+  <h2>Validation</h2>
+  <table>
+    <tr><th>Command</th><th>Result</th></tr>
+    <tr><td><code>npm test -- --run src/test/admin-ai-fix-dialog.test.tsx</code></td><td>Passed, 11 tests.</td></tr>
+    <tr><td><code>npm test -- --run src/test/admin-blog-batch-ai-panel.test.tsx</code></td><td>Passed after RED fix, 17 tests.</td></tr>
+    <tr><td><code>PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/admin-blog-ai-dialog.spec.ts tests/admin-ai-batch-jobs.spec.ts tests/admin-ai-batch-cancel.spec.ts</code></td><td>Passed, 6 tests.</td></tr>
+    <tr><td><code>PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e</code></td><td>Passed, 418 passed, 5 skipped.</td></tr>
+    <tr><td><code>npm test -- --run</code></td><td>Passed, 65 files, 382 tests.</td></tr>
+    <tr><td><code>npm run lint</code></td><td>Passed, 0 errors, 6 existing warnings.</td></tr>
+    <tr><td><code>npm run typecheck</code></td><td>Passed.</td></tr>
+    <tr><td><code>npm run build</code></td><td>Passed.</td></tr>
+    <tr><td><code>git diff --check</code></td><td>Passed.</td></tr>
+  </table>
+  <h2>Recommendation</h2>
+  <p>Proceed to public API error states coverage.</p>
+</main>
+</body>
+</html>

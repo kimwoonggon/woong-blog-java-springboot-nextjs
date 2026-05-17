@@ -1,0 +1,68 @@
+{
+  "task": "Frontend Batch 6 - Public API Error States and Error Boundary Reinforcement",
+  "date": "2026-04-27",
+  "scope": "frontend public API error-state, notFound, empty-state, loading, and error-boundary tests",
+  "changedProductionFiles": [
+    "src/app/(public)/error.tsx",
+    "src/app/(public)/blog/[slug]/error.tsx",
+    "src/app/(public)/resume/page.tsx"
+  ],
+  "changedTestFiles": [
+    "src/test/public-api-clients.test.ts",
+    "src/test/public-api-contracts.test.ts",
+    "src/test/public-detail-boundary.test.tsx",
+    "src/test/public-page-error-states.test.tsx",
+    "src/test/resume-server-render.test.tsx",
+    "src/test/work-video-player.test.tsx"
+  ],
+  "behaviorBugsFound": [
+    "Public error boundaries rendered raw error.message and could leak backend/status/stack-like details.",
+    "Resume API failure threw through the public route instead of rendering the existing no-resume fallback.",
+    "The first resume catch also handled Next dynamic-render bailout errors until unstable_rethrow was added."
+  ],
+  "validations": [
+    {
+      "command": "npm test -- --run src/test/public-api-clients.test.ts src/test/public-api-contracts.test.ts",
+      "result": "passed",
+      "details": "2 files, 22 tests"
+    },
+    {
+      "command": "npm test -- --run src/test/page-content.test.ts src/test/interactive-renderer.test.tsx",
+      "result": "passed",
+      "details": "2 files, 12 tests"
+    },
+    {
+      "command": "npm test -- --run src/test/resume-server-render.test.tsx src/test/work-video-player.test.tsx",
+      "result": "passed",
+      "details": "2 files, 16 tests"
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "details": "66 files, 395 tests"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "details": "0 errors, 6 existing warnings"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "risks": [
+    "Browser-level initial public API 500 coverage still needs a deterministic server-fetch mocking harness.",
+    "Work detail relies on the shared public segment boundary because it has no route-specific error/loading files.",
+    "Public metadata API failure/notFound fallback coverage remains a P2 gap."
+  ],
+  "recommendation": "Proceed to form/media validation for image, video, and PDF edge cases."
+}

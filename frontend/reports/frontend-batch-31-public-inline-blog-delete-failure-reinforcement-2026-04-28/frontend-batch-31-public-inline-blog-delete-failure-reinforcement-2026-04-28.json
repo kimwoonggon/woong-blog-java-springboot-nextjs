@@ -1,0 +1,66 @@
+{
+  "title": "Frontend Batch 31 - Public Inline Blog Delete Failure Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced public inline Blog delete failures so technical backend details are sanitized and failed deletes do not navigate, refresh, or remove retry affordances.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/inline-blog-editor-section.test.tsx",
+      "src/test/inline-work-editor-section.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/components/admin/InlineBlogEditorSection.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "behaviorBugsFound": [
+    "Public inline Blog delete failures could show raw SQL, status, stack, and backend details in the toast message."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find public inline blog delete failure react testing",
+      "result": "passed",
+      "notes": "Results were low-install/general React testing skills; no new skill was installed."
+    },
+    {
+      "command": "npm test -- --run src/test/inline-blog-editor-section.test.tsx",
+      "result": "failed before fixes",
+      "notes": "RED run failed with 1 raw technical delete failure assertion."
+    },
+    {
+      "command": "npm test -- --run src/test/inline-blog-editor-section.test.tsx src/test/inline-work-editor-section.test.tsx",
+      "result": "passed",
+      "notes": "Focused GREEN run: 2 files, 7 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 78 files, 538 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "PublicBlogDetailAdminActions has a separate dynamic/client-gate fetch boundary and should receive dedicated coverage for loaded-detail delete failure sanitization.",
+    "Public inline Blog editor load failure text is safe, but detailed retry/browser session behavior can be revisited with e2e once Docker/backend availability is restored.",
+    "Full e2e needs Docker Desktop WSL integration or an already running backend on 127.0.0.1:8080."
+  ],
+  "recommendation": "Proceed to Frontend Batch 32 - Public Detail Admin Action Failure Reinforcement."
+}

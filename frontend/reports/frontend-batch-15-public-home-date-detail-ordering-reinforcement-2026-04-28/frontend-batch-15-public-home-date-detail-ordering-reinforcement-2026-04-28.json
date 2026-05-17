@@ -1,0 +1,78 @@
+{
+  "title": "Frontend Batch 15 - Public Home Date and Detail Ordering Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced public home invalid date fallbacks and public blog/work detail related ordering with invalid or missing dates.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/public-home-date-fallback.test.tsx",
+      "src/test/blog-detail-related.test.tsx",
+      "src/test/work-detail-related-order.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/app/(public)/page.tsx",
+      "src/app/(public)/blog/[slug]/page.tsx",
+      "src/app/(public)/works/[slug]/page.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "Public error-boundary UI",
+    "Pagination/search UI",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Admin dashboard/list date formatting",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Public home featured Work and recent Study cards could display Invalid Date.",
+    "Blog detail related ordering could place malformed-date posts ahead of valid dated posts.",
+    "Work detail related ordering could place malformed-date works ahead of valid dated works."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find nextjs server component date testing",
+      "result": "passed",
+      "notes": "External skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/public-home-date-fallback.test.tsx src/test/blog-detail-related.test.tsx src/test/work-detail-related-order.test.tsx",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final focused run: 3 files, 4 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 75 files, 501 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Admin dashboard/list date formatting remains outside these public-only batches.",
+    "Public detail sort helpers are duplicated between blog/work route modules.",
+    "Locale/timezone display consistency has not been audited as a standalone concern."
+  ],
+  "recommendation": "Proceed to Frontend Batch 16 - Admin Date and List Robustness Reinforcement."
+}

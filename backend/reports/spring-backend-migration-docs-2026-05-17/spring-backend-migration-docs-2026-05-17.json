@@ -1,0 +1,38 @@
+{
+  "task": "spring-backend-migration-docs",
+  "date": "2026-05-17",
+  "changed": [
+    "docs/spring-backend-migration.md",
+    "todolist-2026-05-17.md",
+    "backend/reports/spring-backend-migration-docs-2026-05-17/spring-backend-migration-docs-2026-05-17.md",
+    "backend/reports/spring-backend-migration-docs-2026-05-17/spring-backend-migration-docs-2026-05-17.html",
+    "backend/reports/spring-backend-migration-docs-2026-05-17/spring-backend-migration-docs-2026-05-17.json"
+  ],
+  "intentionallyNotChanged": [
+    "Java source",
+    "frontend source",
+    "Docker and compose configuration",
+    "CI configuration",
+    "runtime implementation"
+  ],
+  "validations": [
+    "npx skills find spring boot migration documentation",
+    "Reviewed instructions.md",
+    "Reviewed src/lib/api route clients",
+    "Reviewed compose API origin and media settings",
+    "Reviewed backend/pom.xml Spring skeleton dependencies",
+    "Reviewed .agents/skills/java-springboot/SKILL.md",
+    "Reviewed .agents/skills/springboot-tdd/SKILL.md",
+    "Reviewed .agents/skills/spring-boot-test-patterns/SKILL.md",
+    "Verified target docs did not already exist before creation",
+    "Read back created Markdown and TODO artifacts",
+    "Confirmed generated audit artifact paths exist"
+  ],
+  "risks": [
+    "Route contract is based on static inspection, not live HTTP snapshots",
+    "AI, HLS/media, diagnostics, and mixed casing need explicit fixtures",
+    "Spring backend remains a skeleton",
+    "JaCoCo and JUnit tag configuration are documented requirements but were not implemented in this docs-only task"
+  ],
+  "recommendation": "Use docs/spring-backend-migration.md as the control document and start implementation with a contract-freeze/test PR."
+}

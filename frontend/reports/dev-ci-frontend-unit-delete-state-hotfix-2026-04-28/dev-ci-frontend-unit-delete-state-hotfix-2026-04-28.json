@@ -1,0 +1,47 @@
+{
+  "name": "Dev CI Frontend Unit Delete State Hotfix",
+  "date": "2026-04-28",
+  "summary": "Corrected a timing-sensitive frontend unit assertion after the post-merge dev CI run failed.",
+  "productionFilesChanged": [],
+  "testFilesChanged": [
+    "src/test/public-detail-admin-actions.test.tsx"
+  ],
+  "behaviorBugsFound": [
+    "No production behavior bug was found.",
+    "The test asserted the restored delete button state before the rejected async delete handler had finished clearing its pending state."
+  ],
+  "commands": [
+    {
+      "command": "gh run view 25057650595 --job 73402401614 --log",
+      "result": "completed"
+    },
+    {
+      "command": "npm test -- --run src/test/public-detail-admin-actions.test.tsx",
+      "result": "passed",
+      "notes": "1 file, 8 tests"
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "81 files, 559 tests"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "finalRecommendation": "Open a hotfix PR into dev, wait for green CI Dev and staging image publication, then promote toward main."
+}

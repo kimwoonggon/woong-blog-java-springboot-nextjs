@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 6 Audit</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; color: #20242a; }
+    main { max-width: 880px; }
+    h1, h2 { line-height: 1.2; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d7dce2; padding: 0.5rem; text-align: left; vertical-align: top; }
+    th { background: #f3f5f7; }
+    code { background: #f3f5f7; padding: 0.1rem 0.25rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Frontend Batch 6 - Public API Error States and Error Boundary Reinforcement</h1>
+    <p><strong>Date:</strong> 2026-04-27</p>
+    <h2>Summary</h2>
+    <p>Added deterministic frontend coverage for public API failures, notFound branches, public error/loading components, page fallbacks, resume empty/failure states, and incomplete public work video data.</p>
+    <h2>Production Changes</h2>
+    <ul>
+      <li>Public segment and blog detail error boundaries now render generic public-safe copy.</li>
+      <li>Resume API failure renders the existing no-resume fallback and preserves Next control-flow errors with <code>unstable_rethrow</code>.</li>
+    </ul>
+    <h2>Validation</h2>
+    <table>
+      <tr><th>Command</th><th>Result</th></tr>
+      <tr><td><code>npm test -- --run</code></td><td>Passed: 66 files, 395 tests</td></tr>
+      <tr><td><code>npm run lint</code></td><td>Passed: 0 errors, 6 existing warnings</td></tr>
+      <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+      <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+      <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+    </table>
+    <h2>Recommendation</h2>
+    <p>Proceed to form/media validation for image, video, and PDF edge cases.</p>
+  </main>
+</body>
+</html>

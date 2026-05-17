@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Spring Boot Migration Final Parity Audit - 2026-05-17</title>
+  <style>
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.5; margin: 2rem; max-width: 960px; }
+    h1, h2 { line-height: 1.2; }
+    code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 4px; }
+    li { margin: 0.35rem 0; }
+  </style>
+</head>
+<body>
+  <h1>Spring Boot Migration Final Parity Audit - 2026-05-17</h1>
+  <h2>Scope</h2>
+  <p>This audit covers the final local parity pass for replacing the ASP.NET Core backend with the Java 21 Spring Boot backend while preserving the existing Next.js frontend, Docker/nginx topology, API behavior, and browser workflows.</p>
+  <h2>Changed</h2>
+  <ul>
+    <li>Replaced the backend runtime with Spring Boot 3.5.x, Java 21, Maven, Flyway, PostgreSQL JDBC persistence, Spring Security session auth, OAuth2 login handoff, CSRF validation, security headers, health checks, media handling, diagnostics, and admin/public API endpoints.</li>
+    <li>Preserved frontend API contracts for public content, admin content, auth, site settings, media uploads, work videos, AI fix flows, batch AI flows, and Docker/nginx routing.</li>
+    <li>Added CQRS-style application handlers for AI and media/work-video flows without adding a mediator library.</li>
+    <li>Updated Docker, nginx, compose, runtime scripts, environment examples, and GitHub Actions from ASP.NET Core/.NET to Spring Boot/Maven while keeping the repository git-flow shape.</li>
+    <li>Fixed parity gaps found by exhaustive Docker-dev Playwright runs, including CORS, auth, public detail context, admin mappers, work-video HLS, ordering, thumbnails, admin pages, footer social settings, stale fetches, legacy title saves, pagination, and thumbnail-persistence waits.</li>
+  </ul>
+  <h2>Intentionally Not Changed</h2>
+  <ul>
+    <li>The Next.js app remains the existing App Router frontend.</li>
+    <li>Historical migration/evidence docs remain historical records.</li>
+    <li>Google OAuth2 still requires production secrets and redirect configuration outside the repository.</li>
+    <li>AI provider behavior remains a deterministic compatibility implementation.</li>
+  </ul>
+  <h2>Validations Performed</h2>
+  <ul>
+    <li>Docker Java 21 backend full suite passed with <code>./mvnw -q clean -Dtestcontainers.enabled=false test</code>.</li>
+    <li><code>npm run lint</code>, <code>npm run typecheck</code>, <code>npm run build</code>, and <code>npm test -- --run</code> passed.</li>
+    <li>Docker-dev health checks passed through direct backend and nginx loopback URLs.</li>
+    <li>Playwright exhaustive passed against <code>http://127.0.0.1:13000</code> with 603 passed and 9 skipped.</li>
+    <li>Focused backend, frontend, and browser reruns passed for every parity gap fixed during the final pass.</li>
+  </ul>
+  <h2>Risks And Yellow Flags</h2>
+  <ul>
+    <li>GitHub-hosted CI was pending when this audit artifact was generated because the branch did not yet exist remotely.</li>
+    <li>The local stack used alternate ports because default ports were occupied.</li>
+    <li>Temporary validation containers/networks may remain on the local Docker host.</li>
+    <li>Production OAuth and secret configuration must be supplied outside the repository.</li>
+  </ul>
+  <h2>Recommendation</h2>
+  <p>Commit this migration state, push it to <code>dev</code>, verify GitHub CI, promote the same verified commit to <code>main</code>, and verify <code>main</code> CI.</p>
+</body>
+</html>

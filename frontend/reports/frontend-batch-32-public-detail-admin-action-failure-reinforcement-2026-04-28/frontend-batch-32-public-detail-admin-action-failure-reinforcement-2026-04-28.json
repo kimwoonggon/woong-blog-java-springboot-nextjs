@@ -1,0 +1,69 @@
+{
+  "title": "Frontend Batch 32 - Public Detail Admin Action Failure Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced public Blog and Work detail admin action shells so editor payload load failures render safe fallback panels and delete mutation failures sanitize technical backend/provider details.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/public-detail-admin-actions.test.tsx",
+      "src/test/inline-blog-editor-section.test.tsx",
+      "src/test/inline-work-editor-section.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/components/admin/PublicBlogDetailAdminActions.tsx",
+      "src/components/admin/PublicWorkDetailAdminActions.tsx"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "behaviorBugsFound": [
+    "Public Blog detail delete failures could show raw SQL, status, stack, and backend details.",
+    "Public Work detail delete failures could show raw provider, status, stack, and backend details."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find nextjs dynamic public detail admin action testing",
+      "result": "passed",
+      "notes": "Results were general/low-install Next.js/admin skills; no new skill was installed."
+    },
+    {
+      "command": "npm test -- --run src/test/public-detail-admin-actions.test.tsx",
+      "result": "failed before fixes",
+      "notes": "RED run failed with 2 raw technical delete failure assertions; load fallback tests passed."
+    },
+    {
+      "command": "npm test -- --run src/test/public-detail-admin-actions.test.tsx src/test/inline-blog-editor-section.test.tsx src/test/inline-work-editor-section.test.tsx",
+      "result": "passed",
+      "notes": "Focused GREEN run: 3 files, 11 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 79 files, 542 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Safe return-to success behavior is covered by local guards in production but not yet directly asserted in component tests.",
+    "Browser session gate behavior for public admin affordances is still covered separately and can be revalidated in e2e once Docker/backend is available.",
+    "Full e2e needs Docker Desktop WSL integration or an already running backend on 127.0.0.1:8080."
+  ],
+  "recommendation": "Proceed to Frontend Batch 33 - Public Detail Return-To Success Reinforcement."
+}

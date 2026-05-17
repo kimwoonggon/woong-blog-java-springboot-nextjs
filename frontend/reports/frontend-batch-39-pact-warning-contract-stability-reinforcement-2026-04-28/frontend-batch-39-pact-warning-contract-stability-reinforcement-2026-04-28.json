@@ -1,0 +1,71 @@
+{
+  "title": "Frontend Batch 39 - Pact Warning and Contract Test Stability Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend test infrastructure and contract-test hygiene only",
+  "summary": "Removed Pact V3 upgrade warnings, made Pact tests stable with neighboring helper tests, and reduced Vitest workers to 2 for repeated full-suite stability under WSL load.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/pact/public-api-consumer.pact.test.ts"
+    ],
+    "testInfrastructureChanged": [
+      "tests/contracts/pacts/WoongBlog Frontend-WoongBlog API.json",
+      "package.json",
+      "docs/e2e-readiness.md"
+    ],
+    "productionFilesChanged": [],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "behaviorBugsFound": [],
+  "testInfrastructureFindings": [
+    "Pact V3 metadata caused repeated upgrade warnings.",
+    "Pact test module mocks were file-parallel-sensitive when neighboring tests imported shared API helpers.",
+    "Vitest maxWorkers=4 was still unstable under repeated WSL full-suite load; maxWorkers=2 passed."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find pact contract testing vitest warnings",
+      "result": "passed",
+      "notes": "Results were general API contract testing skills; no new skill was installed."
+    },
+    {
+      "command": "npm test -- --run src/test/pact/public-api-consumer.pact.test.ts",
+      "result": "passed",
+      "notes": "Final runs: 1 file, 6 tests, no Pact warning."
+    },
+    {
+      "command": "npm test -- --run <neighboring API/auth/helper tests plus pact>",
+      "result": "failed once, then passed",
+      "notes": "Failed before env-based injection; final run passed with 10 files and 61 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "failed once, then passed",
+      "notes": "maxWorkers=4 failed with worker startup timeouts; final maxWorkers=2 run passed with 81 files and 559 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Full Vitest is stable but slow with maxWorkers=2.",
+    "Full Playwright e2e still needs Docker Desktop WSL integration or an already running local stack.",
+    "Pact provider verification was not run because this batch stayed frontend/test-infrastructure scoped."
+  ],
+  "recommendation": "Proceed to Frontend Batch 40 - Full Vitest Runtime Partitioning Reinforcement."
+}

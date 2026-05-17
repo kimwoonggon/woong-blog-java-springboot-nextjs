@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dev CI Frontend Unit Delete State Hotfix</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #111827; }
+      h1, h2 { line-height: 1.2; }
+      code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; }
+      th { background: #f9fafb; }
+    </style>
+  </head>
+  <body>
+    <h1>Dev CI Frontend Unit Delete State Hotfix</h1>
+    <p>Date: 2026-04-28</p>
+    <h2>Summary</h2>
+    <p>The post-merge <code>dev</code> CI run failed because a frontend unit test asserted the restored delete button state before React finished clearing the rejected async delete mutation pending state. The test now waits for the public enabled <code>삭제</code> button state.</p>
+    <h2>Files Changed</h2>
+    <ul>
+      <li><code>src/test/public-detail-admin-actions.test.tsx</code></li>
+    </ul>
+    <h2>Production Files Changed</h2>
+    <p>None.</p>
+    <h2>Validation</h2>
+    <table>
+      <thead><tr><th>Command</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><code>npm test -- --run src/test/public-detail-admin-actions.test.tsx</code></td><td>Passed</td></tr>
+        <tr><td><code>npm test -- --run</code></td><td>Passed</td></tr>
+        <tr><td><code>npm run lint</code></td><td>Passed</td></tr>
+        <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+        <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+        <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+      </tbody>
+    </table>
+    <h2>Recommendation</h2>
+    <p>Open the hotfix PR into <code>dev</code>, wait for green CI Dev and staging publication, then promote toward <code>main</code>.</p>
+  </body>
+</html>

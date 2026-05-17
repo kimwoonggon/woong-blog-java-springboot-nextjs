@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Frontend Batch 19 - Admin Dashboard Partial Failure and Navigation Reinforcement</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #111827; }
+      h1, h2 { line-height: 1.2; }
+      code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+      table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+      th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; vertical-align: top; }
+      th { background: #f9fafb; }
+    </style>
+  </head>
+  <body>
+    <h1>Frontend Batch 19 - Admin Dashboard Partial Failure and Navigation Reinforcement</h1>
+    <p><strong>Date:</strong> 2026-04-28</p>
+    <h2>Summary</h2>
+    <p>Reinforced admin dashboard partial collection failure behavior so loaded content remains visible when a sibling collection fails.</p>
+    <h2>Tests Added Or Reinforced</h2>
+    <ul>
+      <li><code>src/test/admin-page-success-states.test.tsx</code>: partial Work/Blog collection failures preserve loaded sibling content and safe static dashboard links.</li>
+      <li><code>src/test/admin-dashboard-collections.test.tsx</code>: existing collection fallback/link coverage remains green.</li>
+    </ul>
+    <h2>Production Files Changed</h2>
+    <ul>
+      <li><code>src/app/admin/dashboard/page.tsx</code></li>
+      <li><code>src/components/admin/AdminDashboardCollections.tsx</code></li>
+    </ul>
+    <h2>Behavior Bugs Found</h2>
+    <ul>
+      <li>A single dashboard collection fetch failure hid both Work and Blog collections.</li>
+      <li>Partial failures used full-unavailable copy.</li>
+      <li>Loaded collection content was not preserved when the sibling collection failed.</li>
+    </ul>
+    <h2>Commands Run And Results</h2>
+    <table>
+      <thead><tr><th>Command</th><th>Result</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>npx skills find nextjs admin dashboard navigation testing</code></td><td>Passed</td><td>No new skill installed.</td></tr>
+        <tr><td><code>npm test -- --run src/test/admin-page-success-states.test.tsx</code></td><td>Failed before fixes</td><td>RED run: 1 file, 2 failures.</td></tr>
+        <tr><td><code>npm test -- --run src/test/admin-page-success-states.test.tsx src/test/admin-dashboard-collections.test.tsx</code></td><td>Passed</td><td>Final focused run: 2 files, 25 tests.</td></tr>
+        <tr><td><code>npm test -- --run</code></td><td>Passed</td><td>Final run: 75 files, 511 tests.</td></tr>
+        <tr><td><code>npm run lint</code></td><td>Passed</td><td>0 errors, 6 existing warnings.</td></tr>
+        <tr><td><code>npm run typecheck</code></td><td>Passed</td><td>TypeScript completed successfully.</td></tr>
+        <tr><td><code>npm run build</code></td><td>Passed</td><td>Next.js production build completed successfully.</td></tr>
+        <tr><td><code>git diff --check</code></td><td>Passed</td><td>No whitespace errors.</td></tr>
+      </tbody>
+    </table>
+    <h2>Next Recommended Batch</h2>
+    <p>Proceed to <strong>Frontend Batch 20 - Admin Error Boundary and Layout Navigation Reinforcement</strong>.</p>
+  </body>
+</html>

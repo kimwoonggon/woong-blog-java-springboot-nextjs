@@ -1,0 +1,35 @@
+{
+  "task": "pact-provider-setup-dotnet-2026-05-06",
+  "status": "ready_for_pr",
+  "failed_pr": 68,
+  "failed_run": 25414949688,
+  "failed_job": 74544519726,
+  "root_cause": "Pact provider job failed before tests because Docker could not pull mcr.microsoft.com/dotnet/sdk:10.0 from MCR.",
+  "changed_files": [
+    ".github/workflows/ci-dev.yml",
+    ".github/workflows/ci-main-runtime.yml",
+    "todolist-2026-05-06.md"
+  ],
+  "validations": [
+    {
+      "command": "PACT_PROVIDER_PORT=5098 bash ./scripts/pact-provider-verify.sh",
+      "result": "pass",
+      "provider_contracts_passed": 1
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass"
+    },
+    {
+      "command": "rg guard for removed Docker SDK image invocation",
+      "result": "pass"
+    }
+  ],
+  "non_goals": [
+    "Pact assertion changes",
+    "backend application changes",
+    "load-test scenario changes",
+    "runtime compose image changes"
+  ],
+  "recommendation": "Merge focused CI fix to dev, then verify a fresh main promotion PR/run."
+}

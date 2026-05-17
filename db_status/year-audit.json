@@ -1,0 +1,308 @@
+{
+  "root": "/mnt/d/woong-blog/woong-blog/downloads/notion-connected-2026-03-27T03-08-20-083Z",
+  "snapshotCount": 177,
+  "dbCount": 335,
+  "snapshotByYear": {
+    "2025": 175,
+    "2026": 2
+  },
+  "notionImportedCount": 164,
+  "notionImportedByYear": {
+    "2025": 164
+  },
+  "missingFromDbCount": 13,
+  "missingFromDbSample": [
+    {
+      "pageId": "17d3d745-93cb-800c-bb8e-e07bb87acec3",
+      "title": "(250116) 주간보고를 위해서",
+      "createdTime": "2025-01-16T00:37:00.000Z"
+    },
+    {
+      "pageId": "17e3d745-93cb-80a5-bbcc-c842ecbd8820",
+      "title": "(250117)botframework",
+      "createdTime": "2025-01-17T10:15:00.000Z"
+    },
+    {
+      "pageId": "1873d745-93cb-8090-a092-d6d406043022",
+      "title": "Untitled",
+      "createdTime": "2025-01-26T13:46:00.000Z"
+    },
+    {
+      "pageId": "1883d745-93cb-8070-abe7-cba7de62ea29",
+      "title": "Untitled",
+      "createdTime": "2025-01-27T14:33:00.000Z"
+    },
+    {
+      "pageId": "19d3d745-93cb-8083-b3e8-d0c337d2def0",
+      "title": "Untitled",
+      "createdTime": "2025-02-17T13:56:00.000Z"
+    },
+    {
+      "pageId": "19d3d745-93cb-809f-9ea6-c8b664c9b1c7",
+      "title": "Untitled",
+      "createdTime": "2025-02-17T13:56:00.000Z"
+    },
+    {
+      "pageId": "19d3d745-93cb-80bb-860b-d91651220f2a",
+      "title": "Untitled",
+      "createdTime": "2025-02-17T13:57:00.000Z"
+    },
+    {
+      "pageId": "1ba3d745-93cb-8013-9fc5-c0218a2429b0",
+      "title": "Untitled",
+      "createdTime": "2025-03-18T06:07:00.000Z"
+    },
+    {
+      "pageId": "1ba3d745-93cb-8069-9d23-febc8f09afa5",
+      "title": "(250318)reasoning finetuning",
+      "createdTime": "2025-03-18T05:01:00.000Z"
+    },
+    {
+      "pageId": "1ba3d745-93cb-806b-9aa5-d12fa6831c2f",
+      "title": "Untitled",
+      "createdTime": "2025-03-18T01:56:00.000Z"
+    },
+    {
+      "pageId": "1db3d745-93cb-8084-875c-c05eac8d0c8e",
+      "title": "Untitled",
+      "createdTime": "2025-04-20T08:33:00.000Z"
+    },
+    {
+      "pageId": "3303d745-93cb-8020-bd20-da605a6bf01b",
+      "title": "opengl directx uvmap",
+      "createdTime": "2026-03-27T01:19:00.000Z"
+    },
+    {
+      "pageId": "3303d745-93cb-80a0-9f76-d7bc0d3ee58f",
+      "title": "Notion blog data migration 전략",
+      "createdTime": "2026-03-27T00:08:00.000Z"
+    }
+  ],
+  "extraDbRowsCount": 0,
+  "extraDbRowsSample": [],
+  "snapshotSample": [
+    {
+      "pageId": "16f3d745-93cb-80bc-b8de-c05812876f5c",
+      "title": "2025 chatbot",
+      "createdTime": "2025-01-02T06:51:00.000Z"
+    },
+    {
+      "pageId": "1713d745-93cb-8087-bc80-d8f214b291b8",
+      "title": "AI전망 2025",
+      "createdTime": "2025-01-04T14:14:00.000Z"
+    },
+    {
+      "pageId": "1723d745-93cb-806a-ae34-c23c025f99f2",
+      "title": "(250105)(250111)cuda",
+      "createdTime": "2025-01-05T13:33:00.000Z"
+    },
+    {
+      "pageId": "1723d745-93cb-806f-95b7-f8387504ef04",
+      "title": "(250107, 250113, 250115)C# ASPCore",
+      "createdTime": "2025-01-05T05:54:00.000Z"
+    },
+    {
+      "pageId": "1723d745-93cb-80ce-9cc5-fd37b6ac5183",
+      "title": "(250105)css",
+      "createdTime": "2025-01-05T07:47:00.000Z"
+    },
+    {
+      "pageId": "1733d745-93cb-8085-b24b-f018fa13314d",
+      "title": "(250106)deepspeed megatron",
+      "createdTime": "2025-01-06T12:24:00.000Z"
+    },
+    {
+      "pageId": "1733d745-93cb-80c5-a3fa-cb0c114cf4f6",
+      "title": "(240106)(240107)semantic kernel",
+      "createdTime": "2025-01-06T06:57:00.000Z"
+    },
+    {
+      "pageId": "1743d745-93cb-8039-abb6-c7e93072fc37",
+      "title": "(250107)windsurfgo",
+      "createdTime": "2025-01-07T10:07:00.000Z"
+    },
+    {
+      "pageId": "1743d745-93cb-8091-a359-c1b8130c600d",
+      "title": "(240108) M365",
+      "createdTime": "2025-01-07T22:45:00.000Z"
+    },
+    {
+      "pageId": "1743d745-93cb-809f-89e3-dad01e60f06c",
+      "title": "(250107)windsurf",
+      "createdTime": "2025-01-07T10:02:00.000Z"
+    },
+    {
+      "pageId": "1763d745-93cb-80b4-889d-c5df7e2c22c5",
+      "title": "(240109)보안,인증",
+      "createdTime": "2025-01-09T13:59:00.000Z"
+    },
+    {
+      "pageId": "1763d745-93cb-80f4-9544-c544d3a651a2",
+      "title": "(250109)bot",
+      "createdTime": "2025-01-09T12:41:00.000Z"
+    },
+    {
+      "pageId": "1783d745-93cb-8007-b5b5-f6a65343adbe",
+      "title": "2025 분산처리 연구 (미국 ㄱㄱ)",
+      "createdTime": "2025-01-11T05:33:00.000Z"
+    },
+    {
+      "pageId": "1783d745-93cb-8009-a896-cf7fa78800c3",
+      "title": "(250111)openai assistant",
+      "createdTime": "2025-01-11T13:47:00.000Z"
+    },
+    {
+      "pageId": "1783d745-93cb-80ed-9fcc-eb6df5a8c3f2",
+      "title": "(250111)C++ 클래스메모리계산",
+      "createdTime": "2025-01-11T07:32:00.000Z"
+    },
+    {
+      "pageId": "1793d745-93cb-8016-a1f0-c3496ddbe561",
+      "title": "(250112)Claude",
+      "createdTime": "2025-01-12T07:09:00.000Z"
+    },
+    {
+      "pageId": "1793d745-93cb-808e-a3f8-cb919a989cf5",
+      "title": "(250112)OpenAI API Reference",
+      "createdTime": "2025-01-12T08:02:00.000Z"
+    },
+    {
+      "pageId": "1793d745-93cb-80b3-9c1c-dca2d65d727e",
+      "title": "api series",
+      "createdTime": "2025-01-12T07:34:00.000Z"
+    },
+    {
+      "pageId": "1793d745-93cb-80c7-be05-c5020c82aaf0",
+      "title": "(250113)BotTest",
+      "createdTime": "2025-01-12T13:15:00.000Z"
+    },
+    {
+      "pageId": "17a3d745-93cb-80f4-ace8-c602184880e0",
+      "title": "(250113)-OAuth 보안, 인증",
+      "createdTime": "2025-01-13T12:38:00.000Z"
+    }
+  ],
+  "dbSample": [
+    {
+      "slug": "opengl-directx-uvmap",
+      "title": "opengl directx uvmap",
+      "createdAt": "2026-03-27T01:19:00+00:00",
+      "publishedAt": "2026-03-27T01:19:00+00:00"
+    },
+    {
+      "slug": "notion-blog-data-migration-전략",
+      "title": "Notion blog data migration 전략",
+      "createdAt": "2026-03-27T00:08:00+00:00",
+      "publishedAt": "2026-03-27T00:08:00+00:00"
+    },
+    {
+      "slug": "132312-2",
+      "title": "132312",
+      "createdAt": "2026-03-26T06:17:23.705088+00:00",
+      "publishedAt": "2026-03-26T06:17:23.705088+00:00"
+    },
+    {
+      "slug": "132312",
+      "title": "132312",
+      "createdAt": "2026-03-26T06:17:19.745241+00:00",
+      "publishedAt": "2026-03-26T06:17:19.745241+00:00"
+    },
+    {
+      "slug": "aa-4",
+      "title": "aa",
+      "createdAt": "2026-03-26T06:12:10.457876+00:00",
+      "publishedAt": "2026-03-26T06:12:10.457876+00:00"
+    },
+    {
+      "slug": "수정된-블로그-1774500608013",
+      "title": "수정된 블로그! 1774500608013 ###",
+      "createdAt": "2026-03-26T04:45:23.073997+00:00",
+      "publishedAt": "2026-03-26T04:45:23.073997+00:00"
+    },
+    {
+      "slug": "playwright-post-1774500319518",
+      "title": "Playwright Post 1774500319518",
+      "createdAt": "2026-03-26T04:45:20.695066+00:00",
+      "publishedAt": "2026-03-26T04:45:20.695066+00:00"
+    },
+    {
+      "slug": "블로그-이미지-업로드-1774500316590",
+      "title": "블로그 이미지 업로드 1774500316590",
+      "createdAt": "2026-03-26T04:45:17.666952+00:00",
+      "publishedAt": "2026-03-26T04:45:17.666952+00:00"
+    },
+    {
+      "slug": "수정된-블로그-1774500313774",
+      "title": "수정된 블로그! 1774500313774 ###",
+      "createdAt": "2026-03-26T04:42:26.146176+00:00",
+      "publishedAt": "2026-03-26T04:42:26.146176+00:00"
+    },
+    {
+      "slug": "블로그-이미지-업로드-1774500143561",
+      "title": "블로그 이미지 업로드 1774500143561",
+      "createdAt": "2026-03-26T04:42:24.534155+00:00",
+      "publishedAt": "2026-03-26T04:42:24.534155+00:00"
+    },
+    {
+      "slug": "playwright-post-1774499735500",
+      "title": "Playwright Post 1774499735500",
+      "createdAt": "2026-03-26T04:35:36.47023+00:00",
+      "publishedAt": "2026-03-26T04:35:36.47023+00:00"
+    },
+    {
+      "slug": "블로그-이미지-업로드-1774499733397",
+      "title": "블로그 이미지 업로드 1774499733397",
+      "createdAt": "2026-03-26T04:35:34.595597+00:00",
+      "publishedAt": "2026-03-26T04:35:34.595597+00:00"
+    },
+    {
+      "slug": "aa-3",
+      "title": "aa",
+      "createdAt": "2026-03-26T04:11:09.99532+00:00",
+      "publishedAt": "2026-03-26T04:11:09.99532+00:00"
+    },
+    {
+      "slug": "aa-2",
+      "title": "aa",
+      "createdAt": "2026-03-26T04:11:06.635963+00:00",
+      "publishedAt": "2026-03-26T04:11:06.635963+00:00"
+    },
+    {
+      "slug": "aa",
+      "title": "aa",
+      "createdAt": "2026-03-26T04:11:03.721282+00:00",
+      "publishedAt": null
+    },
+    {
+      "slug": "특수-english-한글-qa-1774496985666",
+      "title": "특수! English 한글 QA 1774496985666 !!!",
+      "createdAt": "2026-03-26T03:49:46.651205+00:00",
+      "publishedAt": null
+    },
+    {
+      "slug": "playwright-post-1774496983392",
+      "title": "Playwright Post 1774496983392",
+      "createdAt": "2026-03-26T03:49:44.455553+00:00",
+      "publishedAt": "2026-03-26T03:49:44.455553+00:00"
+    },
+    {
+      "slug": "블로그-이미지-업로드-1774496980766",
+      "title": "블로그 이미지 업로드 1774496980766",
+      "createdAt": "2026-03-26T03:49:41.922085+00:00",
+      "publishedAt": "2026-03-26T03:49:41.922085+00:00"
+    },
+    {
+      "slug": "수정된-블로그-1774496978130",
+      "title": "수정된 블로그! 1774496978130 ###",
+      "createdAt": "2026-03-26T03:20:18.056588+00:00",
+      "publishedAt": "2026-03-26T03:49:40.010707+00:00"
+    },
+    {
+      "slug": "playwright-post-1774495214878",
+      "title": "Playwright Post 1774495214878",
+      "createdAt": "2026-03-26T03:20:16.013642+00:00",
+      "publishedAt": "2026-03-26T03:20:16.013642+00:00"
+    }
+  ],
+  "updatedAt": "2026-03-27T09:14:22.247Z"
+}

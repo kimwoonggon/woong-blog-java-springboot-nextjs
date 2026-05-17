@@ -1,0 +1,26 @@
+{
+  "task": "release-main-promote-auto-merge-2026-05-04",
+  "date": "2026-05-04",
+  "summary": {
+    "goal": "Chain dev success into release/main-promote and then into main when promotion validation passes",
+    "changes": [
+      "Promotion workflow now enables auto-merge on the release/main-promote to main PR",
+      "Release-flow documentation updated to describe the chained promotion path"
+    ],
+    "intentional_non_changes": [
+      "No direct dev to main pushes",
+      "No CI Dev or CI Main Runtime test logic changes",
+      "No live workflow execution"
+    ]
+  },
+  "validations": [
+    "Static workflow inspection",
+    "Backup creation under .codex-backups/release-main-promote-auto-merge-2026-05-04/",
+    "Audit artifact generation"
+  ],
+  "risks": [
+    "Repository-level GitHub auto-merge may need to be enabled",
+    "Branch protection may still block merge until all required rules are satisfied"
+  ],
+  "recommendation": "Observe the next successful dev run and confirm that the promotion PR is auto-merge-enabled and proceeds into main after required checks pass."
+}

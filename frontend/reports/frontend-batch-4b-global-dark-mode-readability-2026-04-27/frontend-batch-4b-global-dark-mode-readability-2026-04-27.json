@@ -1,0 +1,100 @@
+{
+  "task": "Frontend Batch 4B - Global Dark Mode Readability Pass",
+  "date": "2026-04-27",
+  "status": "passed",
+  "summary": "Softened global dark-mode surfaces, text, borders, inputs, dialogs, sheets, and selected admin/login surfaces while preserving Batch 4A code block behavior.",
+  "changedFiles": [
+    "src/app/globals.css",
+    "src/components/providers/ThemeProvider.tsx",
+    "src/components/ui/dialog.tsx",
+    "src/components/ui/sheet.tsx",
+    "src/app/login/page.tsx",
+    "src/app/admin/dashboard/page.tsx",
+    "src/app/admin/pages/page.tsx",
+    "src/app/admin/blog/notion/page.tsx",
+    "src/app/admin/members/page.tsx",
+    "src/app/admin/blog/[id]/page.tsx",
+    "src/app/admin/blog/new/page.tsx",
+    "src/app/admin/works/[id]/page.tsx",
+    "src/app/admin/works/new/page.tsx",
+    "src/components/admin/AdminDashboardCollections.tsx",
+    "src/components/admin/PageEditor.tsx",
+    "src/components/admin/SiteSettingsEditor.tsx",
+    "src/components/admin/HomePageEditor.tsx",
+    "tests/dark-mode.spec.ts",
+    "todolist-2026-04-27.md",
+    "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+  ],
+  "intentionallyNotChanged": [
+    "backend behavior",
+    "saved content format",
+    "Batch 4A code block tokens",
+    "AI behavior and tests",
+    "WorkVideo behavior and tests",
+    "broad visual regression infrastructure"
+  ],
+  "testsAdded": [
+    {
+      "file": "tests/dark-mode.spec.ts",
+      "coverage": "DM-25 computed-style assertions for body text/background, cards, borders, inputs, focus ring, and sheet surfaces"
+    },
+    {
+      "file": "tests/dark-mode.spec.ts",
+      "coverage": "DM-13 updated from harsh-dark card thresholds to soft-surface readability thresholds"
+    }
+  ],
+  "validations": [
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/dark-mode.spec.ts --grep \"DM-25\"",
+      "result": "failed-as-expected",
+      "details": "Initial RED run failed because old dark body background minimum RGB channel was 7"
+    },
+    {
+      "command": "BACKEND_PUBLISH_PORT=18080 ./scripts/dev-up.sh",
+      "result": "passed",
+      "details": "Rebuilt/restarted alternate-port validation stack"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/dark-mode.spec.ts --grep \"DM-25\"",
+      "result": "passed",
+      "details": "1 test, 0 latency budget failures, 0 warnings"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e -- tests/dark-mode.spec.ts",
+      "result": "passed",
+      "details": "26 tests, 0 latency budget failures, 0 warnings"
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "details": "65 files / 369 tests; known Pact V3 and jsdom navigation warnings appeared"
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "details": "0 errors / 6 existing warnings"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "docker compose -f docker-compose.dev.yml down --remove-orphans",
+      "result": "passed"
+    }
+  ],
+  "risks": [
+    "Some specialized embedded/editor blocks still have local dark utility classes and were left for future targeted cleanup.",
+    "Sonner rich-color toast styling was not customized.",
+    "No broad visual regression framework was added by design."
+  ],
+  "recommendation": "Safe to proceed to the AI failure and partial-failure batch."
+}

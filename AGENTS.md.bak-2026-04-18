@@ -1,0 +1,41 @@
+# Repository Guidelines
+
+## Project Structure & Module Organization
+
+Frontend source is a Next.js App Router app under `src/app`, with reusable UI in `src/components`, shared helpers in `src/lib`, hooks in `src/hooks`, and static assets in `public`.
+
+The ASP.NET Core backend lives in `backend/src/WoongBlog.Api`, organized by `Modules`, `Application`, `Infrastructure`, `Domain`, and `Common`. Backend tests are in `backend/tests/WoongBlog.Api.Tests`. Frontend unit tests are in `src/test`; Playwright specs are in `tests`. Docs are under `docs`, and automation is in `scripts`.
+
+## Build, Test, and Development Commands
+
+- `docker compose -f docker-compose.dev.yml up -d --build`: start the supported full-stack dev environment.
+- `./scripts/dev-up.sh`: start the dev stack with the local admin shortcut enabled.
+- `npm run dev`: run the frontend only for isolated UI work.
+- `npm run build`: build the Next.js app.
+- `npm run lint`: run ESLint.
+- `npm run typecheck`: run TypeScript checks after clearing Next build folders.
+- `npm test`: run Vitest unit tests.
+- `npm run test:e2e`: run the full Playwright suite serially.
+- `dotnet test backend/WoongBlog.sln`: run backend xUnit tests.
+
+Use compose for auth, uploads, admin mutations, and release checks.
+
+## Coding Style & Naming Conventions
+
+Use TypeScript, React Server Components, and existing App Router patterns. Keep component files in PascalCase, hooks as `useX`, and unit tests as `*.test.ts` or `*.test.tsx`. Playwright specs use `*.spec.ts`.
+
+C# uses nullable reference types and implicit usings. Follow the module layout: endpoints in `Modules/*/Api`, commands and queries in `Application`, persistence and external services in `Infrastructure`. Name backend tests `*Tests.cs`.
+
+## Testing Guidelines
+
+Add or update the smallest relevant suite. Prefer Vitest for frontend logic and components, Playwright for browser flows and visual or routing regressions, and xUnit for backend endpoints, validation, persistence contracts, and services. For full-stack behavior, run the relevant `npm run test:e2e:*` subset against compose.
+
+## Commit & Pull Request Guidelines
+
+Recent commits use concise imperative subjects, usually sentence case, such as `Stabilize batch AI provider test timing`. Keep subjects specific and avoid bundling unrelated work.
+
+Open feature PRs into `dev` unless preparing a production promotion. Include a short description, linked issue or context, verification commands, and screenshots or recordings for UI changes. Call out configuration, database, Docker, or security-sensitive changes explicitly.
+
+## Security & Configuration Tips
+
+Start from `.env.example`, `.env.staging.example`, or `.env.prod.example`; do not commit secrets. Check production-like behavior with the compose files and scripts in `README.md`, especially when changing auth, media, nginx routing, or runtime flags.

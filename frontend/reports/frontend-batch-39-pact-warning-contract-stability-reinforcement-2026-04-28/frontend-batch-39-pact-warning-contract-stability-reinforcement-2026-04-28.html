@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Frontend Batch 39 - Pact Warning and Contract Test Stability Reinforcement</title>
+    <style>
+      body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 960px; }
+      h1, h2 { line-height: 1.2; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #d0d7de; padding: 0.5rem; text-align: left; vertical-align: top; }
+      th { background: #f6f8fa; }
+      code { background: #f6f8fa; padding: 0.1rem 0.25rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Frontend Batch 39 - Pact Warning and Contract Test Stability Reinforcement</h1>
+    <p><strong>Date:</strong> 2026-04-28</p>
+    <h2>Summary</h2>
+    <p>Removed Pact V3 upgrade warnings, made the Pact test stable with neighboring helper tests, and reduced Vitest workers to 2 for repeated full-suite stability under WSL load.</p>
+    <h2>Changed Files</h2>
+    <ul>
+      <li><code>src/test/pact/public-api-consumer.pact.test.ts</code></li>
+      <li><code>tests/contracts/pacts/WoongBlog Frontend-WoongBlog API.json</code></li>
+      <li><code>package.json</code></li>
+      <li><code>docs/e2e-readiness.md</code></li>
+    </ul>
+    <h2>Validation</h2>
+    <table>
+      <thead><tr><th>Command</th><th>Result</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>npm test -- --run src/test/pact/public-api-consumer.pact.test.ts</code></td><td>Passed</td><td>1 file, 6 tests, no Pact warning.</td></tr>
+        <tr><td><code>npm test -- --run &lt;neighboring API/auth/helper tests plus pact&gt;</code></td><td>Passed</td><td>10 files, 61 tests after env-based injection.</td></tr>
+        <tr><td><code>npm test -- --run</code></td><td>Passed</td><td>81 files, 559 tests using <code>maxWorkers=2</code>.</td></tr>
+        <tr><td><code>npm run lint</code></td><td>Passed</td><td>0 errors, 6 existing warnings.</td></tr>
+        <tr><td><code>npm run typecheck</code></td><td>Passed</td><td>TypeScript completed successfully.</td></tr>
+        <tr><td><code>npm run build</code></td><td>Passed</td><td>Next.js production build completed successfully.</td></tr>
+        <tr><td><code>git diff --check</code></td><td>Passed</td><td>No whitespace errors.</td></tr>
+      </tbody>
+    </table>
+    <h2>Next Recommended Batch</h2>
+    <p>Proceed to <strong>Frontend Batch 40 - Full Vitest Runtime Partitioning Reinforcement</strong>.</p>
+  </body>
+</html>

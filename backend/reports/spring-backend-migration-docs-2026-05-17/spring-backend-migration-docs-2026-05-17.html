@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Spring Backend Migration Docs Audit - 2026-05-17</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 860px; margin: 40px auto; line-height: 1.5; color: #1f2933; }
+    h1, h2 { line-height: 1.2; }
+    code { background: #f4f4f5; padding: 0.1rem 0.25rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Spring Backend Migration Docs Audit - 2026-05-17</h1>
+  <h2>Summary</h2>
+  <p>Created backend migration planning documentation for replacing the ASP.NET Core backend with Spring Boot while preserving the current Next.js route and payload contract.</p>
+  <h2>Changed</h2>
+  <ul>
+    <li>Added <code>docs/spring-backend-migration.md</code>.</li>
+    <li>Added <code>todolist-2026-05-17.md</code>.</li>
+    <li>Added persistent audit artifacts.</li>
+    <li>Reflected requested Spring Boot skill practices: feature packages, constructor injection, DTO boundaries, MockMvc, Testcontainers, JUnit tags, and JaCoCo.</li>
+  </ul>
+  <h2>Intentionally Not Changed</h2>
+  <p>No Java, frontend, Docker, compose, CI, or runtime implementation files were modified.</p>
+  <h2>Validations</h2>
+  <p>Reviewed <code>instructions.md</code>, <code>src/lib/api/*</code>, compose API/media settings, <code>backend/pom.xml</code>, <code>.agents/skills/java-springboot/SKILL.md</code>, <code>.agents/skills/springboot-tdd/SKILL.md</code>, and <code>.agents/skills/spring-boot-test-patterns/SKILL.md</code>. Ran the required skill search, read back the created docs, and confirmed audit artifact paths exist.</p>
+  <h2>Risks</h2>
+  <p>The route list is static-inspection based and still needs live HTTP snapshots or Pact fixtures before Spring implementation and cutover.</p>
+  <h2>Recommendation</h2>
+  <p>Use the migration document as the control document and make the first implementation PR a contract-freeze/test PR.</p>
+</body>
+</html>

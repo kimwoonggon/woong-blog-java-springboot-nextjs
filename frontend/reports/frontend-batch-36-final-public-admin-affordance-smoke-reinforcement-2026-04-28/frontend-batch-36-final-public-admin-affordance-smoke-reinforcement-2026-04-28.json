@@ -1,0 +1,67 @@
+{
+  "title": "Frontend Batch 36 - Final Public Admin Affordance Smoke Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Completed the requested run through Batch 36 with public list create/admin affordance smoke coverage for admin-visible, anonymous-hidden, and failed-session-hidden behavior.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/public-list-admin-create.test.tsx",
+      "src/test/public-detail-boundary.test.tsx"
+    ],
+    "productionFilesChanged": [],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "behaviorBugsFound": [],
+  "validation": [
+    {
+      "command": "npx skills find react dynamic public admin create affordance testing",
+      "result": "passed",
+      "notes": "Results were general admin/accessibility skills; no new skill was installed."
+    },
+    {
+      "command": "npm test -- --run src/test/public-list-admin-create.test.tsx src/test/public-admin-client-gate.test.tsx",
+      "result": "passed",
+      "notes": "Focused run: 2 files, 12 tests."
+    },
+    {
+      "command": "npm test -- --run src/test/public-detail-boundary.test.tsx src/test/public-list-admin-create.test.tsx",
+      "result": "passed",
+      "notes": "Timing verification run: 2 files, 10 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 80 files, 554 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "docker info --format '{{.ServerVersion}}'",
+      "result": "blocked",
+      "notes": "Docker Desktop WSL integration is not enabled for this distro, so full e2e was not run."
+    }
+  ],
+  "remainingGaps": [
+    "Full Playwright e2e still needs Docker Desktop WSL integration or an already running backend on 127.0.0.1:8080.",
+    "Browser cookie/session transitions across full reloads remain the next browser-level validation target once e2e is available.",
+    "The next improvement cycle should consolidate recurring full-suite slow/flaky patterns before adding much more surface coverage."
+  ],
+  "recommendation": "Proceed to Frontend Batch 37 - Full-Suite Stability and E2E Readiness Reinforcement only after confirming whether the post-36 stop line should continue."
+}

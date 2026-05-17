@@ -1,0 +1,114 @@
+2026-04-19 01:11:53
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     107MiB / 62.74GiB     0.17%
+woong-blog-aspcore-nextjs-backend-1    0.01%     106.7MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.758MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.00%     29.95MiB / 62.74GiB   0.05%
+2026-04-19 01:11:58
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.01%     107MiB / 62.74GiB     0.17%
+woong-blog-aspcore-nextjs-backend-1    0.01%     106.5MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.629MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.00%     29.95MiB / 62.74GiB   0.05%
+2026-04-19 01:12:03
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     107MiB / 62.74GiB     0.17%
+woong-blog-aspcore-nextjs-backend-1    0.00%     106.3MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.617MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.00%     29.95MiB / 62.74GiB   0.05%
+2026-04-19 01:12:08
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     80.71MiB / 62.74GiB   0.13%
+woong-blog-aspcore-nextjs-backend-1    0.01%     106.6MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.629MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.01%     30MiB / 62.74GiB      0.05%
+2026-04-19 01:12:13
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     80.6MiB / 62.74GiB    0.13%
+woong-blog-aspcore-nextjs-backend-1    0.02%     106.6MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.516MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.01%     30MiB / 62.74GiB      0.05%
+2026-04-19 01:12:18
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     80.55MiB / 62.74GiB   0.13%
+woong-blog-aspcore-nextjs-backend-1    0.01%     106.6MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.516MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.01%     30MiB / 62.74GiB      0.05%
+2026-04-19 01:12:23
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   47.08%    77.71MiB / 62.74GiB   0.12%
+woong-blog-aspcore-nextjs-backend-1    3.73%     106.7MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      3.07%     7.945MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         1.07%     30.01MiB / 62.74GiB   0.05%
+2026-04-19 01:12:28
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   27.14%    98.46MiB / 62.74GiB   0.15%
+woong-blog-aspcore-nextjs-backend-1    2.22%     106.7MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      2.40%     7.832MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.62%     30.02MiB / 62.74GiB   0.05%
+2026-04-19 01:12:33
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   31.72%    98.3MiB / 62.74GiB    0.15%
+woong-blog-aspcore-nextjs-backend-1    2.04%     106.7MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      3.04%     7.629MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.64%     30.02MiB / 62.74GiB   0.05%
+2026-04-19 01:12:38
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   43.06%    100.9MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    2.08%     106.8MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      3.97%     7.684MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.93%     30.01MiB / 62.74GiB   0.05%
+2026-04-19 01:12:44
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   42.04%    105.5MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    4.17%     106.7MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      3.76%     8.023MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         1.98%     30.01MiB / 62.74GiB   0.05%
+2026-04-19 01:12:49
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   30.16%    100.8MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    4.36%     106.7MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      2.39%     7.941MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         2.30%     30.03MiB / 62.74GiB   0.05%
+2026-04-19 01:12:54
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   35.55%    108.9MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-backend-1    5.21%     106.7MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      3.49%     7.855MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         2.24%     30.15MiB / 62.74GiB   0.05%
+2026-04-19 01:12:59
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   36.03%    104.9MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    4.23%     107.1MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      2.42%     7.977MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         2.10%     30.11MiB / 62.74GiB   0.05%
+2026-04-19 01:13:04
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.13%     102.7MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    0.33%     107.3MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.895MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.00%     30.11MiB / 62.74GiB   0.05%
+2026-04-19 01:13:09
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     102.6MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    0.02%     107.1MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.828MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.00%     24.15MiB / 62.74GiB   0.04%
+2026-04-19 01:13:14
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     102.6MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    0.01%     107.1MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.734MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.01%     24.23MiB / 62.74GiB   0.04%
+2026-04-19 01:13:19
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     102.6MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    0.05%     107.1MiB / 62.74GiB   0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.734MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.01%     24.18MiB / 62.74GiB   0.04%
+2026-04-19 01:13:24
+NAME                                   CPU %     MEM USAGE / LIMIT     MEM %
+woong-blog-aspcore-nextjs-frontend-1   0.00%     102.6MiB / 62.74GiB   0.16%
+woong-blog-aspcore-nextjs-backend-1    0.05%     107MiB / 62.74GiB     0.17%
+woong-blog-aspcore-nextjs-nginx-1      0.00%     7.734MiB / 62.74GiB   0.01%
+woong-blog-aspcore-nextjs-db-1         0.00%     24.14MiB / 62.74GiB   0.04%

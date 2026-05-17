@@ -1,0 +1,63 @@
+{
+  "title": "Frontend Batch 27 - Admin Image Upload Failure Sanitization Expansion",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Expanded upload failure sanitization to Home profile image uploads and Blog/Tiptap inline image uploads while preserving editor content, Home form state, existing image previews, and retry behavior.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/admin-editor-exceptions.test.tsx",
+      "src/test/tiptap-editor.test.tsx"
+    ],
+    "productionFilesChanged": [
+      "src/components/admin/HomePageEditor.tsx",
+      "src/components/admin/tiptap-editor/upload.ts"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "behaviorBugsFound": [
+    "Home profile image upload failures could show raw Cloudflare/R2/storage/stack/status details.",
+    "Home profile image upload failures could show raw S3/bucket/storage/provider/status details.",
+    "Tiptap inline image upload rejections could propagate raw storage/provider/stack details into the logged Error path."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find react image upload failure sanitization testing",
+      "result": "passed"
+    },
+    {
+      "command": "npm test -- --run src/test/admin-editor-exceptions.test.tsx src/test/tiptap-editor.test.tsx",
+      "result": "failed before fixes, then passed",
+      "notes": "Final focused run: 2 files, 26 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 78 files, 528 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Blog Notion workspace inline image upload behavior shares Tiptap coverage but does not have a dedicated workspace-level upload failure test.",
+    "Auto-generated thumbnail upload failures in Work video thumbnail generation are separate from direct image upload controls.",
+    "Full e2e needs Docker Desktop WSL integration or an already running backend on 127.0.0.1:8080."
+  ],
+  "recommendation": "Proceed to Frontend Batch 28 - Admin Video Secondary Failure Sanitization Reinforcement."
+}

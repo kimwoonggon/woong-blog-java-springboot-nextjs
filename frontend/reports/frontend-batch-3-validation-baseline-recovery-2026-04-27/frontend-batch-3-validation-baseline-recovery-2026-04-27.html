@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 3 Validation Baseline Recovery Audit</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 960px; }
+    code { background: #f4f4f5; padding: 0.1rem 0.25rem; border-radius: 0.25rem; }
+    li { margin: 0.25rem 0; }
+  </style>
+</head>
+<body>
+  <h1>Frontend Batch 3 Validation Baseline Recovery Audit</h1>
+  <p>Recovered the frontend validation baseline after Batch 3 without adding Batch 4 tests or changing backend behavior.</p>
+
+  <h2>Root Causes</h2>
+  <p><strong>Vitest:</strong> <code>src/test/work-detail-metadata.test.ts</code> imported the full work detail page server-component tree only to test metadata generation. That import was slow enough to time out under full threaded suite contention. Metadata construction now lives in a deterministic helper tested directly.</p>
+  <p><strong>Docker:</strong> Windows IP Helper owned <code>0.0.0.0:8080</code> through a stale portproxy rule, so Docker Desktop could not publish backend <code>127.0.0.1:8080</code>. Validation used <code>BACKEND_PUBLISH_PORT=18080 ./scripts/dev-up.sh</code>.</p>
+
+  <h2>Files Changed</h2>
+  <ul>
+    <li><code>scripts/dev-up.sh</code></li>
+    <li><code>src/app/(public)/works/[slug]/page.tsx</code></li>
+    <li><code>src/app/(public)/works/[slug]/work-detail-metadata.ts</code></li>
+    <li><code>src/test/work-detail-metadata.test.ts</code></li>
+    <li><code>frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md</code></li>
+    <li><code>frontend/reports/frontend-batch-3-validation-baseline-recovery-2026-04-27/</code></li>
+    <li><code>frontend/reports/frontend-batch-3-workvideo-failure-reinforcement-2026-04-27/</code></li>
+    <li><code>todolist-2026-04-27.md</code></li>
+  </ul>
+
+  <h2>Validation</h2>
+  <ul>
+    <li><code>npm test -- --run src/test/work-detail-metadata.test.ts</code>: passed, 1 file / 2 tests.</li>
+    <li><code>npm test -- --run</code>: passed, 63 files / 344 tests.</li>
+    <li><code>npm test -- --run src/test/work-editor.test.tsx src/test/work-video-player.test.tsx</code>: passed, 2 files / 39 tests.</li>
+    <li>Focused WorkVideo Playwright command with external server: passed, 10 tests.</li>
+    <li>Full Playwright command with external server: passed, 409 tests / 6 skipped.</li>
+    <li><code>npm run lint</code>: passed, 0 errors / 6 existing warnings.</li>
+    <li><code>npm run typecheck</code>: passed.</li>
+    <li><code>npm run build</code>: passed.</li>
+    <li><code>git diff --check</code>: passed.</li>
+  </ul>
+
+  <h2>Recommendation</h2>
+  <p>Batch 4 can start using the documented alternate backend publish port, or after removing the stale Windows <code>8080</code> portproxy.</p>
+</body>
+</html>

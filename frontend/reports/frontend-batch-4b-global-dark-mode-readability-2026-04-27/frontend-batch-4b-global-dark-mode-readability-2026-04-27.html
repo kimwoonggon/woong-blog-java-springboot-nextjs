@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Batch 4B - Global Dark Mode Readability Pass</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.55; color: #1f2937; }
+    main { max-width: 960px; margin: 0 auto; }
+    h1, h2 { line-height: 1.2; }
+    code { background: #eef1f5; padding: 0.1rem 0.3rem; border-radius: 0.3rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #d9dee7; padding: 0.5rem; text-align: left; vertical-align: top; }
+    th { background: #f1f3f5; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Frontend Batch 4B - Global Dark Mode Readability Pass</h1>
+    <p><strong>Date:</strong> 2026-04-27</p>
+    <h2>Summary</h2>
+    <p>Softened the global dark-mode palette for public and admin UI while preserving Batch 4A code block styling and existing layout behavior.</p>
+    <h2>Changed</h2>
+    <ul>
+      <li>Updated shared dark theme tokens to soft charcoal surfaces, off-white text, muted borders, softer inputs, and lower-saturation accents.</li>
+      <li>Moved dialog and sheet content surfaces to <code>bg-popover</code>.</li>
+      <li>Replaced selected hard-coded harsh admin/login dark classes with shared theme tokens.</li>
+      <li>Added focused computed-style Playwright coverage.</li>
+    </ul>
+    <h2>Validations</h2>
+    <table>
+      <thead><tr><th>Command</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><code>tests/dark-mode.spec.ts --grep "DM-25"</code></td><td>Failed first as expected, then passed after implementation</td></tr>
+        <tr><td><code>tests/dark-mode.spec.ts</code></td><td>Passed: 26 tests</td></tr>
+        <tr><td><code>npm test -- --run</code></td><td>Passed: 65 files / 369 tests</td></tr>
+        <tr><td><code>npm run lint</code></td><td>Passed: 0 errors / 6 existing warnings</td></tr>
+        <tr><td><code>npm run typecheck</code></td><td>Passed</td></tr>
+        <tr><td><code>npm run build</code></td><td>Passed</td></tr>
+        <tr><td><code>git diff --check</code></td><td>Passed</td></tr>
+      </tbody>
+    </table>
+    <h2>Recommendation</h2>
+    <p>Safe to proceed to the AI failure and partial-failure batch.</p>
+  </main>
+</body>
+</html>

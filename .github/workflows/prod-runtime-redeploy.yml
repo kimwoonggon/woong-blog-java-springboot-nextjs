@@ -1,0 +1,307 @@
+name: Production Runtime Redeploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Public origin used for preflight and optional load
+        required: true
+        default: https://woonglab.com
+      repo_dir:
+        description: Absolute repository directory on the production host
+        required: true
+        default: /root/service/woong-blog-java-springboot-nextjs
+      work_read_path:
+        description: Real public Work detail API path used for preflight/load
+        required: true
+        default: /api/public/works/smoke-fluid-simulation
+      study_read_path:
+        description: Optional real public Study detail API path; blank auto-selects from pageSize=12
+        required: false
+        default: ""
+      run_real_load:
+        description: Run prod-real-load-steps.sh after preflight passes
+        type: boolean
+        required: true
+        default: false
+      rates:
+        description: Space-separated constant arrival rates for optional real load
+        required: true
+        default: "100 200 300 400"
+      duration_seconds:
+        description: Duration per rate for optional real load
+        required: true
+        default: "30"
+      max_vus:
+        description: k6 max VUs for optional real load
+        required: true
+        default: "500"
+      pre_allocated_vus:
+        description: k6 pre-allocated VUs for optional real load
+        required: true
+        default: "100"
+
+permissions:
+  contents: read
+
+jobs:
+  redeploy:
+    name: Pull runtime images, run preflight, optional real load
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PROD_SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+      PROD_SSH_USER: ${{ secrets.PROD_SSH_USER }}
+      PROD_SSH_PORT: ${{ secrets.PROD_SSH_PORT }}
+      PROD_SSH_PRIVATE_KEY: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+      PROD_SSH_KNOWN_HOSTS: ${{ secrets.PROD_SSH_KNOWN_HOSTS }}
+      PROD_GHCR_TOKEN: ${{ secrets.PROD_GHCR_TOKEN }}
+      REPO_DIR: ${{ inputs.repo_dir }}
+      BASE_URL: ${{ inputs.base_url }}
+      WORK_READ_PATH: ${{ inputs.work_read_path }}
+      STUDY_READ_PATH: ${{ inputs.study_read_path }}
+      RUN_REAL_LOAD: ${{ inputs.run_real_load }}
+      RATES: ${{ inputs.rates }}
+      DURATION_SECONDS: ${{ inputs.duration_seconds }}
+      MAX_VUS: ${{ inputs.max_vus }}
+      PRE_ALLOCATED_VUS: ${{ inputs.pre_allocated_vus }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare SSH
+        run: |
+          set -euo pipefail
+          required=(
+            PROD_SSH_HOST
+            PROD_SSH_USER
+            PROD_SSH_PRIVATE_KEY
+            PROD_SSH_KNOWN_HOSTS
+          )
+          for name in "${required[@]}"; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "Missing required secret: ${name}" >&2
+              exit 2
+            fi
+          done
+
+          reject_placeholder_secret() {
+            local name="$1"
+            local value="$2"
+            if [[ -z "${value}" ]]; then
+              return 0
+            fi
+
+            local lowered="${value,,}"
+            case "${value}" in
+              \<*\>|*production-ssh-*|*read-packages-token*|*CHANGE_ME*|*TODO*)
+                echo "${name} contains a placeholder token; replace it with the real production value." >&2
+                exit 3
+                ;;
+            esac
+            case "${lowered}" in
+              *placeholder*|*changeme*|*change-me*|*example.com*|todo)
+                echo "${name} contains a placeholder token; replace it with the real production value." >&2
+                exit 3
+                ;;
+            esac
+          }
+
+          reject_placeholder_secret PROD_SSH_HOST "${PROD_SSH_HOST}"
+          reject_placeholder_secret PROD_SSH_USER "${PROD_SSH_USER}"
+          reject_placeholder_secret PROD_SSH_PRIVATE_KEY "${PROD_SSH_PRIVATE_KEY}"
+          reject_placeholder_secret PROD_SSH_KNOWN_HOSTS "${PROD_SSH_KNOWN_HOSTS}"
+          reject_placeholder_secret PROD_SSH_PORT "${PROD_SSH_PORT}"
+
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${PROD_SSH_PRIVATE_KEY}" > ~/.ssh/prod_runtime_redeploy_key
+          chmod 600 ~/.ssh/prod_runtime_redeploy_key
+          printf '%s\n' "${PROD_SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          if [[ -n "${PROD_SSH_PORT:-}" && "${PROD_SSH_PORT}" != "22" ]]; then
+            ssh-keygen -F "[${PROD_SSH_HOST}]:${PROD_SSH_PORT}" -f ~/.ssh/known_hosts >/dev/null
+          else
+            ssh-keygen -F "${PROD_SSH_HOST}" -f ~/.ssh/known_hosts >/dev/null
+          fi
+
+      - name: Pull runtime images and run production checks
+        run: |
+          set -euo pipefail
+
+          quote() {
+            printf '%q' "$1"
+          }
+
+          ssh_port="${PROD_SSH_PORT:-22}"
+          remote_env=(
+            "REPO_DIR=$(quote "${REPO_DIR}")"
+            "BASE_URL=$(quote "${BASE_URL}")"
+            "WORK_READ_PATH=$(quote "${WORK_READ_PATH}")"
+            "STUDY_READ_PATH=$(quote "${STUDY_READ_PATH}")"
+            "RUN_REAL_LOAD=$(quote "${RUN_REAL_LOAD}")"
+            "RATES=$(quote "${RATES}")"
+            "DURATION_SECONDS=$(quote "${DURATION_SECONDS}")"
+            "MAX_VUS=$(quote "${MAX_VUS}")"
+            "PRE_ALLOCATED_VUS=$(quote "${PRE_ALLOCATED_VUS}")"
+            "GHCR_TOKEN=$(quote "${PROD_GHCR_TOKEN}")"
+          )
+
+          ssh \
+            -i ~/.ssh/prod_runtime_redeploy_key \
+            -p "${ssh_port}" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            "${PROD_SSH_USER}@${PROD_SSH_HOST}" \
+            "$(printf '%s ' "${remote_env[@]}") bash -s" <<'REMOTE_SCRIPT'
+          set -euo pipefail
+
+          cd "${REPO_DIR}"
+
+          git fetch origin main --prune
+          git checkout main
+          git pull --ff-only origin main
+          actual_sha="$(git rev-parse HEAD)"
+          echo "Using main SHA: ${actual_sha}"
+
+          docker_auth_config="$(mktemp -d)"
+          cleanup() {
+            rm -rf "${docker_auth_config}"
+          }
+          trap cleanup EXIT
+
+          backup=".env.prod.backup.$(date -u +%Y%m%dT%H%M%SZ)"
+          cp .env.prod "${backup}"
+          echo "Backed up .env.prod to ${backup}"
+
+          upsert_env() {
+            local key="$1"
+            local value="$2"
+            if grep -q "^${key}=" .env.prod; then
+              sed -i "s#^${key}=.*#${key}=${value}#" .env.prod
+            else
+              printf '\n%s=%s\n' "${key}" "${value}" >> .env.prod
+            fi
+          }
+
+          upsert_env FRONTEND_IMAGE ghcr.io/kimwoonggon/woong-blog-java-springboot-nextjs-runtime-frontend:main
+          upsert_env BACKEND_IMAGE ghcr.io/kimwoonggon/woong-blog-java-springboot-nextjs-runtime-backend:main
+          upsert_env LOAD_TESTING_BASE_URL "${BASE_URL}"
+          upsert_env APP_ENV_FILE .env.prod
+          upsert_env NGINX_DEFAULT_CONF ./nginx/prod.conf
+
+          if [[ -n "${GHCR_TOKEN:-}" ]]; then
+            printf '%s' "${GHCR_TOKEN}" | docker --config "${docker_auth_config}" login ghcr.io -u kimwoonggon --password-stdin >/dev/null
+            echo "Logged in to ghcr.io with PROD_GHCR_TOKEN using a temporary Docker config."
+          else
+            echo "Using a temporary anonymous Docker config for public GHCR runtime images."
+          fi
+
+          docker --config "${docker_auth_config}" manifest inspect ghcr.io/kimwoonggon/woong-blog-java-springboot-nextjs-runtime-backend:main >/dev/null
+          docker --config "${docker_auth_config}" manifest inspect ghcr.io/kimwoonggon/woong-blog-java-springboot-nextjs-runtime-frontend:main >/dev/null
+
+          docker --config "${docker_auth_config}" compose --env-file .env.prod -f docker-compose.prod.yml config \
+            | grep -E 'image: ghcr.io/kimwoonggon/woong-blog-java-springboot-nextjs-runtime-(frontend|backend):main'
+
+          docker --config "${docker_auth_config}" compose --env-file .env.prod -f docker-compose.prod.yml pull
+          docker compose --env-file .env.prod -f docker-compose.prod.yml up -d --remove-orphans
+          docker compose --env-file .env.prod -f docker-compose.prod.yml ps
+
+          repo_digest_for() {
+            local image="$1"
+            docker image inspect "${image}" --format '{{index .RepoDigests 0}}' | sed 's/^.*@//'
+          }
+
+          backend_digest="$(repo_digest_for ghcr.io/kimwoonggon/woong-blog-java-springboot-nextjs-runtime-backend:main)"
+          frontend_digest="$(repo_digest_for ghcr.io/kimwoonggon/woong-blog-java-springboot-nextjs-runtime-frontend:main)"
+          echo "Backend image digest: ${backend_digest}"
+          echo "Frontend image digest: ${frontend_digest}"
+
+          preflight_log="backend/reports/prod-runtime-preflight-$(date -u +%Y%m%dT%H%M%SZ).log"
+          mkdir -p "$(dirname "${preflight_log}")"
+          BASE_URL="${BASE_URL}" \
+          REQUIRE_PUBLIC_WORK_VIDEO_CONTRACT=1 \
+          WORK_READ_PATH="${WORK_READ_PATH}" \
+          ./scripts/prod-runtime-preflight.sh 2>&1 | tee "${preflight_log}"
+
+          reject_seed_path() {
+            local label="$1"
+            local value="$2"
+            case "${value}" in
+              *seeded*|*fixture*)
+                echo "${label} must be a real public target, not seed/fixture: ${value}" >&2
+                exit 3
+                ;;
+            esac
+          }
+
+          resolve_first_non_seed_public_path() {
+            local api_path="$1"
+            local public_prefix="$2"
+            curl -fsS "${BASE_URL%/}${api_path}" | node -e '
+          const fs = require("node:fs")
+          const prefix = process.argv[1]
+          const input = fs.readFileSync(0, "utf8")
+          const payload = JSON.parse(input)
+          const items = Array.isArray(payload.items) ? payload.items : []
+          const selected = items.find((item) => {
+            const slug = String(item.slug || "")
+            const title = String(item.title || "")
+            return slug && !/seed|fixture/i.test(slug) && !/seed|fixture/i.test(title)
+          })
+          if (!selected) {
+            console.error("no non-seed public target found")
+            process.exit(4)
+          }
+          console.log(`${prefix}${encodeURIComponent(selected.slug)}`)
+          ' "${public_prefix}"
+          }
+
+          if [[ "${RUN_REAL_LOAD}" == "true" ]]; then
+            if [[ -z "${STUDY_READ_PATH}" ]]; then
+              STUDY_READ_PATH="$(resolve_first_non_seed_public_path '/api/public/blogs?page=1&pageSize=12' '/api/public/blogs/')"
+            fi
+
+            reject_seed_path WORK_READ_PATH "${WORK_READ_PATH}"
+            reject_seed_path STUDY_READ_PATH "${STUDY_READ_PATH}"
+            output_dir="backend/reports/prod-real-load-steps-$(date -u +%Y%m%dT%H%M%SZ)/loadtest"
+
+            BASE_URL="${BASE_URL}" \
+            WORK_READ_PATH="${WORK_READ_PATH}" \
+            STUDY_READ_PATH="${STUDY_READ_PATH}" \
+            RATES="${RATES}" \
+            DURATION_SECONDS="${DURATION_SECONDS}" \
+            MAX_VUS="${MAX_VUS}" \
+            PRE_ALLOCATED_VUS="${PRE_ALLOCATED_VUS}" \
+            OUTPUT_DIR="${output_dir}" \
+            ./scripts/prod-real-load-steps.sh
+
+            summary_json="${output_dir%/}/prod-real-load-steps-summary.json"
+            summary_md="${output_dir%/}/prod-real-load-steps-summary.md"
+            if [[ ! -s "${summary_json}" || ! -s "${summary_md}" ]]; then
+              echo "missing expected real load summary artifacts under ${output_dir}" >&2
+              exit 5
+            fi
+
+            printf 'Real load artifact paths:\n'
+            printf '  summary markdown: %s\n' "${summary_md}"
+            printf '  summary json: %s\n' "${summary_json}"
+            printf 'Real load summary markdown:\n'
+            cat "${summary_md}"
+            evidence_dir="backend/reports/production-runtime-evidence-$(date -u +%Y%m%dT%H%M%SZ)"
+            PREFLIGHT_LOG="${preflight_log}" \
+            REAL_LOAD_DIR="${output_dir}" \
+            OUTPUT_DIR="${evidence_dir}" \
+            MAIN_SHA="${actual_sha}" \
+            BACKEND_IMAGE_DIGEST="${backend_digest}" \
+            FRONTEND_IMAGE_DIGEST="${frontend_digest}" \
+            ./scripts/prod-runtime-evidence-bundle.sh
+
+            EXPECTED_MAIN_SHA="${actual_sha}" \
+            EXPECTED_BACKEND_IMAGE_DIGEST="${backend_digest}" \
+            EXPECTED_FRONTEND_IMAGE_DIGEST="${frontend_digest}" \
+            ./scripts/prod-runtime-evidence-verify.sh "${evidence_dir}/production-runtime-evidence.tar.gz"
+          else
+            echo "RUN_REAL_LOAD=false; production preflight completed without running load steps."
+          fi
+          REMOTE_SCRIPT

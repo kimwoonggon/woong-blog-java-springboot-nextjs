@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Audit Report - release-main-promote-auto-merge-2026-05-04</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; color: #1f2937; line-height: 1.6; }
+    h1, h2 { color: #111827; }
+    code { background: #f3f4f6; padding: 0.1rem 0.3rem; border-radius: 4px; }
+    ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Audit Report - release-main-promote-auto-merge-2026-05-04</h1>
+
+  <h2>What changed</h2>
+  <ul>
+    <li>The promotion workflow now enables auto-merge on the <code>release/main-promote -&gt; main</code> PR.</li>
+    <li>The release documentation now states the chained flow: <code>dev</code> success, promotion PR refresh, PR checks, auto-merge to <code>main</code>.</li>
+  </ul>
+
+  <h2>Intentionally not changed</h2>
+  <ul>
+    <li>No direct <code>dev -&gt; main</code> branch pushes.</li>
+    <li>No CI or publish workflow rewrites outside the promotion PR path.</li>
+    <li>No live workflow execution in this pass.</li>
+  </ul>
+
+  <h2>Validations performed</h2>
+  <ul>
+    <li>Static inspection of the promotion workflow path.</li>
+    <li>Backup creation under <code>.codex-backups/release-main-promote-auto-merge-2026-05-04/</code>.</li>
+    <li>TODO and audit artifact generation.</li>
+  </ul>
+
+  <h2>Risks and follow-up</h2>
+  <ul>
+    <li>GitHub repository auto-merge support must be enabled for the workflow mutation to succeed.</li>
+    <li>Branch protection rules may still require reviews or other gates before merge.</li>
+  </ul>
+
+  <h2>Recommendation</h2>
+  <p>Watch the next successful <code>dev</code> run and confirm that the promotion PR receives auto-merge and proceeds into <code>main</code> after checks pass.</p>
+</body>
+</html>

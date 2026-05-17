@@ -1,0 +1,84 @@
+{
+  "title": "Frontend Batch 12 - Sanitization and Public Indexing Helper Reinforcement",
+  "date": "2026-04-28",
+  "scope": "Frontend only",
+  "summary": "Reinforced HTML sanitizer URL and attribute safety plus public sitemap date and slug fallbacks.",
+  "changed": {
+    "testsReinforced": [
+      "src/test/html-sanitizer.test.ts",
+      "src/test/sitemap.test.ts"
+    ],
+    "productionFilesChanged": [
+      "src/lib/content/html-sanitizer.ts",
+      "src/app/sitemap.ts"
+    ],
+    "reportsUpdated": [
+      "frontend/reports/frontend-test-coverage-audit-2026-04-26/frontend-test-coverage-audit-2026-04-26.md"
+    ]
+  },
+  "intentionallyNotChanged": [
+    "Backend behavior",
+    "API contracts",
+    "AI behavior",
+    "WorkVideo upload behavior",
+    "Media validation",
+    "Dark mode",
+    "Public API error-boundary UI",
+    "Pagination/search UI",
+    "Playwright coverage"
+  ],
+  "behaviorBugsFound": [
+    "Protocol-relative href and src values were accepted by the DOM sanitizer.",
+    "Server-side sanitizer fallback could leak unquoted event handlers.",
+    "Server-side sanitizer fallback could leak unquoted javascript href/src values.",
+    "Server-side sanitizer fallback could preserve protocol-relative media URLs.",
+    "Sitemap generation could emit Invalid Date for malformed publishedAt values.",
+    "Sitemap generation could emit /undefined, /null, or blank detail URLs for malformed slugs."
+  ],
+  "validation": [
+    {
+      "command": "npx skills find nextjs security testing",
+      "result": "passed",
+      "notes": "External skills found; no new skill installed."
+    },
+    {
+      "command": "npm test -- --run src/test/html-sanitizer.test.ts src/test/sitemap.test.ts",
+      "result": "failed before fixes, passed after fixes",
+      "notes": "Final focused run: 2 files, 4 tests."
+    },
+    {
+      "command": "npm test -- --run src/test/pact/public-api-consumer.pact.test.ts",
+      "result": "passed",
+      "notes": "Focused rerun after one transient full-suite Pact work-list failure; 1 file, 6 tests."
+    },
+    {
+      "command": "npm test -- --run",
+      "result": "passed",
+      "notes": "Final run: 71 files, 486 tests."
+    },
+    {
+      "command": "npm run lint",
+      "result": "passed",
+      "notes": "0 errors, 6 existing warnings."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "remainingGaps": [
+    "Public generateMetadata failure/null-detail branches still need focused server module coverage.",
+    "Robots metadata is simple but not directly unit-tested.",
+    "The sanitizer server fallback remains a constrained regex fallback rather than a full parser.",
+    "Public list/card date formatting remains component-local."
+  ],
+  "recommendation": "Proceed to Frontend Batch 13 - Public Metadata and Server Route Fallback Reinforcement."
+}

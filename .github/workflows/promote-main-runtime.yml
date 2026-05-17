@@ -1,0 +1,164 @@
+name: Promote Main Runtime
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: Source branch to promote
+        required: true
+        default: dev
+      target_branch:
+        description: Target branch
+        required: true
+        default: main
+      promotion_branch:
+        description: Release branch to push
+        required: true
+        default: release/main-promote
+  workflow_run:
+    workflows:
+      - CI Dev
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  promote:
+    name: Prepare runtime-only main promotion branch
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'dev')
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_BRANCH: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || inputs.source_branch }}
+      SOURCE_REF: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || inputs.source_branch }}
+      TARGET_BRANCH: ${{ github.event_name == 'workflow_run' && 'main' || inputs.target_branch }}
+      PROMOTION_BRANCH: ${{ github.event_name == 'workflow_run' && 'release/main-promote' || inputs.promotion_branch }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+          token: ${{ secrets.PROMOTION_TOKEN }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Build runtime-only promotion branch
+        env:
+          SOURCE_BRANCH: ${{ env.SOURCE_BRANCH }}
+          SOURCE_REF: ${{ env.SOURCE_REF }}
+          TARGET_BRANCH: ${{ env.TARGET_BRANCH }}
+          PROMOTION_BRANCH: ${{ env.PROMOTION_BRANCH }}
+          AUTO_COMMIT: "true"
+          AUTO_PUSH: "true"
+          COMMIT_MESSAGE: Promote runtime-only tree from ${{ env.SOURCE_BRANCH }} (${{ env.SOURCE_REF }}) to ${{ env.TARGET_BRANCH }}
+        run: bash ./scripts/promote-main-runtime.sh
+
+      - name: Ensure promotion pull request exists and enable auto-merge
+        uses: actions/github-script@v7
+        env:
+          SOURCE_BRANCH: ${{ env.SOURCE_BRANCH }}
+          SOURCE_REF: ${{ env.SOURCE_REF }}
+          TARGET_BRANCH: ${{ env.TARGET_BRANCH }}
+          PROMOTION_BRANCH: ${{ env.PROMOTION_BRANCH }}
+        with:
+          github-token: ${{ secrets.PROMOTION_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const sourceBranch = process.env.SOURCE_BRANCH;
+            const sourceRef = process.env.SOURCE_REF;
+            const targetBranch = process.env.TARGET_BRANCH;
+            const promotionBranch = process.env.PROMOTION_BRANCH;
+            const head = `${owner}:${promotionBranch}`;
+            let pr;
+
+            const existing = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: 'open',
+              head,
+              base: targetBranch,
+              per_page: 100,
+            });
+
+            if (existing.length > 0) {
+              pr = existing[0];
+              core.info(`Promotion PR already exists: #${pr.number}`);
+            }
+
+            if (!pr) {
+              try {
+                const compare = await github.rest.repos.compareCommitsWithBasehead({
+                  owner,
+                  repo,
+                  basehead: `${targetBranch}...${promotionBranch}`,
+                });
+
+                if (compare.data.ahead_by === 0) {
+                  core.info('Promotion branch has no diff against the target branch. Skipping PR creation.');
+                  return;
+                }
+              } catch (error) {
+                core.warning(`Unable to compare ${targetBranch}...${promotionBranch}: ${error.message}`);
+                return;
+              }
+
+              const body = [
+                'Automated runtime-only promotion after a successful `CI Dev` run on `dev`.',
+                '',
+                `- Source branch: \`${sourceBranch}\``,
+                `- Source ref: \`${sourceRef}\``,
+                `- Target branch: \`${targetBranch}\``,
+                `- Promotion branch: \`${promotionBranch}\``,
+                '',
+                '`main` is not pushed directly from `dev`.',
+                'This PR is configured for auto-merge so it can move to `main` after the `main`-targeted runtime checks pass.',
+              ].join('\n');
+
+              const created = await github.rest.pulls.create({
+                owner,
+                repo,
+                title: `Promote runtime-only tree: ${sourceBranch} -> ${targetBranch}`,
+                head: promotionBranch,
+                base: targetBranch,
+                body,
+              });
+
+              pr = created.data;
+              core.info(`Created promotion PR #${pr.number}`);
+            }
+
+            try {
+              await github.graphql(
+                `
+                  mutation EnableAutoMerge($pullRequestId: ID!) {
+                    enablePullRequestAutoMerge(
+                      input: {
+                        pullRequestId: $pullRequestId
+                        mergeMethod: MERGE
+                      }
+                    ) {
+                      pullRequest {
+                        number
+                      }
+                    }
+                  }
+                `,
+                {
+                  pullRequestId: pr.node_id,
+                }
+              );
+              core.info(`Enabled auto-merge for promotion PR #${pr.number}`);
+            } catch (error) {
+              core.warning(`Unable to enable auto-merge for promotion PR #${pr.number}: ${error.message}`);
+            }
