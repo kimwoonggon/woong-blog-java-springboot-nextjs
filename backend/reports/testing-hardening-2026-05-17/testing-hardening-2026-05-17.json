@@ -93,6 +93,13 @@
       "errors": 0,
       "scriptOutput": "Backend unit tests executed: 19"
     },
+    "fullUnitSuiteCountCheck": {
+      "tests": 156,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "scriptOutput": "Backend unit tests executed: 156"
+    },
     "frontendLoadTestDashboard": {
       "tests": 29,
       "failures": 0,
@@ -103,6 +110,7 @@
     "bash -n backend test, inventory, coverage, and promotion scripts",
     "bash ./scripts/list-backend-tests.sh",
     "Docker Java 21 targeted run-unit-tests.sh count check for load-test diagnostics unit tests",
+    "Docker Java 21 full run-unit-tests.sh suite count check",
     "git diff --check",
     "Docker Java 21 focused diagnostics/load-test suite",
     "Docker Java 21 full backend coverage gate against fresh PostgreSQL",

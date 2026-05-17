@@ -46,7 +46,8 @@ class RealLoadTestServiceTest {
 
     @Test
     void k6RunnerCompletesFromSummaryAndExposesParsedMetrics() throws Exception {
-        service = service(new SummaryWritingExecutor(0));
+        BlockingExecution execution = new BlockingExecution();
+        service = service(new BlockingSummaryWritingExecutor(execution));
 
         Map<String, Object> started = service.start(new RealLoadTestService.StartRequest(
                 "public-api-spike",
@@ -62,6 +63,7 @@ class RealLoadTestServiceTest {
         assertThat(started)
                 .containsEntry("status", "running")
                 .containsEntry("metricsPending", true);
+        execution.release();
         Map<String, Object> completed = awaitStatus((String) started.get("runId"), "completed");
         assertThat(completed)
                 .containsEntry("requests", 24L)

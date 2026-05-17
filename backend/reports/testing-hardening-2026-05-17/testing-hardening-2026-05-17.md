@@ -60,6 +60,7 @@ Prepare the Spring Boot backend with strong JUnit 5, Mockito, AssertJ, MockMvc, 
 - `bash -n scripts/list-backend-tests.sh scripts/run-backend-coverage.sh scripts/run-unit-tests.sh scripts/run-component-tests.sh scripts/run-architecture-tests.sh scripts/run-web-tests.sh scripts/run-integration-tests.sh scripts/promote-main-runtime.sh` passed.
 - `bash ./scripts/list-backend-tests.sh` passed and reported 42 backend test classes, 198 declared backend test methods, and 0 untagged classes.
 - Docker Java 21 targeted unit-suite run through `scripts/run-unit-tests.sh -Dtest=K6RealLoadTestExecutorTest,RealLoadTestServiceTest,RuntimeDiagnosticsServiceTest` passed and printed `Backend unit tests executed: 19`.
+- Docker Java 21 full backend unit-suite run through `scripts/run-unit-tests.sh` passed with 156 tests, 0 failures, 0 errors, 0 skipped, and printed `Backend unit tests executed: 156`.
 - `git diff --check` passed.
 - Docker Java 21 focused diagnostics/load-test suite passed: `-Dtest=DiagnosticsControllerTest,RuntimeDiagnosticsServiceTest,RealLoadTestServiceTest,K6RealLoadTestExecutorTest,AppPropertiesTest test`.
 - Docker Java 21 full backend coverage gate passed against fresh PostgreSQL database `portfolio_cov_loadtest_cleanup_20260517`.
@@ -74,6 +75,7 @@ Prepare the Spring Boot backend with strong JUnit 5, Mockito, AssertJ, MockMvc, 
 - Remote `CI Dev` run `25989376008` passed after the Pact fixture allowlist fix.
 - Manual promotion PR #1 exposed a main-runtime allowlist gap for Pact fixtures; `scripts/main-runtime-allowlist.txt` was updated so regenerated promotion branches include `tests/contracts/pacts`.
 - Remote `CI Dev` run `25990351362` exposed a load-test status publication race in the coverage job; the terminal status/error write ordering was fixed locally and targeted/full backend validations passed afterward.
+- Remote `CI Dev` run `25990663921` confirmed the new `Backend test inventory` job passed and exposed a racey unit-test expectation for immediate k6 completion; `RealLoadTestServiceTest.k6RunnerCompletesFromSummaryAndExposesParsedMetrics` now uses a blocking fake execution before asserting the initial `running` state.
 
 ## Risks And Follow-Up
 
