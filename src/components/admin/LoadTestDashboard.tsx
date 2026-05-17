@@ -355,9 +355,9 @@ export function LoadTestDashboard({ targets, targetLoadWarning }: LoadTestDashbo
     { label: 'GC heap', trend: diagnosticsSummary.gcHeapBytes, metric: 'bytes' },
     { label: 'Gen2 GC', trend: diagnosticsSummary.gen2Collections, metric: 'number' },
     { label: 'Time in GC', trend: diagnosticsSummary.timeInGcPercent, metric: 'percent' },
-    { label: 'ThreadPool workers', trend: diagnosticsSummary.threadPoolWorkerThreads, metric: 'number' },
-    { label: 'ThreadPool queue', trend: diagnosticsSummary.threadPoolQueueLength, metric: 'number' },
-    { label: 'ThreadPool completed', trend: diagnosticsSummary.threadPoolCompletedWorkItemCount, metric: 'number' },
+    { label: 'Runtime workers', trend: diagnosticsSummary.threadPoolWorkerThreads, metric: 'number' },
+    { label: 'Runtime queue', trend: diagnosticsSummary.threadPoolQueueLength, metric: 'number' },
+    { label: 'Runtime completed', trend: diagnosticsSummary.threadPoolCompletedWorkItemCount, metric: 'number' },
     { label: 'DB latency', trend: diagnosticsSummary.databaseLatencyMs, metric: 'ms' },
     { label: 'DB timeouts', trend: diagnosticsSummary.databaseTimeoutCount, metric: 'number' },
   ], [diagnosticsSummary])
@@ -367,9 +367,9 @@ export function LoadTestDashboard({ targets, targetLoadWarning }: LoadTestDashbo
     { label: 'DB connection open P95', trend: diagnosticsSummary.dbConnectionOpenP95Ms, metric: 'ms', available: diagnosticsSummary.dbConnectionOpenP95Available },
     { label: 'Slow queries', trend: diagnosticsSummary.dbSlowQueryCount, metric: 'number' },
     { label: 'DB errors', trend: diagnosticsSummary.dbErrorCount, metric: 'number' },
-    { label: 'DbContext pool', trend: diagnosticsSummary.dbContextPoolSize, metric: 'number', available: diagnosticsSummary.dbContextPoolAvailable },
-    { label: 'Npgsql min pool', trend: diagnosticsSummary.dbNpgsqlMinimumPoolSize, metric: 'number', available: diagnosticsSummary.dbNpgsqlPoolConfigured },
-    { label: 'Npgsql max pool', trend: diagnosticsSummary.dbNpgsqlMaximumPoolSize, metric: 'number', available: diagnosticsSummary.dbNpgsqlPoolConfigured },
+    { label: 'DB context pool', trend: diagnosticsSummary.dbContextPoolSize, metric: 'number', available: diagnosticsSummary.dbContextPoolAvailable },
+    { label: 'JDBC min pool', trend: diagnosticsSummary.dbNpgsqlMinimumPoolSize, metric: 'number', available: diagnosticsSummary.dbNpgsqlPoolConfigured },
+    { label: 'JDBC max pool', trend: diagnosticsSummary.dbNpgsqlMaximumPoolSize, metric: 'number', available: diagnosticsSummary.dbNpgsqlPoolConfigured },
     { label: 'Open connections', trend: diagnosticsSummary.dbOpenConnections, metric: 'number' },
     { label: 'Active connections', trend: diagnosticsSummary.dbActiveConnections, metric: 'number' },
     { label: 'Idle connections', trend: diagnosticsSummary.dbIdleConnections, metric: 'number' },
@@ -387,8 +387,8 @@ export function LoadTestDashboard({ targets, targetLoadWarning }: LoadTestDashbo
   const latestDatabaseStatus = latestDiagnosticsSample?.database.status ?? 'unavailable'
   const latestDatabasePool = latestDiagnosticsSample?.database.pool
   const databasePoolSummary = latestDatabasePool
-    ? `DB connection counts are estimated from pg_stat_activity. DbContext pool ${numberFormatter.format(latestDatabasePool.dbContextPoolSize)} · Npgsql max ${latestDatabasePool.npgsqlMaximumPoolSize === null ? 'unavailable' : numberFormatter.format(latestDatabasePool.npgsqlMaximumPoolSize)} · source ${latestDatabasePool.npgsqlPoolLimitSource}.`
-    : 'DB connection counts are estimated from pg_stat_activity. Npgsql pool settings are read from the running backend configuration.'
+    ? `DB connection counts are estimated from pg_stat_activity. DB context pool ${numberFormatter.format(latestDatabasePool.dbContextPoolSize)} · JDBC max ${latestDatabasePool.npgsqlMaximumPoolSize === null ? 'unavailable' : numberFormatter.format(latestDatabasePool.npgsqlMaximumPoolSize)} · source ${latestDatabasePool.npgsqlPoolLimitSource}.`
+    : 'DB connection counts are estimated from pg_stat_activity. JDBC pool settings are read from the running backend configuration.'
   const realBackendStatusText = realBackendSnapshot?.status ?? formatRealBackendPhase(realBackendPhase)
   const realBackendLatencyBreakdown = realBackendSnapshot?.latencyBreakdown
   const realBackendDbCommandP95Ms = realBackendLatencyBreakdown?.dbCommandP95Ms
@@ -1014,7 +1014,7 @@ export function LoadTestDashboard({ targets, targetLoadWarning }: LoadTestDashbo
             </div>
             {safeConfig.concurrency >= 500 ? (
               <div className="mt-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100">
-                High concurrency is browser-generated HTTP load. Actual backend concurrency can be lower due to browser, nginx, ASP.NET Core, ThreadPool, and DB pool limits.
+                High concurrency is browser-generated HTTP load. Actual backend concurrency can be lower due to browser, nginx, application runtime workers, and DB pool limits.
               </div>
             ) : null}
 
@@ -1423,7 +1423,7 @@ export function LoadTestDashboard({ targets, targetLoadWarning }: LoadTestDashbo
                   : 'unavailable'}
               </p>
               <p>
-                ASP.NET app elapsed p95:{' '}
+                Application elapsed p95:{' '}
                 {realBackendMetricsPending
                   ? 'summary pending'
                   : realBackendLatencyBreakdown?.appElapsedP95Ms !== null && realBackendLatencyBreakdown?.appElapsedP95Ms !== undefined
@@ -1511,7 +1511,7 @@ export function LoadTestDashboard({ targets, targetLoadWarning }: LoadTestDashbo
             ))}
           </div>
           <p className="text-xs text-muted-foreground">
-            {numberFormatter.format(diagnosticsSummary.sampleCount)} diagnostics samples collected from the ASP.NET Core backend.
+            {numberFormatter.format(diagnosticsSummary.sampleCount)} diagnostics samples collected from the backend runtime.
           </p>
         </CardContent>
       </Card>

@@ -42,6 +42,7 @@ scripts/run-backend-tests.sh
 scripts/run-backend-coverage.sh
 scripts/run-component-tests.sh
 scripts/run-integration-tests.sh
+scripts/list-backend-tests.sh
 scripts/run-unit-tests.sh
 scripts/run-web-tests.sh
 scripts/azure-backup-lib.mjs
@@ -57,6 +58,7 @@ scripts/summarize-e2e-latency.mjs
 tsconfig.json
 next.config.ts
 tests/ci-compose-public.spec.ts
+tests/contracts/pacts
 tests/helpers/global-setup.ts
 tests/helpers/auth.ts
 tests/helpers/latency.ts

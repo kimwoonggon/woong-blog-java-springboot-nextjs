@@ -835,7 +835,9 @@ public class ContentService implements BlogQueryStore, BlogCommandStore, WorkQue
             if (!rs.next()) {
                 throw new NotFoundException("Content not found.");
             }
-            return Map.of("publishedAt", JdbcData.nullableInstant(rs, "PublishedAt"));
+            Map<String, Object> published = new LinkedHashMap<>();
+            published.put("publishedAt", JdbcData.nullableInstant(rs, "PublishedAt"));
+            return published;
         }, slug);
         Instant publishedAt = (Instant) current.get("publishedAt");
         Map<String, Object> result = new LinkedHashMap<>();

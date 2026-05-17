@@ -157,6 +157,8 @@ public class AppProperties {
 
     public static class LoadTesting {
         private String baseUrl = "http://localhost";
+        private Path reportRoot = Path.of("reports/loadtest");
+        private String k6Bin = "k6";
 
         public String getBaseUrl() {
             return baseUrl;
@@ -164,6 +166,22 @@ public class AppProperties {
 
         public void setBaseUrl(String baseUrl) {
             this.baseUrl = baseUrl;
+        }
+
+        public Path getReportRoot() {
+            return reportRoot;
+        }
+
+        public void setReportRoot(Path reportRoot) {
+            this.reportRoot = reportRoot;
+        }
+
+        public String getK6Bin() {
+            return k6Bin;
+        }
+
+        public void setK6Bin(String k6Bin) {
+            this.k6Bin = k6Bin;
         }
     }
 }
