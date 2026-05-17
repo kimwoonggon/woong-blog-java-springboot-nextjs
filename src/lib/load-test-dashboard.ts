@@ -95,6 +95,21 @@ export type LoadTestHealth = {
 
 export type RuntimeDiagnosticsPayload = {
   timestamp: string
+  runtime?: {
+    platform?: string
+    uptimeMs?: number
+    heapUsedBytes?: number
+    heapCommittedBytes?: number
+    nonHeapUsedBytes?: number
+    liveThreads?: number
+    daemonThreads?: number
+    peakThreads?: number
+    garbageCollectors?: Array<{
+      name: string
+      collectionCount: number
+      collectionTimeMs: number
+    }>
+  }
   process: {
     memoryBytes: number
     processorCount: number
@@ -1007,8 +1022,8 @@ export function extractRealBackendLatencyBreakdown(...payloads: unknown[]): Real
       maxMs: null,
       appElapsedP95Ms: null,
       appElapsedReason: normalizedStatus !== 'unknown'
-        ? `ASP.NET app elapsed p95 is unavailable for status ${normalizedStatus}.`
-        : 'ASP.NET app elapsed p95 is unavailable.',
+        ? `Application elapsed p95 is unavailable for status ${normalizedStatus}.`
+        : 'Application elapsed p95 is unavailable.',
       appElapsedSource: null,
       nginxRequestTimeP95Ms: null,
       nginxRequestP95Source: null,
@@ -1030,8 +1045,8 @@ export function extractRealBackendLatencyBreakdown(...payloads: unknown[]): Real
   const nginxRequestTime = resolveNginxRequestTimeFromPayloads(payloads)
   const nginxUpstream = resolveNginxUpstreamFromPayloads(payloads)
   const appElapsedFallbackReason = normalizedStatus !== 'unknown'
-    ? `ASP.NET app elapsed p95 is unavailable for status ${normalizedStatus}.`
-    : 'ASP.NET app elapsed p95 is unavailable.'
+    ? `Application elapsed p95 is unavailable for status ${normalizedStatus}.`
+    : 'Application elapsed p95 is unavailable.'
 
   if (!hasValues) {
     return {
@@ -1109,7 +1124,7 @@ export function summarizeRealBackendRunSnapshot(runId: string, statusPayload: un
     p99Ms: null,
     maxMs: null,
     appElapsedP95Ms: null,
-    appElapsedReason: 'k6 summary pending; ASP.NET app elapsed p95 is not available yet.',
+    appElapsedReason: 'k6 summary pending; application elapsed p95 is not available yet.',
     appElapsedSource: null,
     nginxRequestTimeP95Ms: null,
     nginxRequestP95Source: null,

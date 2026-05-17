@@ -28,6 +28,8 @@ class AppPropertiesTest {
         assertThat(properties.getAi().getBatchConcurrency()).isEqualTo(2);
         assertThat(properties.getAi().getBatchCompletedRetentionDays()).isEqualTo(7);
         assertThat(properties.getLoadTesting().getBaseUrl()).isEqualTo("http://localhost");
+        assertThat(properties.getLoadTesting().getReportRoot()).isEqualTo(Path.of("reports/loadtest"));
+        assertThat(properties.getLoadTesting().getK6Bin()).isEqualTo("k6");
     }
 
     @Test
@@ -48,6 +50,8 @@ class AppPropertiesTest {
         properties.getAi().setBatchConcurrency(6);
         properties.getAi().setBatchCompletedRetentionDays(14);
         properties.getLoadTesting().setBaseUrl("https://example.test");
+        properties.getLoadTesting().setReportRoot(Path.of("/tmp/loadtest"));
+        properties.getLoadTesting().setK6Bin("/usr/local/bin/k6");
 
         assertThat(properties.getAuth().isEnabled()).isTrue();
         assertThat(properties.getAuth().getCookieName()).isEqualTo("custom_auth");
@@ -64,5 +68,7 @@ class AppPropertiesTest {
         assertThat(properties.getAi().getBatchConcurrency()).isEqualTo(6);
         assertThat(properties.getAi().getBatchCompletedRetentionDays()).isEqualTo(14);
         assertThat(properties.getLoadTesting().getBaseUrl()).isEqualTo("https://example.test");
+        assertThat(properties.getLoadTesting().getReportRoot()).isEqualTo(Path.of("/tmp/loadtest"));
+        assertThat(properties.getLoadTesting().getK6Bin()).isEqualTo("/usr/local/bin/k6");
     }
 }

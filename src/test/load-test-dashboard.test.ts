@@ -288,6 +288,19 @@ describe('load test dashboard planning', () => {
   it('validates runtime diagnostics payloads and summarizes current peak delta values', () => {
     const first = {
       timestamp: '2026-05-04T00:00:00Z',
+      runtime: {
+        platform: 'jvm',
+        uptimeMs: 1234,
+        heapUsedBytes: 1000,
+        heapCommittedBytes: 2048,
+        nonHeapUsedBytes: 512,
+        liveThreads: 8,
+        daemonThreads: 6,
+        peakThreads: 12,
+        garbageCollectors: [
+          { name: 'G1 Young Generation', collectionCount: 1, collectionTimeMs: 5 },
+        ],
+      },
       process: { memoryBytes: 1000, processorCount: 8, memoryLimitBytes: 8 * 1024, cpuQuotaCores: 2 },
       gc: { heapSizeBytes: 500, gen0Collections: 1, gen1Collections: 0, gen2Collections: 0, timeInGcPercent: 1 },
       threadPool: { workerThreads: 2, pendingWorkItemCount: 0, completedWorkItemCount: 20, availableWorkerThreads: 98, maxWorkerThreads: 100 },
@@ -768,14 +781,14 @@ describe('load test dashboard planning', () => {
       p95Ms: null,
       p99Ms: null,
       maxMs: null,
-      appElapsedReason: 'ASP.NET app elapsed p95 is unavailable for status running.',
+      appElapsedReason: 'Application elapsed p95 is unavailable for status running.',
       nginxRequestTimeP95Ms: null,
       nginxUpstreamP95Ms: null,
       appElapsedP95Ms: null,
     })
   })
 
-  it('extracts ASP.NET app elapsed metrics with status and latencyBreakdown priority', () => {
+  it('extracts application elapsed metrics with status and latencyBreakdown priority', () => {
     const snapshot = extractRealBackendLatencyBreakdown(
       {
         status: {
@@ -939,7 +952,7 @@ describe('load test dashboard planning', () => {
     expect(extractRealBackendLatencyBreakdown({ status: 'failed' })).toMatchObject({
       available: false,
       reason: 'Latency breakdown is unavailable for this run. Current status: failed.',
-      appElapsedReason: 'ASP.NET app elapsed p95 is unavailable for status failed.',
+      appElapsedReason: 'Application elapsed p95 is unavailable for status failed.',
     })
   })
 })

@@ -85,3 +85,4 @@ certbot/
 db_status/current.json
 db_status/notion-*.json
 logs/
+reports/loadtest/

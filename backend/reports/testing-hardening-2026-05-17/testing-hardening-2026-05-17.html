@@ -15,31 +15,37 @@
 <body>
   <h1>Java Spring Boot Testing Hardening Audit - 2026-05-17</h1>
   <h2>Summary</h2>
-  <p>The backend now has expanded JUnit 5, Mockito, AssertJ, MockMvc, architecture, component, contract, integration, and unit test coverage. JaCoCo instruction and line coverage are enforced at 99% through Maven and CI. The main runtime promotion allowlist includes the Pact fixtures required by promoted coverage and contract jobs.</p>
+  <p>The backend now has expanded JUnit 5, Mockito, AssertJ, MockMvc, architecture, component, contract, integration, and unit test coverage. JaCoCo instruction and line coverage are enforced at 99% through Maven and CI. The main runtime promotion allowlist includes the Pact fixtures required by promoted coverage and contract jobs. Spring Boot real backend load-test parity was added with k6 execution, deterministic fake runs, run status/metrics/stop endpoints, JVM diagnostics, and Java-neutral load-test dashboard wording.</p>
   <h2>Validation</h2>
   <ul>
-    <li>Full backend coverage run passed: 194 tests, 0 failures, 0 errors, 0 skipped.</li>
-    <li>JaCoCo instruction coverage: 99.05%.</li>
-    <li>JaCoCo line coverage: 99.17%.</li>
-    <li>JaCoCo branch coverage measured at 85.28% but not gated.</li>
+    <li>Full backend coverage run passed: 215 tests, 0 failures, 0 errors, 0 skipped.</li>
+    <li>JaCoCo instruction coverage: 99.07%.</li>
+    <li>JaCoCo line coverage: 99.20%.</li>
+    <li>JaCoCo branch coverage measured at 85.45% but not gated.</li>
+    <li>Focused diagnostics/load-test Docker Java 21 tests passed.</li>
+    <li><code>npm test -- src/test/load-test-dashboard.test.ts --run</code> passed: 29 tests.</li>
+    <li><code>npm run typecheck</code> passed.</li>
     <li><code>git diff --check</code> passed.</li>
     <li><code>bash -n</code> passed for backend test and coverage scripts.</li>
     <li><code>CI Dev</code> run <code>25989003521</code> passed, including backend coverage.</li>
     <li><code>Publish GHCR Dev</code> run <code>25989128710</code> passed for staging image publication.</li>
+    <li><code>CI Dev</code> run <code>25989376008</code> passed after the Pact fixture allowlist fix.</li>
   </ul>
   <h2>Requirement Mapping</h2>
   <table>
     <thead><tr><th>Requirement</th><th>Evidence</th></tr></thead>
     <tbody>
       <tr><td>Test frameworks and categories</td><td><code>backend/pom.xml</code>, <code>backend/src/test/java/com/woongblog/**</code>, and suite scripts.</td></tr>
-      <tr><td>JaCoCo 99%+</td><td><code>coverage/backend/full/report/jacoco.csv</code>: instruction 99.05%, line 99.17%.</td></tr>
+      <tr><td>JaCoCo 99%+</td><td><code>coverage/backend/full/report/jacoco.csv</code>: instruction 99.07%, line 99.20%.</td></tr>
       <tr><td>CI enforcement</td><td><code>.github/workflows/ci-dev.yml</code>, <code>.github/workflows/ci-main-runtime.yml</code>, and <code>scripts/run-backend-coverage.sh</code>.</td></tr>
       <tr><td>Main runtime Pact fixtures</td><td><code>scripts/main-runtime-allowlist.txt</code> includes <code>tests/contracts/pacts</code>.</td></tr>
-      <tr><td>Full test run</td><td><code>backend/reports/testing-hardening-2026-05-17/full-backend-coverage-final-2026-05-17.log</code>.</td></tr>
+      <tr><td>Backend load-test parity</td><td><code>DiagnosticsController</code>, <code>RealLoadTestService</code>, <code>K6RealLoadTestExecutor</code>, and <code>RuntimeDiagnosticsService</code>.</td></tr>
+      <tr><td>Java/JVM diagnostics</td><td><code>runtime.platform = "jvm"</code>, heap/non-heap/thread/GC collector fields, and JDBC dashboard wording.</td></tr>
+      <tr><td>Full test run</td><td><code>coverage/backend/full/report/index.html</code> and <code>coverage/backend/full/report/jacoco.csv</code>.</td></tr>
       <tr><td>Release path</td><td>Use repository flow: push <code>dev</code>, verify staging image publish, promote through PR to <code>main</code>.</td></tr>
     </tbody>
   </table>
   <h2>Recommendation</h2>
-  <p>Regenerate the <code>release/main-promote</code> branch after the Pact allowlist fix, verify <code>CI Main Runtime</code>, merge to <code>main</code>, and observe main push/publish gates.</p>
+  <p>Commit and push the load-test parity slice to <code>dev</code>, verify <code>CI Dev</code> and <code>Publish GHCR Dev</code>, regenerate <code>release/main-promote</code>, verify <code>CI Main Runtime</code>, merge to <code>main</code>, and observe main push/publish gates.</p>
 </body>
 </html>

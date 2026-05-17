@@ -2,7 +2,7 @@
 
 ## Objective
 
-Prepare the Spring Boot backend with strong JUnit 5, Mockito, AssertJ, MockMvc, architecture, component, contract, integration, and unit test coverage; enforce JaCoCo coverage at 99% or higher; run the full backend test suite at least once; and wire the release flow through `dev`, staging image validation, and `main` runtime CI.
+Prepare the Spring Boot backend with strong JUnit 5, Mockito, AssertJ, MockMvc, architecture, component, contract, integration, and unit test coverage; enforce JaCoCo coverage at 99% or higher; add backend load-test parity with the prior C# implementation; adjust Java/JVM diagnostics and frontend wording where .NET-specific assumptions no longer fit; run the full backend test suite at least once; and wire the release flow through `dev`, staging image validation, and `main` runtime CI.
 
 ## Changed
 
@@ -12,6 +12,11 @@ Prepare the Spring Boot backend with strong JUnit 5, Mockito, AssertJ, MockMvc, 
 - Hardened backend suite scripts so tagged suites fail if they execute zero tests.
 - Added a required backend coverage job to both `CI Dev` and `CI Main Runtime`.
 - Added Pact fixtures to the main runtime promotion allowlist so promoted runtime PRs can run full backend coverage and the dedicated Pact contract job.
+- Added Spring Boot real backend load-test endpoints for start/status/metrics/stop, with k6 execution, fake deterministic runs, active-run control, per-run report artifacts, and metrics parsing.
+- Added JVM runtime diagnostics with heap, non-heap, thread, uptime, and garbage collector details while preserving frontend-compatible legacy process/gc/threadPool/database fields.
+- Updated load-test configuration for `base-url`, `report-root`, and `k6-bin`; ignored generated `reports/loadtest/` artifacts.
+- Updated the frontend load-test dashboard visible text/types to use backend runtime and JDBC wording instead of ASP.NET Core, ThreadPool, DbContext, or Npgsql-specific labels.
+- Added focused diagnostics/load-test tests for controller endpoints, service lifecycle/error handling, k6 script/process launch, JVM DB diagnostics, and load-test dashboard parsing.
 - Fixed one tested null-published-date branch in `ContentService.context(...)` by replacing `Map.of(...)` with a null-capable `LinkedHashMap`.
 
 ## Intentionally Not Changed
@@ -19,7 +24,7 @@ Prepare the Spring Boot backend with strong JUnit 5, Mockito, AssertJ, MockMvc, 
 - Branch coverage is measured but not gated. The enforced JaCoCo gate is instruction and line coverage at 99%.
 - No separate staging branch workflow was added. Staging remains the existing `Publish GHCR Dev` workflow, which builds staging images and smokes `docker-compose.staging.yml` after successful `CI Dev`.
 - `main` is not pushed directly from the local checkout. The repository's documented route is `dev` CI, `release/main-promote` PR, `CI Main Runtime`, then auto-merge to `main`.
-- Frontend source behavior was not changed by this testing-hardening slice.
+- No unrelated frontend behavior was changed. Frontend changes are limited to load-test dashboard diagnostic compatibility and Java-neutral visible wording.
 
 ## Prompt-To-Artifact Checklist
 
@@ -34,7 +39,11 @@ Prepare the Spring Boot backend with strong JUnit 5, Mockito, AssertJ, MockMvc, 
 | JaCoCo 99%+ | `coverage/backend/full/report/jacoco.csv`: instruction 99.05%, line 99.17%. |
 | CI coverage gate | `.github/workflows/ci-dev.yml`, `.github/workflows/ci-main-runtime.yml`, `scripts/run-backend-coverage.sh full`. |
 | Main runtime contract fixtures | `scripts/main-runtime-allowlist.txt` now includes `tests/contracts/pacts` for promoted runtime PR coverage and Pact jobs. |
-| Full test run at least once | `backend/reports/testing-hardening-2026-05-17/full-backend-coverage-final-2026-05-17.log`: 194 tests, 0 failures, 0 errors, 0 skipped. |
+| Backend load-test parity | `DiagnosticsController`, `RealLoadTestService`, `K6RealLoadTestExecutor`, and `RuntimeDiagnosticsService` provide real/fake runs, k6 launch, run reports, status/metrics/stop, and JVM diagnostics. |
+| Java/JVM differences | `RuntimeDiagnosticsService` returns `runtime.platform = "jvm"` and JVM heap/non-heap/thread/GC details; `LoadTestDashboard` labels use backend runtime and JDBC wording. |
+| Backend load-test tests | `DiagnosticsControllerTest`, `RealLoadTestServiceTest`, `RuntimeDiagnosticsServiceTest`, `K6RealLoadTestExecutorTest`, and `AppPropertiesTest`. |
+| Frontend dashboard tests | `src/test/load-test-dashboard.test.ts`: 29 tests passed after Java-neutral dashboard changes. |
+| Full test run at least once | Latest full coverage gate: 215 tests, 0 failures, 0 errors, 0 skipped. |
 | 10 minute timeout rule | Final full run completed in 1:13, so no timeout path was triggered. Earlier Testcontainers socket failure was classified as environment failure, not timeout. |
 | Testcontainers/Ryuk caution | Docker socket attempt used `TESTCONTAINERS_RYUK_DISABLED=true`; final pass used external PostgreSQL with `-Dtestcontainers.enabled=false`. Remaining container check showed `wb-coverage-db-20260517-agent` still running for evidence DB state. |
 | Subagents | Read-only coverage/CI audit subagents reviewed JaCoCo artifacts, Surefire reports, workflows, and release blockers. |
@@ -44,21 +53,26 @@ Prepare the Spring Boot backend with strong JUnit 5, Mockito, AssertJ, MockMvc, 
 
 - `bash -n scripts/run-backend-coverage.sh scripts/run-unit-tests.sh scripts/run-component-tests.sh scripts/run-architecture-tests.sh scripts/run-web-tests.sh scripts/run-integration-tests.sh` passed.
 - `git diff --check` passed.
-- Docker Java 21 full backend coverage gate passed against fresh PostgreSQL database `portfolio_cov_slice_20260517_04`.
-- Surefire report total: 194 tests, 0 failures, 0 errors, 0 skipped.
-- JaCoCo totals from `coverage/backend/full/report/jacoco.csv`: instruction 9976/10072 (99.05%), line 1784/1799 (99.17%), branch 423/496 (85.28%).
+- Docker Java 21 focused diagnostics/load-test suite passed: `-Dtest=DiagnosticsControllerTest,RuntimeDiagnosticsServiceTest,RealLoadTestServiceTest,K6RealLoadTestExecutorTest,AppPropertiesTest test`.
+- Docker Java 21 full backend coverage gate passed against fresh PostgreSQL database `portfolio_cov_loadtest_cleanup_20260517`.
+- Surefire report total: 215 tests, 0 failures, 0 errors, 0 skipped.
+- JaCoCo totals from `coverage/backend/full/report/jacoco.csv`: instruction 99.07%, line 99.20%.
+- `npm test -- src/test/load-test-dashboard.test.ts --run` passed: 29 tests.
+- `npm run typecheck` passed.
 - `docker ps` after verification showed the external coverage database container `wb-coverage-db-20260517-agent` running.
 - Remote `CI Dev` run `25989003521` passed, including backend coverage.
 - Remote `Publish GHCR Dev` run `25989128710` passed for staging image publication.
+- Remote `CI Dev` run `25989376008` passed after the Pact fixture allowlist fix.
 - Manual promotion PR #1 exposed a main-runtime allowlist gap for Pact fixtures; `scripts/main-runtime-allowlist.txt` was updated so regenerated promotion branches include `tests/contracts/pacts`.
 
 ## Risks And Follow-Up
 
-- Branch coverage is 85.28% and not enforced. If the project wants branch coverage at 99%, that should be a separate explicit hardening pass because it requires many additional edge-case tests.
+- Branch coverage is measured and not enforced. If the project wants branch coverage at 99%, that should be a separate explicit hardening pass because it requires many additional edge-case tests.
 - Automatic promotion currently fails before checkout when `PROMOTION_TOKEN` is absent. Manual `release/main-promote` PR promotion is being used for this run.
-- Regenerated promotion PR `CI Main Runtime`, `main` merge, and main publish gates must still be observed after the Pact allowlist fix.
+- After the load-test parity commit, `dev` CI, staging image publish, regenerated promotion PR `CI Main Runtime`, `main` merge, and main publish gates must still be observed.
+- k6 must be installed in the runtime environment for real backend load-test runs. The fake runner is intentionally retained for deterministic tests.
 - The external coverage PostgreSQL container should be removed after no further local evidence inspection is needed.
 
 ## Recommendation
 
-Proceed with the Pact allowlist fix, regenerate the `release/main-promote` branch, then verify `CI Main Runtime`, merge to `main`, and observe main push/publish gates before considering the release flow complete.
+Commit and push the load-test parity slice to `dev`, verify `CI Dev` and `Publish GHCR Dev`, regenerate the `release/main-promote` branch, then verify `CI Main Runtime`, merge to `main`, and observe main push/publish gates before considering the release flow complete.
