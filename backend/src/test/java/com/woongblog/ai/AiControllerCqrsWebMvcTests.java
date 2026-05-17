@@ -17,6 +17,7 @@ import com.woongblog.application.ai.ClearCompletedBlogFixBatchJobsCommandHandler
 import com.woongblog.application.ai.CreateBlogFixBatchCommandHandler;
 import com.woongblog.application.ai.CreateBlogFixBatchJobCommandHandler;
 import com.woongblog.application.ai.DeleteBlogFixBatchJobCommandHandler;
+import com.woongblog.application.ai.EnrichWorkHtmlCommand;
 import com.woongblog.application.ai.EnrichWorkHtmlCommandHandler;
 import com.woongblog.application.ai.FixBlogHtmlCommand;
 import com.woongblog.application.ai.FixBlogHtmlCommandHandler;
@@ -137,6 +138,39 @@ class AiControllerCqrsWebMvcTests {
         FixBlogHtmlCommand command = captor.getValue();
         assertThat(command.html()).isEqualTo("<p>Draft</p>");
         assertThat(command.customPrompt()).isEqualTo("Fix it");
+    }
+
+    @Test
+    void workEnrichBindsRequestBodyToCommand() throws Exception {
+        when(enrichWorkHtmlCommandHandler.handle(any(EnrichWorkHtmlCommand.class)))
+                .thenReturn(Map.of(
+                        "enrichedHtml", "<p>Enriched</p>",
+                        "provider", "codex",
+                        "model", "gpt-5.4",
+                        "reasoningEffort", "high"));
+
+        mockMvc.perform(post("/api/admin/ai/work-enrich")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "html": "<section>Draft</section>",
+                                  "title": "Work",
+                                  "provider": "codex",
+                                  "codexModel": "gpt-5.4",
+                                  "codexReasoningEffort": "high",
+                                  "customPrompt": "Add measurable outcomes"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.enrichedHtml").value("<p>Enriched</p>"))
+                .andExpect(jsonPath("$.provider").value("codex"));
+
+        ArgumentCaptor<EnrichWorkHtmlCommand> captor = ArgumentCaptor.forClass(EnrichWorkHtmlCommand.class);
+        verify(enrichWorkHtmlCommandHandler).handle(captor.capture());
+        EnrichWorkHtmlCommand command = captor.getValue();
+        assertThat(command.html()).isEqualTo("<section>Draft</section>");
+        assertThat(command.title()).isEqualTo("Work");
+        assertThat(command.customPrompt()).isEqualTo("Add measurable outcomes");
     }
 
     @Test

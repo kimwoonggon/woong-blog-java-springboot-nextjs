@@ -26,6 +26,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -45,6 +46,9 @@ class ApiParityIntegrationTests {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Test
     void healthAndPublicReadEndpointsMatchFrontendContract() throws Exception {
@@ -469,6 +473,147 @@ class ApiParityIntegrationTests {
                 .andExpect(jsonPath("$.error").value("Either blogIds or all=true is required."));
     }
 
+    @Test
+    void aiBatchJobLifecycleCoversSelectedApplyAndManagementContract() throws Exception {
+        Cookie authCookie = testLoginCookie();
+        CsrfContext csrf = csrfContext(authCookie);
+        JsonNode blog = createBlog(authCookie, csrf, "AI lifecycle " + UUID.randomUUID());
+        String blogId = blog.get("id").asText();
+        Map<String, Object> jobPayload = new LinkedHashMap<>();
+        jobPayload.put("blogIds", List.of(blogId));
+        jobPayload.put("all", false);
+        jobPayload.put("autoApply", false);
+        jobPayload.put("selectionMode", "selected");
+        jobPayload.put("selectionLabel", "One selected blog");
+        jobPayload.put("selectionKey", "manual");
+        jobPayload.put("workerCount", 2);
+        jobPayload.put("provider", "openai");
+        jobPayload.put("codexModel", "gpt-5.5");
+        jobPayload.put("codexReasoningEffort", "xhigh");
+        jobPayload.put("customPrompt", "Improve one blog");
+
+        mockMvc.perform(post("/api/admin/ai/blog-fix-batch")
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(Map.of(
+                                "blogIds", List.of(blogId),
+                                "all", false,
+                                "apply", true,
+                                "provider", "codex",
+                                "codexModel", "gpt-5.4",
+                                "codexReasoningEffort", "high"))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.applied").value(true))
+                .andExpect(jsonPath("$.results[0].blogId").value(blogId))
+                .andExpect(jsonPath("$.results[0].provider").value("codex"))
+                .andExpect(jsonPath("$.results[0].model").value("gpt-5.4"))
+                .andExpect(jsonPath("$.results[0].reasoningEffort").value("high"));
+
+        MvcResult createJobResult = mockMvc.perform(post("/api/admin/ai/blog-fix-batch-jobs")
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(jobPayload)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("completed"))
+                .andExpect(jsonPath("$.selectionLabel").value("One selected blog"))
+                .andExpect(jsonPath("$.workerCount").value(2))
+                .andExpect(jsonPath("$.provider").value("openai"))
+                .andExpect(jsonPath("$.model").value("gpt-5.5"))
+                .andExpect(jsonPath("$.reasoningEffort").value("xhigh"))
+                .andReturn();
+        String jobId = objectMapper.readTree(createJobResult.getResponse().getContentAsString())
+                .get("jobId").asText();
+
+        mockMvc.perform(get("/api/admin/ai/blog-fix-batch-jobs")
+                        .cookie(authCookie))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.jobs").isArray())
+                .andExpect(jsonPath("$.completedCount").isNumber())
+                .andExpect(jsonPath("$.queuedCount").isNumber());
+
+        MvcResult getResult = mockMvc.perform(get("/api/admin/ai/blog-fix-batch-jobs/{jobId}", jobId)
+                        .cookie(authCookie))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.jobId").value(jobId))
+                .andExpect(jsonPath("$.items").isArray())
+                .andExpect(jsonPath("$.items[0].jobItemId").exists())
+                .andExpect(jsonPath("$.items[0].blogId").value(blogId))
+                .andReturn();
+        String jobItemId = objectMapper.readTree(getResult.getResponse().getContentAsString())
+                .get("items").get(0).get("jobItemId").asText();
+
+        mockMvc.perform(post("/api/admin/ai/blog-fix-batch-jobs/{jobId}/apply", jobId)
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(Map.of("jobItemIds", List.of(jobItemId)))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.applied").value(1));
+
+        mockMvc.perform(post("/api/admin/ai/blog-fix-batch-jobs/{jobId}/cancel", jobId)
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("cancelled"))
+                .andExpect(jsonPath("$.cancelRequested").value(true));
+
+        UUID queuedJobId = insertQueuedAiBatchJob();
+        MvcResult cancelQueuedResult = mockMvc.perform(post("/api/admin/ai/blog-fix-batch-jobs/cancel-queued")
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.cancelled").isNumber())
+                .andReturn();
+        assertThat(objectMapper.readTree(cancelQueuedResult.getResponse().getContentAsString())
+                .get("cancelled").asInt()).isGreaterThanOrEqualTo(1);
+        assertThat(jdbcTemplate.queryForObject(
+                "SELECT \"Status\" FROM \"AiBatchJobs\" WHERE \"Id\" = ?",
+                String.class,
+                queuedJobId))
+                .isEqualTo("cancelled");
+
+        mockMvc.perform(delete("/api/admin/ai/blog-fix-batch-jobs/{jobId}", queuedJobId)
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.removed").value(true))
+                .andExpect(jsonPath("$.jobId").value(queuedJobId.toString()));
+
+        mockMvc.perform(post("/api/admin/ai/blog-fix-batch-jobs/clear-completed")
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.cleared").isNumber());
+
+        mockMvc.perform(post("/api/admin/ai/blog-fix-batch-jobs/{jobId}/cancel", UUID.randomUUID())
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error").value("AI batch job not found."));
+
+        mockMvc.perform(post("/api/admin/ai/blog-fix-batch-jobs")
+                        .cookie(authCookie)
+                        .session(csrf.session())
+                        .header(csrf.headerName(), csrf.token())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(Map.of(
+                                "blogIds", List.of(UUID.randomUUID().toString()),
+                                "all", false,
+                                "autoApply", false))))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("No matching blogs were found."));
+    }
+
     private Cookie testLoginCookie() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/auth/test-login")
                         .param("email", "admin@example.com")
@@ -533,6 +678,18 @@ class ApiParityIntegrationTests {
                 .andExpect(status().isOk())
                 .andReturn();
         return objectMapper.readTree(result.getResponse().getContentAsString());
+    }
+
+    private UUID insertQueuedAiBatchJob() {
+        UUID jobId = UUID.randomUUID();
+        jdbcTemplate.update("""
+                INSERT INTO "AiBatchJobs" ("Id", "TargetType", "Status", "SelectionMode", "SelectionLabel", "SelectionKey", "All", "AutoApply", "WorkerCount",
+                                           "CancelRequested", "TotalCount", "ProcessedCount", "SucceededCount", "FailedCount", "Provider", "Model",
+                                           "ReasoningEffort", "PromptMode", "CustomPrompt", "CreatedAt", "UpdatedAt")
+                VALUES (?, 'blog', 'queued', 'selected', 'Queued test', 'queued', false, false, 1,
+                        false, 1, 0, 0, 0, 'fake', 'gpt-5.4-mini', 'medium', 'custom-or-default', null, now(), now())
+                """, jobId);
+        return jobId;
     }
 
     private void updateBlog(Cookie authCookie, CsrfContext csrf, String currentTitle, String updatedTitle) throws Exception {

@@ -55,3 +55,5 @@ app:
     batch-completed-retention-days: ${AI_BATCH_COMPLETED_RETENTION_DAYS:7}
   load-testing:
     base-url: ${LOAD_TESTING_BASE_URL:${LoadTesting__BaseUrl:http://localhost}}
+    report-root: ${LOAD_TESTING_REPORT_ROOT:reports/loadtest}
+    k6-bin: ${LOAD_TESTING_K6_BIN:k6}
