@@ -12,7 +12,7 @@ import org.springframework.mock.web.MockServletContext;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
-@Tag("unit")
+@Tag("component")
 class WebConfigTest {
     @TempDir
     private Path tempDir;

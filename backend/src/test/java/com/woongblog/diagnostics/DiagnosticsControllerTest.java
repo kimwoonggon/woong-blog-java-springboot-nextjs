@@ -32,6 +32,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @Tag("web")
+@Tag("component")
 class DiagnosticsControllerTest {
     private static final String BASE_URL = "https://load.example.test";
 

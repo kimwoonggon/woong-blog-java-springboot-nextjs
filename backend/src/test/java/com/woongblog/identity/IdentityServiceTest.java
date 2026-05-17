@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-@Tag("unit")
+@Tag("component")
 class IdentityServiceTest {
     private RecordingJdbcTemplate jdbcTemplate;
     private AppProperties properties;

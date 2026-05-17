@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Tag("unit")
+@Tag("component")
 class DbSeederTests {
     @Test
     void supplementalWorkSeedsExplicitVideosVersionForExistingDevSchemas() {

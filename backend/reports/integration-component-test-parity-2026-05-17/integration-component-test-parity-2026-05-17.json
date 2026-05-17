@@ -1,0 +1,60 @@
+{
+  "task": "integration-component-test-parity",
+  "date": "2026-05-17",
+  "aspcoreInventory": {
+    "source": "https://github.com/kimwoonggon/woong-blog-aspcore-nextjs",
+    "branch": "dev",
+    "commit": "5a2c3095890592384a5038ff3c1c1cb0a715c533",
+    "files": [
+      "backend/reports/aspcore-backend-test-inventory-2026-05-17/aspcore-backend-test-inventory-2026-05-17.md",
+      "backend/reports/aspcore-backend-test-inventory-2026-05-17/aspcore-backend-test-inventory-2026-05-17.json"
+    ],
+    "counts": {
+      "total": {"classes": 41, "methods": 390},
+      "unit": {"classes": 7, "methods": 27},
+      "integration": {"classes": 17, "methods": 199},
+      "architecture": {"classes": 3, "methods": 37},
+      "component": {"classes": 13, "methods": 126},
+      "contract": {"classes": 1, "methods": 1}
+    }
+  },
+  "springBootBefore": {
+    "total": {"classes": 42, "methods": 198},
+    "unit": {"classes": 30, "methods": 141},
+    "web": {"classes": 7, "methods": 34},
+    "integration": {"classes": 2, "methods": 16},
+    "architecture": {"classes": 1, "methods": 5},
+    "component": {"classes": 1, "methods": 1},
+    "contract": {"classes": 1, "methods": 1}
+  },
+  "springBootAfter": {
+    "total": {"classes": 53, "methods": 292},
+    "unit": {"classes": 10, "methods": 41},
+    "web": {"classes": 7, "methods": 34},
+    "integration": {"classes": 13, "methods": 107},
+    "architecture": {"classes": 1, "methods": 5},
+    "component": {"classes": 28, "methods": 138},
+    "contract": {"classes": 1, "methods": 1}
+  },
+  "runtimeValidation": [
+    {"command": "test-compile", "result": "passed"},
+    {"command": "scripts/list-backend-tests.sh", "result": "passed", "summary": "53 classes / 292 declared methods"},
+    {"command": "scripts/run-component-tests.sh", "result": "passed", "executedTests": 145},
+    {"command": "scripts/run-integration-tests.sh", "result": "passed", "executedTests": 107},
+    {"command": "scripts/run-unit-tests.sh", "result": "passed", "executedTests": 51},
+    {"command": "scripts/run-web-tests.sh", "result": "passed", "executedTests": 36},
+    {"command": "scripts/run-architecture-tests.sh", "result": "passed", "executedTests": 5},
+    {"command": "mvn -Dgroups=contract test", "result": "passed", "executedTests": 1, "note": "passed with fresh external Postgres and testcontainers.enabled=false"}
+  ],
+  "productionFixes": [
+    "Reject unsupported image uploads before persistence.",
+    "Reject invalid work-video upload metadata before version checks.",
+    "Convert empty work video version lookups into Work not found responses."
+  ],
+  "risks": [
+    "Spring Boot integration count improved to 13/107 but does not yet equal ASP.NET Core 17/199.",
+    "Contract tests need isolated provider-state data.",
+    "Testcontainers inside Docker requires socket access or the external Postgres override."
+  ],
+  "recommendation": "Use integration 13/107 and component 28/138 as the new CI baseline, then schedule a second parity pass for exact historical integration and architecture parity."
+}
