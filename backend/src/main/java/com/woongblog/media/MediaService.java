@@ -32,6 +32,7 @@ public class MediaService {
         if (file == null || file.isEmpty()) {
             throw new BadRequestException("file is required.");
         }
+        validateSupportedUploadType(file.getContentType());
         String safeBucket = sanitizePathPart(bucket == null || bucket.isBlank() ? "uploads" : bucket);
         String original = file.getOriginalFilename() == null ? "upload.bin" : file.getOriginalFilename();
         String extension = extension(original);
@@ -197,6 +198,19 @@ public class MediaService {
 
     private static String safeContentType(String contentType) {
         return contentType == null || contentType.isBlank() ? "application/octet-stream" : contentType;
+    }
+
+    private static void validateSupportedUploadType(String contentType) {
+        if (contentType == null || contentType.isBlank() || !contentType.startsWith("image/")) {
+            return;
+        }
+        if (contentType.equals("image/png")
+                || contentType.equals("image/jpeg")
+                || contentType.equals("image/gif")
+                || contentType.equals("image/webp")) {
+            return;
+        }
+        throw new BadRequestException("Unsupported image type.");
     }
 
     private static String kind(String contentType) {

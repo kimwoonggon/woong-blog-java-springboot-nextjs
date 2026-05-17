@@ -1,5 +1,6 @@
 package com.woongblog.application.media;
 
+import com.woongblog.common.BadRequestException;
 import com.woongblog.content.ContentService;
 import java.util.Map;
 import java.util.UUID;
@@ -16,6 +17,7 @@ public class IssueWorkVideoUploadUrlCommandHandler {
     }
 
     public Map<String, Object> handle(IssueWorkVideoUploadUrlCommand command) {
+        validateMetadata(command);
         contentService.requireVideoVersion(command.workId(), command.expectedVideosVersion());
         String fileName = fileNameOrDefault(command.fileName());
         String storageKey = "videos/%s/%s/%s".formatted(command.workId(), UUID.randomUUID(), safeName(fileName));
@@ -42,5 +44,15 @@ public class IssueWorkVideoUploadUrlCommandHandler {
 
     private static String safeName(String value) {
         return value.replaceAll("[^A-Za-z0-9._-]", "-");
+    }
+
+    private static void validateMetadata(IssueWorkVideoUploadUrlCommand command) {
+        if (command.size() <= 0
+                || command.fileName() == null
+                || command.fileName().isBlank()
+                || command.contentType() == null
+                || !command.contentType().startsWith("video/")) {
+            throw new BadRequestException("Valid video file metadata is required.");
+        }
     }
 }

@@ -1,0 +1,3514 @@
+{
+  "sourceRepository": "https://github.com/kimwoonggon/woong-blog-aspcore-nextjs",
+  "sourceBranch": "dev",
+  "sourceCommit": "5a2c3095890592384a5038ff3c1c1cb0a715c533",
+  "sourcePath": "/tmp/woong-blog-aspcore-nextjs-dev-analysis-20260517/backend/tests",
+  "generatedDate": "2026-05-17",
+  "totalClasses": 41,
+  "totalDeclaredMethods": 390,
+  "suites": [
+    {
+      "suite": "unit",
+      "classes": 7,
+      "methods": 27
+    },
+    {
+      "suite": "integration",
+      "classes": 17,
+      "methods": 199
+    },
+    {
+      "suite": "architecture",
+      "classes": 3,
+      "methods": 37
+    },
+    {
+      "suite": "component",
+      "classes": 13,
+      "methods": 126
+    },
+    {
+      "suite": "contract",
+      "classes": 1,
+      "methods": 1
+    }
+  ],
+  "classes": [
+    {
+      "suite": "architecture",
+      "className": "ArchitectureBoundaryTests",
+      "path": "backend/tests/WoongBlog.Api.ArchitectureTests/ArchitectureBoundaryTests.cs",
+      "methods": [
+        {
+          "name": "Backend_IsSplitIntoExpectedProductionAssemblies",
+          "kind": "Fact",
+          "line": 27,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Production_ProjectReferences_FollowLayeredDirection",
+          "kind": "Fact",
+          "line": 37,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Application_DoesNotReference_InfrastructureOrApi",
+          "kind": "Fact",
+          "line": 56,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Domain_DoesNotReference_ApplicationInfrastructureOrApi",
+          "kind": "Fact",
+          "line": 65,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Domain_DoesNotReference_FrameworkOrHigherLayerAssemblies",
+          "kind": "Fact",
+          "line": 75,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Application_DoesNotReference_HttpPersistenceOrInfrastructureConcepts",
+          "kind": "Fact",
+          "line": 94,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Application_Source_DoesNotUseHttpResultsOrServiceLocator",
+          "kind": "Fact",
+          "line": 113,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Application_DoesNotExpose_AspNetCoreHttpResultTypes",
+          "kind": "Fact",
+          "line": 142,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Application_DoesNotUse_ServiceScopeFactoryOrServiceLocator",
+          "kind": "Fact",
+          "line": 150,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Application_ResultTypes_RemainHttpAgnostic",
+          "kind": "Fact",
+          "line": 174,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Http_Adapters_DoNotDirectlyDependOn_DbContext",
+          "kind": "Fact",
+          "line": 198,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Composition_Registration_Extensions_Exist_For_Approved_Boundaries",
+          "kind": "Fact",
+          "line": 214,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Program_ComposesServicesMiddlewareAndEndpoints_InExpectedBoundaryOrder",
+          "kind": "Fact",
+          "line": 248,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Legacy_Actor_Zones_Are_Removed",
+          "kind": "Fact",
+          "line": 302,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Centralized_Page_Controller_And_Request_Model_Are_Removed",
+          "kind": "Fact",
+          "line": 320,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Centralized_Blog_Controller_And_Request_Model_Are_Removed",
+          "kind": "Fact",
+          "line": 327,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Centralized_Work_Controller_And_Request_Model_Are_Removed",
+          "kind": "Fact",
+          "line": 334,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Centralized_Public_Site_And_Dashboard_Controllers_And_Request_Model_Are_Removed",
+          "kind": "Fact",
+          "line": 341,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Centralized_Identity_And_Media_Controllers_Are_Removed",
+          "kind": "Fact",
+          "line": 350,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Module_Persistence_Types_DoNot_Depend_On_Other_Module_Persistence_Types",
+          "kind": "Fact",
+          "line": 358,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Content_Handlers_DoNot_Depend_On_Actor_Facade_Services",
+          "kind": "Fact",
+          "line": 381,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Cross_Module_Actor_Facade_Service_Types_Are_Removed",
+          "kind": "Fact",
+          "line": 412,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideo_Application_Result_DoesNot_Use_AspNetCore_StatusCodes",
+          "kind": "Fact",
+          "line": 439,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Works_GetWorkBySlug_Uses_New_Application_Namespace_Phase1",
+          "kind": "Fact",
+          "line": 465,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Identity_Application_Subset_Uses_New_Namespace_Phase1",
+          "kind": "Fact",
+          "line": 494,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Ai_Application_Types_DoNot_Directly_Use_ServiceScopeFactory_Or_ServiceLocator",
+          "kind": "Fact",
+          "line": 523,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Content_Application_Abstractions_DoNot_Accept_MediatR_Request_Types",
+          "kind": "Fact",
+          "line": 549,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideo_CommandStore_DoesNotExpose_BackgroundCleanupResponsibilities",
+          "kind": "Fact",
+          "line": 568,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Ai_Batch_AggregateBatchStore_IsRemoved",
+          "kind": "Fact",
+          "line": 590,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Api_ModuleRegistrations_DoNotReference_ConcreteInfrastructureAdapters",
+          "kind": "Fact",
+          "line": 602,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UnitTestProject_DoesNotReference_Infrastructure_AspNetCore_Or_EfInMemory",
+          "kind": "Fact",
+          "line": 633,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "architecture",
+      "className": "BackendCoverageToolingTests",
+      "path": "backend/tests/WoongBlog.Api.ArchitectureTests/BackendCoverageToolingTests.cs",
+      "methods": [
+        {
+          "name": "BackendCoverageScript_ExposesExpectedSuitesAndOutputLayout",
+          "kind": "Fact",
+          "line": 9,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "BackendCoverageRunsettings_InstrumentsProductionAssembliesOnly",
+          "kind": "Fact",
+          "line": 27,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "BackendReportGeneratorTool_IsPinnedInLocalManifest",
+          "kind": "Fact",
+          "line": 52,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "BackendTestingDocumentation_ExplainsCoverageUseAndLimits",
+          "kind": "Fact",
+          "line": 71,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "architecture",
+      "className": "NginxRuntimeConfigTests",
+      "path": "backend/tests/WoongBlog.Api.ArchitectureTests/NginxRuntimeConfigTests.cs",
+      "methods": [
+        {
+          "name": "ApiProxyLocations_AllowLongRunningHlsJobs",
+          "kind": "Theory",
+          "line": 21,
+          "attributes": [
+            "[Theory]",
+            "[MemberData(nameof(RuntimeProxyConfigs))]"
+          ]
+        },
+        {
+          "name": "MainRuntimeAllowlist_IncludesEveryNginxConfigUnderArchitectureCoverage",
+          "kind": "Fact",
+          "line": 40,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "AiBatchRuntimeComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/AiBatchRuntimeComponentTests.cs",
+      "methods": [
+        {
+          "name": "CreateBlogFixBatchJobCommandHandler_PersistsQueuedJobAndPendingItemsForSelectedTargets",
+          "kind": "Fact",
+          "line": 20,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AiBlogFixBatchStore_SelectsRequestedTargetsOrAllTargetsDeterministically",
+          "kind": "Fact",
+          "line": 71,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AiBatchJobScheduler_ResetRunningJobs_RequeuesInterruptedJobs",
+          "kind": "Fact",
+          "line": 88,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AiBatchJobScheduler_ProcessQueuedJobsUntilEmpty_CompletesSuccessfulJobAndPersistsResult",
+          "kind": "Fact",
+          "line": 104,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AiBatchJobScheduler_ProcessQueuedJobsUntilEmpty_RepresentsPartialFailuresWithoutCorruptingOtherBlogs",
+          "kind": "Fact",
+          "line": 147,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AiBatchJobScheduler_ProcessQueuedJobsUntilEmpty_MarksJobFailedWhenEveryRuntimeCallFails",
+          "kind": "Fact",
+          "line": 194,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetAiRuntimeConfigQueryHandler_ReturnsStableDefaultsAndPromptMetadata",
+          "kind": "Fact",
+          "line": 222,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetAiRuntimeConfigQueryHandler_FallsBackSafelyWhenConfiguredProviderIsUnavailable",
+          "kind": "Fact",
+          "line": 248,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AiOptionsPostConfigure_LoadsEnvironmentStyleOverridesAndStableDefaults",
+          "kind": "Fact",
+          "line": 264,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AiOptionsValidator_FailsSafelyForInvalidRuntimeConfiguration",
+          "kind": "Fact",
+          "line": 292,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "AuthRecorderComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/AuthRecorderComponentTests.cs",
+      "methods": [
+        {
+          "name": "RecordSuccessfulLogin_CreatesProfileSessionAndAuditLog",
+          "kind": "Fact",
+          "line": 23,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "RecordSuccessfulLogin_KeepsUserRole_WhenNoAdminOverrideOrMatchingEmailExists",
+          "kind": "Fact",
+          "line": 52,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "RecordLogout_RevokesSessionAndAddsAuditLog",
+          "kind": "Fact",
+          "line": 78,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsFalse_WhenClaimsMissing",
+          "kind": "Fact",
+          "line": 108,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsFalse_WhenSessionIdClaimIsMalformed",
+          "kind": "Fact",
+          "line": 121,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsFalse_WhenSessionRevoked",
+          "kind": "Fact",
+          "line": 139,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsTrue_AndUpdatesLastSeen_WhenSessionValid",
+          "kind": "Fact",
+          "line": 178,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsTrue_WithoutUpdatingLastSeen_WhenSessionRecentlySeen",
+          "kind": "Fact",
+          "line": 223,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsFalse_WhenSessionExpired",
+          "kind": "Fact",
+          "line": 268,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsFalseAndRevokesSession_WhenAbsoluteExpirationHasPassed",
+          "kind": "Fact",
+          "line": 312,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsFalseAndRevokesSession_WhenProfileIsMissing",
+          "kind": "Fact",
+          "line": 357,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ValidateSessionAsync_ReturnsFalse_WhenRoleDrifts",
+          "kind": "Fact",
+          "line": 388,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "AuthRedirectUriResolverComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/AuthRedirectUriResolverComponentTests.cs",
+      "methods": [
+        {
+          "name": "ResolveCallbackUri_UsesConfiguredPublicOrigin_WhenPresent",
+          "kind": "Fact",
+          "line": 9,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ResolveCallbackUri_FallsBackToRequestOrigin_WhenPublicOriginMissing",
+          "kind": "Fact",
+          "line": 25,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "BlogAiFixServiceCodexRuntimeComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/BlogAiFixServiceCodexRuntimeComponentTests.cs",
+      "methods": [
+        {
+          "name": "GetAvailableProviders_WithCodexCommand_IncludesOpenAiAndCodexChoices",
+          "kind": "Fact",
+          "line": 11,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithCodexProvider_FailsClearlyWhenCodexHomeIsFile",
+          "kind": "Fact",
+          "line": 23,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithCodexProvider_ExportsConfiguredOpenAiKeyToCodexProcess",
+          "kind": "Fact",
+          "line": 50,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithCodexProvider_CreatesCodexHomeAndExportsItToProcess",
+          "kind": "Fact",
+          "line": 90,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithCodexProvider_PassesModelReasoningAndWorkdirToFakeProcess",
+          "kind": "Fact",
+          "line": 130,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithCodexProvider_ThrowsWhenFakeProcessReturnsNonZeroExit",
+          "kind": "Fact",
+          "line": 191,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "BlogAiFixServiceProviderComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/BlogAiFixServiceProviderComponentTests.cs",
+      "methods": [
+        {
+          "name": "FixHtmlAsync_WithOpenAiProvider_ReturnsCleanedMessageContentAndSendsConfiguredModel",
+          "kind": "Fact",
+          "line": 26,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithOpenAiProvider_CleansHtmlFenceFromResponse",
+          "kind": "Fact",
+          "line": 51,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithOpenAiProvider_ThrowsWithPayloadWhenResponseFails",
+          "kind": "Fact",
+          "line": 67,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithOpenAiProvider_ThrowsWhenResponseJsonIsMalformed",
+          "kind": "Fact",
+          "line": 81,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithOpenAiProvider_ReturnsEmptyHtmlWhenResponseHasNoMessageContent",
+          "kind": "Theory",
+          "line": 92,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"\"\"{\"choices\":[]}\"\"\")]",
+            "[InlineData(\"\"\"{\"choices\":[{\"message\":{\"role\":\"assistant\"}}]}\"\"\")]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithOpenAiProvider_ThrowsWhenApiKeyIsMissing",
+          "kind": "Fact",
+          "line": 106,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithUnknownProvider_FallsBackToOpenAi",
+          "kind": "Fact",
+          "line": 124,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithOpenAiProvider_UsesOpenAiModelEnvironmentOverride",
+          "kind": "Fact",
+          "line": 143,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithAzureProvider_ReturnsCleanedMessageContent",
+          "kind": "Fact",
+          "line": 163,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithAzureProvider_BuildsUrlWithoutDoubleSlashAndSendsApiKeyHeader",
+          "kind": "Fact",
+          "line": 177,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithAzureProvider_ThrowsWithPayloadWhenResponseFails",
+          "kind": "Fact",
+          "line": 206,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithAzureProvider_ThrowsWhenResponseJsonIsMalformed",
+          "kind": "Fact",
+          "line": 220,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithAzureProvider_ReturnsEmptyHtmlWhenResponseHasNoMessageContent",
+          "kind": "Theory",
+          "line": 231,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"\"\"{\"choices\":[]}\"\"\")]",
+            "[InlineData(\"\"\"{\"choices\":[{\"message\":{\"role\":\"assistant\"}}]}\"\"\")]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithAzureProvider_ThrowsWhenApiKeyOrEndpointIsMissing",
+          "kind": "Theory",
+          "line": 245,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"\", \"https://azure.example.com\")]",
+            "[InlineData(\"configured-azure-key\", \"\")]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithAzureProvider_UsesDeploymentEnvironmentOverride",
+          "kind": "Theory",
+          "line": 267,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"AZURE_OPENAI_DEPLOYMENT\", \"environment-primary-deployment\")]",
+            "[InlineData(\"AZURE_DEPLOYMENT_NAME\", \"environment-legacy-deployment\")]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_WithAzureProvider_UsesApiVersionEnvironmentOverride",
+          "kind": "Fact",
+          "line": 284,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "CodexRuntimeEnvironmentComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/CodexRuntimeEnvironmentComponentTests.cs",
+      "methods": [
+        {
+          "name": "FixHtmlAsync_CreatesCodexHomeDirectoryBeforeStartingCodex",
+          "kind": "Fact",
+          "line": 18,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixHtmlAsync_FailsClearlyWhenCodexHomeIsAFile",
+          "kind": "Fact",
+          "line": 42,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "DbContextModelContractComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/DbContextModelContractComponentTests.cs",
+      "methods": [
+        {
+          "name": "DbContext_ModelIncludesExpectedAggregateSetsAndKeys",
+          "kind": "Fact",
+          "line": 11,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DbContext_ModelDefinesRequiredJsonIndexAndUniquenessContracts",
+          "kind": "Fact",
+          "line": 34,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DbContext_ModelDefinesExpectedWorkVideoCascadeContracts",
+          "kind": "Fact",
+          "line": 94,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "SaveChanges_RefreshesSearchFieldsWhenContentChanges",
+          "kind": "Fact",
+          "line": 109,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "FfmpegVideoTranscoderComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/FfmpegVideoTranscoderComponentTests.cs",
+      "methods": [
+        {
+          "name": "SegmentHlsAsync_FallsBackToCompatibleTranscode_WhenCopyModeFails",
+          "kind": "Fact",
+          "line": 10,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "PersistenceRuntimeDiagnosticsComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/PersistenceRuntimeDiagnosticsComponentTests.cs",
+      "methods": [
+        {
+          "name": "FromConfiguration_ExposesPostgresPoolSettingsWithoutSecrets",
+          "kind": "Fact",
+          "line": 9,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FromConfiguration_UsesNpgsqlDefaultsWhenPoolSizesAreNotConfigured",
+          "kind": "Fact",
+          "line": 32,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "PublicQueryHandlerComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/PublicQueryHandlerComponentTests.cs",
+      "methods": [
+        {
+          "name": "GetHomeQueryHandler_ReturnsNull_WhenHomePageMissing",
+          "kind": "Fact",
+          "line": 70,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetHomeQueryHandler_ReturnsOnlyPublishedContent",
+          "kind": "Fact",
+          "line": 89,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetResumeQueryHandler_ReturnsNull_WhenResumeAssetMissing",
+          "kind": "Fact",
+          "line": 123,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetSiteSettingsQueryHandler_ReturnsNull_WhenSettingsMissing",
+          "kind": "Fact",
+          "line": 143,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetHomeQueryHandler_ReturnsNull_WhenSiteSettingsMissing",
+          "kind": "Fact",
+          "line": 154,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetHomeQueryHandler_MapsHomeContentAndOrdersPublishedSummaries",
+          "kind": "Fact",
+          "line": 174,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetHomeQueryHandler_ReturnsSixFeaturedWorksForBalancedDesktopHomeGrid",
+          "kind": "Fact",
+          "line": 246,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetHomeQueryHandler_UsesStoredPublicMediaUrlsWithoutAssetRows",
+          "kind": "Fact",
+          "line": 285,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetHomeQueryHandler_DoesNotUseWorkBodyImageAsFeaturedThumbnailFallback",
+          "kind": "Fact",
+          "line": 351,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetHomeQueryHandler_DoesNotUseWorkVideoAsFeaturedThumbnailFallback",
+          "kind": "Fact",
+          "line": 396,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetSiteSettingsQueryHandler_ReturnsAllPublicSocialFields",
+          "kind": "Fact",
+          "line": 451,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPageBySlugQueryHandler_ReturnsPageContent_WhenSlugExists",
+          "kind": "Fact",
+          "line": 483,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPageBySlugQueryHandler_ReturnsNull_WhenSlugIsMissing",
+          "kind": "Fact",
+          "line": 508,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_SkipsDrafts_AndUsesStoredPublicMediaUrlsWithoutAssetRows",
+          "kind": "Fact",
+          "line": 519,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_DoesNotUseWorkVideoAsPublicThumbnailFallback",
+          "kind": "Fact",
+          "line": 538,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_ReturnsPagedResults",
+          "kind": "Fact",
+          "line": 580,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_ReturnsStableEmptyPage_WhenNoWorksArePublished",
+          "kind": "Fact",
+          "line": 600,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_FiltersDraftsOrdersByPublishedAtAndMapsStoredPublicMediaUrls",
+          "kind": "Fact",
+          "line": 618,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_ClampsRequestedPageBeyondLastPage",
+          "kind": "Fact",
+          "line": 654,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_FiltersByTitleSearch",
+          "kind": "Fact",
+          "line": 674,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_FiltersByNormalizedTitleSearch",
+          "kind": "Fact",
+          "line": 692,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_FiltersByContentSearch",
+          "kind": "Fact",
+          "line": 710,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorksQueryHandler_QueryOnly_PerformsUnifiedSearch",
+          "kind": "Fact",
+          "line": 728,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetHomeQueryHandler_ReturnsUpToSixRecentPosts",
+          "kind": "Fact",
+          "line": 750,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlugQueryHandler_MapsSocialShareMessage_FromStoredPublicReadModel",
+          "kind": "Fact",
+          "line": 788,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlugQueryHandler_ReturnsNullSocialShareMessage_WhenReservedKeyMissing",
+          "kind": "Fact",
+          "line": 817,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlugQueryHandler_MapsTimelinePreviewUrls_ForHlsVideo",
+          "kind": "Fact",
+          "line": 845,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetAdminWorkByIdQueryHandler_VerifiesTimelinePreviewAssets",
+          "kind": "Fact",
+          "line": 899,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlugQueryHandler_ReturnsPublishedDetailWithStoredPublicMediaUrlsAndVideos",
+          "kind": "Fact",
+          "line": 950,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlugQueryHandler_ReturnsVideosButDoesNotUseVideoAsPublicThumbnailFallback",
+          "kind": "Fact",
+          "line": 1027,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlugQueryHandler_DoesNotUseBodyImageAsPublicThumbnailFallback",
+          "kind": "Fact",
+          "line": 1074,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlugQueryHandler_ReturnsNull_ForDraftOrMissingSlug",
+          "kind": "Fact",
+          "line": 1105,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkDetailContextQueryHandler_ReturnsBoundedPublicContext_WithAdjacentItems",
+          "kind": "Fact",
+          "line": 1121,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetAdminWorkByIdQueryHandler_OmitsTimelinePreviewUrls_WhenPreviewAssetsAreMissing",
+          "kind": "Fact",
+          "line": 1149,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogsQueryHandler_ReturnsPagedResults",
+          "kind": "Fact",
+          "line": 1199,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogsQueryHandler_ReturnsStableEmptyPage_WhenNoBlogsArePublished",
+          "kind": "Fact",
+          "line": 1219,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogsQueryHandler_FiltersDraftsOrdersByPublishedAtAndMapsStoredCoverUrl",
+          "kind": "Fact",
+          "line": 1237,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogsQueryHandler_ClampsRequestedPageBeyondLastPage",
+          "kind": "Fact",
+          "line": 1269,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogsQueryHandler_FiltersByNormalizedTitleSearch",
+          "kind": "Fact",
+          "line": 1289,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogsQueryHandler_QueryOnly_PerformsUnifiedSearch",
+          "kind": "Fact",
+          "line": 1307,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogBySlugQueryHandler_ReturnsPublishedDetailWithStoredCoverUrl",
+          "kind": "Fact",
+          "line": 1329,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogBySlugQueryHandler_ReturnsNull_ForDraftOrMissingSlug",
+          "kind": "Fact",
+          "line": 1358,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogDetailContextQueryHandler_ReturnsBoundedPublicContext_WithAdjacentItems",
+          "kind": "Fact",
+          "line": 1374,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "RealLoadTestRunnerComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/RealLoadTestRunnerComponentTests.cs",
+      "methods": [
+        {
+          "name": "K6Script_ExportsTrueP99ThresholdsAndNginxUpstreamAlias",
+          "kind": "Fact",
+          "line": 12,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "K6Script_RecordsTargetPayloadAndReceiveTimingForHeavyDetailAttribution",
+          "kind": "Fact",
+          "line": 27,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "K6Script_RecordsTargetDbCommandTimingForHeavyDetailAttribution",
+          "kind": "Fact",
+          "line": 37,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "K6Runner_PersistsRunScopedDiagnosticsWhileProcessIsRunning",
+          "kind": "Fact",
+          "line": 48,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "RequestDatabaseDiagnosticsTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/RequestDatabaseDiagnosticsTests.cs",
+      "methods": [
+        {
+          "name": "CaptureCurrent_ReturnsZero_WhenNoRequestScopeIsActive",
+          "kind": "Fact",
+          "line": 8,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CaptureCurrent_TracksCommandCountAndElapsedInsideRequestScope",
+          "kind": "Fact",
+          "line": 20,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "component",
+      "className": "WorkVideoComponentTests",
+      "path": "backend/tests/WoongBlog.Api.ComponentTests/WorkVideoComponentTests.cs",
+      "methods": [
+        {
+          "name": "WorkVideoStorageSelector_UsesLocalInTestingUnlessR2IsForced",
+          "kind": "Fact",
+          "line": 28,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoStorageSelector_UsesR2WhenForcedInTestingAndPlaybackIsAvailable",
+          "kind": "Fact",
+          "line": 44,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoStorageSelector_FallsBackToLocalWhenR2IsMissingOrUnavailable",
+          "kind": "Theory",
+          "line": 60,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"Production\")]",
+            "[InlineData(\"Staging\")]"
+          ]
+        },
+        {
+          "name": "WorkVideoStorageSelector_TryGetStorage_IsCaseInsensitive",
+          "kind": "Fact",
+          "line": 81,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoPlaybackUrlBuilder_ResolvesDirectAndHlsStorageUrls",
+          "kind": "Fact",
+          "line": 99,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoPlaybackUrlBuilder_ReturnsNullForUnsupportedSources",
+          "kind": "Theory",
+          "line": 122,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(WorkVideoSourceTypes.YouTube, \"abc123\")]",
+            "[InlineData(WorkVideoSourceTypes.Hls, \"not-a-valid-hls-source-key\")]",
+            "[InlineData(\"missing-storage\", \"videos/missing.mp4\")]"
+          ]
+        },
+        {
+          "name": "WorkVideoPlaybackUrlBuilder_BuildStorageObjectUrl_UsesRequestedStorage",
+          "kind": "Fact",
+          "line": 138,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LocalVideoStorageService_SaveReadAndDelete_UsesTempMediaRoot",
+          "kind": "Fact",
+          "line": 157,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LocalVideoStorageService_SaveOverwritesExistingFileAndDeleteIsIdempotent",
+          "kind": "Fact",
+          "line": 203,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LocalVideoStorageService_MissingObjectOperationsAreSafe",
+          "kind": "Fact",
+          "line": 233,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LocalVideoStorageService_DeleteManifest_RemovesHlsDirectory",
+          "kind": "Fact",
+          "line": 261,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoHlsWorkspace_CreatesSeparatedSourceAndOutputPathsAndCleansUpLease",
+          "kind": "Fact",
+          "line": 286,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoHlsOutputPublisher_StoresArtifactsWithExpectedContentTypesAndKeys",
+          "kind": "Fact",
+          "line": 317,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoHlsOutputPublisher_StopsOnStorageFailureAndLeavesPreviouslySavedArtifactsVisible",
+          "kind": "Fact",
+          "line": 353,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoCleanupService_ProcessCleanupJobs_DeletesLocalFileAndMarksJobSucceeded",
+          "kind": "Fact",
+          "line": 383,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoCleanupService_ProcessCleanupJobs_MarksMissingStorageAsFailed",
+          "kind": "Fact",
+          "line": 411,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoCleanupService_ProcessCleanupJobs_RetriesFailedDeleteUntilMaxAttempts",
+          "kind": "Fact",
+          "line": 426,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoCleanupService_ExpireUploadSessions_ExpiresUnconfirmedSessionsAndEnqueuesCleanup",
+          "kind": "Fact",
+          "line": 445,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ReorderWorkVideosCommandHandler_RewritesSortOrderDeterministically",
+          "kind": "Fact",
+          "line": 492,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DeleteWorkVideoCommandHandler_QueuesCleanupAndCompactsRemainingSortOrder",
+          "kind": "Fact",
+          "line": 530,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoCleanupStore_EnqueuesHlsManifestCleanupOnceForUnderlyingStorage",
+          "kind": "Fact",
+          "line": 566,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkVideoCleanupStore_SkipsYouTubeAndMalformedHlsSourceKeys",
+          "kind": "Fact",
+          "line": 591,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "contract",
+      "className": "ProviderContractVerificationTests",
+      "path": "backend/tests/WoongBlog.Api.ContractTests/ProviderContractVerificationTests.cs",
+      "methods": [
+        {
+          "name": "VerifyProviderContractsFromPactFiles",
+          "kind": "Fact",
+          "line": 18,
+          "attributes": [
+            "[PactProviderFact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AdminAiEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AdminAiEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "AdminAiEndpoints_RejectAnonymousRequests",
+          "kind": "Fact",
+          "line": 24,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixBlog_ReturnsBadRequest_WhenHtmlMissing",
+          "kind": "Fact",
+          "line": 45,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBatchJob_ReturnsBadRequest_WhenNoTargetsRequested",
+          "kind": "Fact",
+          "line": 64,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixBlog_ReturnsProviderPayload",
+          "kind": "Fact",
+          "line": 80,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixBlog_ForwardsRequestedProvider",
+          "kind": "Fact",
+          "line": 107,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixBlog_ForwardsCustomPrompt",
+          "kind": "Fact",
+          "line": 132,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FixBlogBatch_AppliesUpdatedHtml_WhenRequested",
+          "kind": "Fact",
+          "line": 157,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "OpenApiDocument_ListsAdminAiEndpoints",
+          "kind": "Fact",
+          "line": 193,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "RuntimeConfig_ReturnsConfiguredProviderMetadata",
+          "kind": "Fact",
+          "line": 206,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "WorkEnrich_ReturnsProviderPayload",
+          "kind": "Fact",
+          "line": 222,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBatchJob_ListsAndReturnsDetail",
+          "kind": "Fact",
+          "line": 249,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBatchJob_RepeatedActiveSelectionReturnsExistingJob",
+          "kind": "Fact",
+          "line": 292,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "BatchJob_PersistsAndAppliesCustomPrompt",
+          "kind": "Fact",
+          "line": 344,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "BatchJob_CanBeCancelled",
+          "kind": "Fact",
+          "line": 406,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CompletedBatchJob_CanApplySuccessfulResults",
+          "kind": "Fact",
+          "line": 442,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CompletedBatchJob_CanBeRemoved",
+          "kind": "Fact",
+          "line": 506,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CompletedBatchJob_CanAutoApplySuccessfulResults",
+          "kind": "Fact",
+          "line": 561,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AdminContentEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AdminContentEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "GetAdminPages_WithSlugFilter_ReturnsRequestedPageOnly",
+          "kind": "Fact",
+          "line": 23,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetAdminPages_Home_ReturnsStructuredHomeContent",
+          "kind": "Fact",
+          "line": 36,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateAdminPage_ReturnsBadRequest_WhenIdMissing",
+          "kind": "Fact",
+          "line": 69,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateAdminPage_ReturnsNotFound_WhenPageMissing",
+          "kind": "Fact",
+          "line": 83,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_PersistsOwnerName",
+          "kind": "Fact",
+          "line": 98,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_ClearsResumeAsset_WhenExplicitlyNull",
+          "kind": "Fact",
+          "line": 118,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_PreservesResumeAsset_WhenResumeAssetIdIsOmitted",
+          "kind": "Fact",
+          "line": 146,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_ReturnsBadRequest_WhenResumeAssetIdIsEmptyGuid",
+          "kind": "Fact",
+          "line": 174,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_ReturnsBadRequest_WhenTitleMissing",
+          "kind": "Fact",
+          "line": 187,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_CreatesSlug_AndLeavesExcerptBlank_WhenNoManualExcerptIsProvided",
+          "kind": "Fact",
+          "line": 203,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_UsesManualExcerpt_WhenProvided",
+          "kind": "Fact",
+          "line": 230,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateAndReadBlog_PersistsUploadedCover",
+          "kind": "Fact",
+          "line": 256,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_LeavesExcerptBlank_WhenManualExcerptIsBlank",
+          "kind": "Fact",
+          "line": 293,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateBlog_LeavesExcerptBlank_WhenManualExcerptIsBlank",
+          "kind": "Fact",
+          "line": 320,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateBlog_PreservesStoredCover_WhenCoverAssetIdIsOmitted",
+          "kind": "Fact",
+          "line": 357,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateBlog_ChangesAndClearsStoredCover_WhenCoverAssetIdIsProvided",
+          "kind": "Fact",
+          "line": 405,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_WithMarkdownOnlyContent_LeavesExcerptBlank",
+          "kind": "Fact",
+          "line": 478,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_WithWrappedMarkdownHtml_LeavesExcerptBlank",
+          "kind": "Fact",
+          "line": 499,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_WithDuplicateTitle_GeneratesUniqueSlug",
+          "kind": "Fact",
+          "line": 520,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateBlog_ReturnsNotFound_WhenBlogMissing",
+          "kind": "Fact",
+          "line": 547,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateWork_ReturnsBadRequest_WhenCategoryMissing",
+          "kind": "Fact",
+          "line": 563,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateAndReadWork_FallsBackToEmptyObject_ForMalformedMetadata",
+          "kind": "Fact",
+          "line": 582,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateWork_WithDuplicateTitle_GeneratesUniqueSlug",
+          "kind": "Fact",
+          "line": 609,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateWork_StoresBodyImageThumbnailFallback_ForPublicReadModel",
+          "kind": "Fact",
+          "line": 642,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateWork_ReturnsNotFound_WhenWorkMissing",
+          "kind": "Fact",
+          "line": 685,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateWork_RecomputesBodyImageThumbnailFallback_ForPublicReadModel",
+          "kind": "Fact",
+          "line": 704,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateWork_FallsBackToExistingVideo_WhenThumbnailAssetDoesNotResolve",
+          "kind": "Fact",
+          "line": 757,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateAndReadWork_PersistsUploadedThumbnailAndIcon",
+          "kind": "Fact",
+          "line": 821,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AdminDashboardEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AdminDashboardEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "GetDashboardSummary_ReturnsCountsForAdmin",
+          "kind": "Fact",
+          "line": 16,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetDashboardSummary_RejectsAnonymous",
+          "kind": "Fact",
+          "line": 30,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AdminEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AdminEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "CreateWork_WithInvalidPayload_ReturnsBadRequest",
+          "kind": "Fact",
+          "line": 18,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateWork_ThenGetById_PersistsExcerptAndCategory",
+          "kind": "Fact",
+          "line": 34,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdatePage_PersistsNewHtmlContent",
+          "kind": "Fact",
+          "line": 62,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_PersistsOwnerName",
+          "kind": "Fact",
+          "line": 86,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_WithTooLongTitle_ReturnsBadRequest",
+          "kind": "Fact",
+          "line": 106,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_ThenDelete_RemovesBlog",
+          "kind": "Fact",
+          "line": 121,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetAdminBlogById_ExtractsHtmlContent",
+          "kind": "Fact",
+          "line": 144,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetAdminWorkById_UsesEmptyHtmlWhenContentJsonIsMalformed",
+          "kind": "Fact",
+          "line": 166,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AdminMembersEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AdminMembersEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "GetMembers_ReturnsPrivacySafeMemberListForAdmin",
+          "kind": "Fact",
+          "line": 15,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetMembers_RejectsAnonymous",
+          "kind": "Fact",
+          "line": 32,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AdminMutationEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AdminMutationEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "AdminMutationEndpoints_WithValidCsrf_ButMissingAdminRole_ReturnAuthFailure",
+          "kind": "Theory",
+          "line": 22,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(null, HttpStatusCode.Unauthorized, \"page-update\")]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden, \"page-update\")]",
+            "[InlineData(null, HttpStatusCode.Unauthorized, \"blog-create\")]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden, \"blog-create\")]",
+            "[InlineData(null, HttpStatusCode.Unauthorized, \"blog-update\")]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden, \"blog-update\")]",
+            "[InlineData(null, HttpStatusCode.Unauthorized, \"blog-delete\")]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden, \"blog-delete\")]",
+            "[InlineData(null, HttpStatusCode.Unauthorized, \"work-create\")]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden, \"work-create\")]",
+            "[InlineData(null, HttpStatusCode.Unauthorized, \"work-update\")]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden, \"work-update\")]",
+            "[InlineData(null, HttpStatusCode.Unauthorized, \"work-delete\")]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden, \"work-delete\")]",
+            "[InlineData(null, HttpStatusCode.Unauthorized, \"site-settings-update\")]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden, \"site-settings-update\")]"
+          ]
+        },
+        {
+          "name": "UpdatePage_WhenValid_PersistsTargetPageOnly",
+          "kind": "Fact",
+          "line": 51,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdatePage_WhenInvalid_ReturnsBadRequestAndDoesNotPersist",
+          "kind": "Fact",
+          "line": 98,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_WhenValid_PersistsExpectedFields",
+          "kind": "Fact",
+          "line": 130,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateBlog_WhenInvalid_ReturnsBadRequestAndDoesNotCreate",
+          "kind": "Fact",
+          "line": 167,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateBlog_WhenExisting_PersistsExpectedFieldsAndCanUnpublish",
+          "kind": "Fact",
+          "line": 185,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateBlog_WhenMissing_ReturnsNotFoundAndDoesNotAffectExistingBlogs",
+          "kind": "Fact",
+          "line": 223,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DeleteBlog_WhenExisting_RemovesOnlyTargetBlog",
+          "kind": "Fact",
+          "line": 248,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DeleteBlog_WhenMissing_ReturnsNotFoundAndDoesNotAffectBlogs",
+          "kind": "Fact",
+          "line": 268,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateWork_WhenValid_PersistsExpectedFields",
+          "kind": "Fact",
+          "line": 285,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CreateWork_WhenInvalid_ReturnsBadRequestAndDoesNotCreate",
+          "kind": "Fact",
+          "line": 328,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateWork_WhenExisting_PersistsExpectedFieldsAndCanUnpublish",
+          "kind": "Fact",
+          "line": 349,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateWork_WhenMissing_ReturnsNotFoundAndDoesNotAffectExistingWorks",
+          "kind": "Fact",
+          "line": 409,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DeleteWork_WhenExisting_RemovesOnlyTargetWork",
+          "kind": "Fact",
+          "line": 437,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DeleteWork_WhenMissing_ReturnsNotFoundAndDoesNotAffectWorks",
+          "kind": "Fact",
+          "line": 457,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_WhenPartialPayload_PreservesOmittedFields",
+          "kind": "Fact",
+          "line": 474,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_WhenInvalid_ReturnsBadRequestAndDoesNotPersist",
+          "kind": "Fact",
+          "line": 507,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AuthEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AuthEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "GetSession_WhenAnonymous_ReturnsUnauthenticated",
+          "kind": "Fact",
+          "line": 16,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetSession_WhenAuthenticated_ReturnsAdminSession",
+          "kind": "Fact",
+          "line": 29,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetCsrf_ReturnsRequestToken",
+          "kind": "Fact",
+          "line": 43,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "TestLogin_IsNotRateLimitedByTheApplication",
+          "kind": "Fact",
+          "line": 57,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Session_IsNotRateLimited_WhenFlooded",
+          "kind": "Fact",
+          "line": 76,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LogoutGet_ReturnsMethodNotAllowed",
+          "kind": "Fact",
+          "line": 92,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AuthFlowIntegrationTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AuthFlowIntegrationTests.cs",
+      "methods": [
+        {
+          "name": "GetSession_WhenAdminHeaderPresent_ReturnsFullAdminPayload",
+          "kind": "Fact",
+          "line": 19,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetSession_WhenNonAdminHeaderPresent_ReturnsAuthenticatedUserRole",
+          "kind": "Fact",
+          "line": 37,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AdminGetEndpoints_WhenAnonymous_ReturnUnauthorized",
+          "kind": "Theory",
+          "line": 59,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"/api/admin/pages\")]",
+            "[InlineData(\"/api/admin/blogs\")]",
+            "[InlineData(\"/api/admin/works\")]",
+            "[InlineData(\"/api/admin/site-settings\")]",
+            "[InlineData(\"/api/admin/dashboard\")]",
+            "[InlineData(\"/api/admin/members\")]",
+            "[InlineData(\"/api/admin/ai/runtime-config\")]"
+          ]
+        },
+        {
+          "name": "AdminGetEndpoints_WhenAuthenticatedWithoutAdminRole_ReturnForbidden",
+          "kind": "Theory",
+          "line": 80,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"/api/admin/pages\")]",
+            "[InlineData(\"/api/admin/blogs\")]",
+            "[InlineData(\"/api/admin/works\")]",
+            "[InlineData(\"/api/admin/site-settings\")]",
+            "[InlineData(\"/api/admin/dashboard\")]",
+            "[InlineData(\"/api/admin/members\")]",
+            "[InlineData(\"/api/admin/ai/runtime-config\")]"
+          ]
+        },
+        {
+          "name": "AdminGetEndpoints_WhenAuthenticatedAsAdmin_ReturnSuccess",
+          "kind": "Theory",
+          "line": 101,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"/api/admin/pages\")]",
+            "[InlineData(\"/api/admin/blogs\")]",
+            "[InlineData(\"/api/admin/works\")]",
+            "[InlineData(\"/api/admin/site-settings\")]",
+            "[InlineData(\"/api/admin/dashboard\")]",
+            "[InlineData(\"/api/admin/members\")]",
+            "[InlineData(\"/api/admin/ai/runtime-config\")]"
+          ]
+        },
+        {
+          "name": "Login_WhenAuthConfigured_ChallengesFakeOidcProvider",
+          "kind": "Fact",
+          "line": 118,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Login_WhenReturnUrlIsExternal_DoesNotExposeExternalRedirectTarget",
+          "kind": "Fact",
+          "line": 138,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LogoutPost_WhenCsrfMissing_ReturnsBadRequest",
+          "kind": "Fact",
+          "line": 155,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LogoutPost_WhenCsrfValid_ReturnsRedirectPayloadAndClearsAuthCookie",
+          "kind": "Fact",
+          "line": 165,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_WhenCsrfTokenInvalid_ReturnsBadRequestAndDoesNotPersist",
+          "kind": "Fact",
+          "line": 182,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_WhenCsrfTokenValid_PersistsMutation",
+          "kind": "Fact",
+          "line": 209,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AdminMutation_WhenCsrfTokenValidButPrincipalIsNotAdmin_ReturnsAuthFailure",
+          "kind": "Theory",
+          "line": 227,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(null, HttpStatusCode.Unauthorized)]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden)]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "AuthSecurityTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/AuthSecurityTests.cs",
+      "methods": [
+        {
+          "name": "UpdateSiteSettings_WithoutCsrf_ReturnsBadRequest",
+          "kind": "Fact",
+          "line": 16,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettings_WithCsrf_ReturnsOk",
+          "kind": "Fact",
+          "line": 29,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Session_Response_ContainsSecurityHeaders",
+          "kind": "Fact",
+          "line": 49,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "DatabaseBootstrapperTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/DatabaseBootstrapperTests.cs",
+      "methods": [
+        {
+          "name": "InitializeAsync_SeedsContractData_AndCanBeCalledTwice",
+          "kind": "Fact",
+          "line": 19,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "InitializeAsync_Rehydrates_Public_Detail_Seeds_When_Runtime_Data_Already_Exists",
+          "kind": "Fact",
+          "line": 42,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "InitializeAsync_Reuses_Existing_Seeded_WorkVideo_Slots_When_Runtime_Data_Already_Exists",
+          "kind": "Fact",
+          "line": 66,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "PersistenceContractTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/PersistenceContractTests.cs",
+      "methods": [
+        {
+          "name": "ModelConfiguration_KeepsExpectedJsonAndUniquenessContracts",
+          "kind": "Fact",
+          "line": 27,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "SaveChanges_PopulatesContentSearchFields",
+          "kind": "Fact",
+          "line": 88,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "SeedData_SeedsCoreContractData_OnlyOnce",
+          "kind": "Fact",
+          "line": 132,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "PostgresPersistenceContractTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/PostgresPersistenceContractTests.cs",
+      "methods": [
+        {
+          "name": "Bootstrapper_AppliesPostgresSpecificSearchSchema",
+          "kind": "Fact",
+          "line": 30,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Bootstrapper_RebuildsLegacyWideWorkPublicListCoveringIndex",
+          "kind": "Fact",
+          "line": 143,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Bootstrapper_BackfillsVideosVersion_ForExistingWorkVideos",
+          "kind": "Fact",
+          "line": 184,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Bootstrapper_BackfillsPublicVideosJson_ForExistingWorkVideos",
+          "kind": "Fact",
+          "line": 226,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Bootstrapper_BackfillsPublicThumbnailUrl_FromLegacyFallbacks",
+          "kind": "Fact",
+          "line": 279,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Bootstrapper_IsIdempotentAndPreservesRuntimeData_WithPostgres",
+          "kind": "Fact",
+          "line": 358,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "RelationalConstraints_EnforceRequiredUniqueAndCascadeContracts",
+          "kind": "Fact",
+          "line": 382,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "CommandDiagnosticsInterceptor_RecordsAsyncEfCommands_WithPostgres",
+          "kind": "Fact",
+          "line": 485,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicWorkDetail_UsesStoredSocialShareMessage_WithPostgres",
+          "kind": "Fact",
+          "line": 521,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicWorkDetailWithoutVideos_UsesSinglePostgresCommand_AndResolverEquivalentStoredThumbnail",
+          "kind": "Fact",
+          "line": 564,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicWorkDetailWithoutVideos_DoesNotReferenceWorkVideosInDetailProjection",
+          "kind": "Fact",
+          "line": 626,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicWorkDetailWithVideos_UsesSinglePostgresCommand_AndStoredPublicColumnsOnly",
+          "kind": "Fact",
+          "line": 653,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicBlogDetail_UsesSinglePostgresCommand",
+          "kind": "Fact",
+          "line": 769,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicWorkFirstPage_UsesSinglePostgresCommand_ForNoSearchList",
+          "kind": "Fact",
+          "line": 796,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicBlogFirstPage_UsesSinglePostgresCommand_ForNoSearchList",
+          "kind": "Fact",
+          "line": 883,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicHome_UsesThreePostgresCommands_ForShellAndSummaryProjections",
+          "kind": "Fact",
+          "line": 913,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AdminWorkList_UsesSinglePostgresCommand_AndStoredThumbnail",
+          "kind": "Fact",
+          "line": 976,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "PublicEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/PublicEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "GetApiHealth_ReturnsOk",
+          "kind": "Fact",
+          "line": 31,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicSiteSettings_ReturnsSeededOwnerName",
+          "kind": "Fact",
+          "line": 41,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicSiteSettings_ReturnsPublicDtoShape_ForAnonymousClient",
+          "kind": "Fact",
+          "line": 54,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicHome_ReturnsFeaturedCollections",
+          "kind": "Fact",
+          "line": 75,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicHome_ReturnsPublicDtoShape_ForAnonymousClient",
+          "kind": "Fact",
+          "line": 90,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPageBySlug_ReturnsSerializedPage_ForAnonymousClient",
+          "kind": "Fact",
+          "line": 118,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPageBySlug_ReturnsNotFound_WhenMissing",
+          "kind": "Fact",
+          "line": 136,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlug_ReturnsSeededDetail",
+          "kind": "Fact",
+          "line": 146,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlug_ReturnsSerializedDetailWithMedia_ForAnonymousClient",
+          "kind": "Fact",
+          "line": 160,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlug_ReturnsPublicContentBodyWithoutAdminContentJson",
+          "kind": "Fact",
+          "line": 190,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlug_CompressesPublicDetailJson_WhenClientAcceptsGzip",
+          "kind": "Fact",
+          "line": 234,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlug_OmitsNullOptionalVideoFields",
+          "kind": "Fact",
+          "line": 282,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlug_ReturnsNotFound_WhenMissing",
+          "kind": "Fact",
+          "line": 343,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlug_ReturnsNotFound_WhenWorkIsDraft",
+          "kind": "Fact",
+          "line": 353,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkDetailContext_ReturnsBoundedPublicContext_AndNotFoundForMissingSlug",
+          "kind": "Fact",
+          "line": 383,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicWorks_FiltersDraftsOrdersByPublishedDateAndMapsAssets",
+          "kind": "Fact",
+          "line": 415,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicWorks_ReturnsPagedPayloadShape",
+          "kind": "Fact",
+          "line": 499,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicWorks_FiltersByTitleSearch",
+          "kind": "Fact",
+          "line": 517,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicWorks_FiltersByContentSearch",
+          "kind": "Fact",
+          "line": 552,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicWorks_QueryOnly_UsesUnifiedSearch",
+          "kind": "Fact",
+          "line": 588,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicBlogs_ReturnsPagedPayloadShape",
+          "kind": "Fact",
+          "line": 643,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicBlogs_FiltersByTitleSearch",
+          "kind": "Fact",
+          "line": 659,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicBlogs_FiltersByContentSearch",
+          "kind": "Fact",
+          "line": 692,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicBlogs_QueryOnly_UsesUnifiedSearch",
+          "kind": "Fact",
+          "line": 726,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogBySlug_ReturnsNotFound_WhenMissing",
+          "kind": "Fact",
+          "line": 777,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogBySlug_ReturnsSerializedDetailWithCover_ForAnonymousClient",
+          "kind": "Fact",
+          "line": 787,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogBySlug_ReturnsPublicContentBodyWithoutAdminContentJson",
+          "kind": "Fact",
+          "line": 808,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogBySlug_ReturnsNotFound_WhenBlogIsDraft",
+          "kind": "Fact",
+          "line": 850,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetBlogDetailContext_ReturnsBoundedPublicContext_AndNotFoundForMissingSlug",
+          "kind": "Fact",
+          "line": 878,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicBlogs_FiltersDraftsOrdersByPublishedDateAndMapsAssets",
+          "kind": "Fact",
+          "line": 910,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicListEndpoints_ReturnStableEmptyResponses_WhenContentTablesAreEmpty",
+          "kind": "Fact",
+          "line": 984,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetPublicResume_ReturnsSeededResumeUrl",
+          "kind": "Fact",
+          "line": 1018,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "SeededAdminProfile_Exists",
+          "kind": "Fact",
+          "line": 1031,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "StartupCompositionTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/StartupCompositionTests.cs",
+      "methods": [
+        {
+          "name": "Root_RedirectsToHealthEndpoint",
+          "kind": "Fact",
+          "line": 85,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ServiceProvider_ResolvesImportantApiApplicationAndInfrastructureServices",
+          "kind": "Fact",
+          "line": 99,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PersistenceRegistration_PoolsDbContextInstancesAndResetsStateAcrossScopes",
+          "kind": "Fact",
+          "line": 156,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ServiceProvider_ResolvesImportantApplicationHandlersAndValidators",
+          "kind": "Fact",
+          "line": 197,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "JsonOptions_UseSourceGeneratedMetadataForPublicHotPathDtos",
+          "kind": "Fact",
+          "line": 250,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "JsonOptions_UseSourceGeneratedSerializationForPublicHotPathDtos",
+          "kind": "Fact",
+          "line": 262,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UploadLimits_AllowConfiguredWorkVideoMaximumBeforeAppValidation",
+          "kind": "Fact",
+          "line": 274,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AuthOptions_Use300MinuteSlidingExpiration_AndEightHourAbsoluteExpiration",
+          "kind": "Fact",
+          "line": 292,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Options_AreBoundForTestingStartup",
+          "kind": "Fact",
+          "line": 302,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "HealthOpenApiAndRuntimeConfig_StartWithoutExternalServicesInTesting",
+          "kind": "Fact",
+          "line": 327,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LoadTestDiagnostics_RequiresAdminAuthorization",
+          "kind": "Fact",
+          "line": 425,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "RealLoadTestControlPlane_EndpointsRequireAdminAuthorization",
+          "kind": "Fact",
+          "line": 435,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "RealLoadTestControlPlane_StartStatusMetricsAndStop_HappyPath_WhenRealRunnerDisabled_ForcesFakeRunner",
+          "kind": "Fact",
+          "line": 479,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "RealLoadTestControlPlane_StartRejectsSpikePeakRateBelowBaseRate",
+          "kind": "Fact",
+          "line": 589,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "RealLoadTestControlPlane_RealRunnerDisabledFallsBackToFakeRunner",
+          "kind": "Fact",
+          "line": 616,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LoadTestDiagnostics_WhenDbCollectorThrows_ReturnsErrorDatabasePayload",
+          "kind": "Fact",
+          "line": 669,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UnsafeAdminMutationWithoutCsrf_IsRejectedBeforeAuthorization",
+          "kind": "Fact",
+          "line": 700,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "StartupOptionsValidationTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/StartupOptionsValidationTests.cs",
+      "methods": [
+        {
+          "name": "CurrentTestingConfiguration_RemainsValid",
+          "kind": "Fact",
+          "line": 12,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "InvalidProxyNetwork_FailsAtStartup",
+          "kind": "Fact",
+          "line": 23,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "InvalidAuthPublicOrigin_FailsAtStartup",
+          "kind": "Fact",
+          "line": 37,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "InvalidAiProvider_FailsAtStartup",
+          "kind": "Fact",
+          "line": 51,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "InvalidAiBatchConcurrency_FailsAtStartup",
+          "kind": "Fact",
+          "line": 65,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "MissingRequiredAuthStoragePath_FailsAtStartup",
+          "kind": "Fact",
+          "line": 79,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "MissingSecurityAntiforgeryHeaderName_FailsAtStartup",
+          "kind": "Fact",
+          "line": 93,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ProductionAuthWithoutCredentials_FailsAtStartup",
+          "kind": "Fact",
+          "line": 107,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "UploadsControllerTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/UploadsControllerTests.cs",
+      "methods": [
+        {
+          "name": "Upload_WithoutFile_ReturnsBadRequest",
+          "kind": "Fact",
+          "line": 21,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Upload_Pdf_CreatesAsset_AndDelete_RemovesIt",
+          "kind": "Fact",
+          "line": 33,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Upload_UnsupportedImage_ReturnsBadRequest",
+          "kind": "Fact",
+          "line": 70,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Delete_MissingAsset_ReturnsNotFound",
+          "kind": "Fact",
+          "line": 88,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "integration",
+      "className": "WorkVideoEndpointsTests",
+      "path": "backend/tests/WoongBlog.Api.IntegrationTests/WorkVideoEndpointsTests.cs",
+      "methods": [
+        {
+          "name": "AddYouTubeVideo_PersistsAndProjectsToAdminAndPublic",
+          "kind": "Fact",
+          "line": 30,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "AddYouTubeVideo_RecomputesFallback_WhenThumbnailAssetDoesNotResolve",
+          "kind": "Fact",
+          "line": 78,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UploadUrl_WithValidCsrfButMissingAdminRole_ReturnsAuthFailure",
+          "kind": "Theory",
+          "line": 127,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(null, HttpStatusCode.Unauthorized)]",
+            "[InlineData(\"user\", HttpStatusCode.Forbidden)]"
+          ]
+        },
+        {
+          "name": "UploadUrl_ReturnsNotFound_WhenWorkIsMissing",
+          "kind": "Fact",
+          "line": 147,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UploadUrl_ReturnsBadRequest_WhenFileMetadataIsInvalid",
+          "kind": "Fact",
+          "line": 165,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UploadLocal_ReturnsBadRequest_WhenFileIsMissing",
+          "kind": "Fact",
+          "line": 184,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LocalUploadConfirm_PersistsMetadataStoresFileAndProjectsPublicVideo",
+          "kind": "Fact",
+          "line": 201,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "LocalUploadConfirmAndDeleteWork_EnqueuesCleanupAndRemovesVideoRows",
+          "kind": "Fact",
+          "line": 252,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DeleteWorkVideo_RemovesRecordAndSchedulesStorageCleanup",
+          "kind": "Fact",
+          "line": 305,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DeleteWorkVideo_ReturnsNotFound_WhenVideoIsMissing",
+          "kind": "Fact",
+          "line": 342,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "DeleteYouTubeVideo_RecomputesBodyImageThumbnailFallback_ForPublicReadModel",
+          "kind": "Fact",
+          "line": 355,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FfmpegVideoTranscoder_SegmentsHlsAndProducesTheManifest",
+          "kind": "Fact",
+          "line": 398,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "HlsJob_StoresManifestAndProjectsPlaybackUrl",
+          "kind": "Fact",
+          "line": 449,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "HlsJob_DeleteThenReupload_ReturnsPreviewCapablePayloadWhenPreviewAssetsExist",
+          "kind": "Fact",
+          "line": 507,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ReorderWorkVideos_ReturnsConflictWhenVideosVersionIsStale",
+          "kind": "Fact",
+          "line": 563,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ReorderWorkVideos_PersistsUpdatedPublicAndAdminOrder",
+          "kind": "Fact",
+          "line": 587,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ReorderWorkVideos_ReturnsBadRequest_WhenPayloadContainsInvalidIds",
+          "kind": "Fact",
+          "line": 656,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "PublicWorkVideoQuery_ReturnsPublishedVideoDataAndHidesDraftWorkVideos",
+          "kind": "Fact",
+          "line": 700,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ExpireUploadSessions_MarksSessionAndEnqueuesCleanup",
+          "kind": "Fact",
+          "line": 784,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "unit",
+      "className": "AdminContentTextTests",
+      "path": "backend/tests/WoongBlog.Api.UnitTests/AdminContentTextTests.cs",
+      "methods": [
+        {
+          "name": "GenerateExcerpt_Removes_MermaidBlocks_And_Preserves_AdjacentText",
+          "kind": "Fact",
+          "line": 8,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GenerateExcerpt_DoesNotTreatPlainFencesAsManagedMermaidBlocks",
+          "kind": "Fact",
+          "line": 27,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "unit",
+      "className": "AiHttpResultMapperTests",
+      "path": "backend/tests/WoongBlog.Api.UnitTests/AiHttpResultMapperTests.cs",
+      "methods": [
+        {
+          "name": "ToHttpResult_WithOkStatus_ReturnsHttp200",
+          "kind": "Fact",
+          "line": 11,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ToHttpResult_WithBadRequestStatus_ReturnsHttp400WithErrorBody",
+          "kind": "Fact",
+          "line": 19,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ToHttpResult_WithNotFoundStatus_ReturnsHttp404",
+          "kind": "Fact",
+          "line": 28,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ToHttpResult_WithConflictStatus_ReturnsHttp409WithErrorBody",
+          "kind": "Fact",
+          "line": 36,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ToHttpResult_WithUnknownStatus_ReturnsHttp500",
+          "kind": "Fact",
+          "line": 45,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "unit",
+      "className": "GetPageBySlugQueryValidatorTests",
+      "path": "backend/tests/WoongBlog.Api.UnitTests/GetPageBySlugQueryValidatorTests.cs",
+      "methods": [
+        {
+          "name": "Should_Have_Error_When_Slug_Is_Empty",
+          "kind": "Fact",
+          "line": 10,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Should_Not_Have_Error_When_Slug_Is_Valid",
+          "kind": "Fact",
+          "line": 18,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "unit",
+      "className": "PublicContentBodyDtoTests",
+      "path": "backend/tests/WoongBlog.Api.UnitTests/PublicContentBodyDtoTests.cs",
+      "methods": [
+        {
+          "name": "FromStoredFields_ReturnsOnlyMarkdown_WhenBothStoredSourcesExist",
+          "kind": "Fact",
+          "line": 8,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "FromStoredFields_ReturnsHtml_WhenMarkdownIsMissing",
+          "kind": "Fact",
+          "line": 17,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "unit",
+      "className": "RequestValidatorTests",
+      "path": "backend/tests/WoongBlog.Api.UnitTests/RequestValidatorTests.cs",
+      "methods": [
+        {
+          "name": "SaveWorkRequestValidator_Rejects_Empty_Title_Category_And_Content",
+          "kind": "Fact",
+          "line": 13,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "SaveBlogRequestValidator_Rejects_TooLong_Title_And_Tag",
+          "kind": "Fact",
+          "line": 35,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdatePageRequestValidator_Rejects_Empty_Id_TooLong_Title_And_Empty_Content",
+          "kind": "Fact",
+          "line": 52,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "UpdateSiteSettingsCommandValidator_Rejects_Empty_ResumeAssetId_WhenProvided",
+          "kind": "Fact",
+          "line": 67,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "GetWorkBySlugQueryValidator_Rejects_Empty_Slug",
+          "kind": "Theory",
+          "line": 86,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"\")]",
+            "[InlineData(\" \")]"
+          ]
+        },
+        {
+          "name": "GetBlogBySlugQueryValidator_Rejects_Empty_Slug",
+          "kind": "Theory",
+          "line": 97,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"\")]",
+            "[InlineData(\" \")]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "unit",
+      "className": "WorkVideoHlsJobPlanTests",
+      "path": "backend/tests/WoongBlog.Api.UnitTests/WorkVideoHlsJobPlanTests.cs",
+      "methods": [
+        {
+          "name": "Create_BuildsHlsStoragePathsAndSanitizedVideoEntity",
+          "kind": "Fact",
+          "line": 9,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "ToWorkVideo_OmitsTimelinePreviewKeys_WhenPreviewWasNotGenerated",
+          "kind": "Fact",
+          "line": 35,
+          "attributes": [
+            "[Fact]"
+          ]
+        },
+        {
+          "name": "Create_WithR2Storage_EmbedsUnderlyingStorageInHlsSourceKey",
+          "kind": "Fact",
+          "line": 46,
+          "attributes": [
+            "[Fact]"
+          ]
+        }
+      ]
+    },
+    {
+      "suite": "unit",
+      "className": "WorkVideoPolicyTests",
+      "path": "backend/tests/WoongBlog.Api.UnitTests/WorkVideoPolicyTests.cs",
+      "methods": [
+        {
+          "name": "NormalizeYouTubeVideoId_ReturnsId_ForSupportedInput",
+          "kind": "Theory",
+          "line": 64,
+          "attributes": [
+            "[Theory]",
+            "[MemberData(nameof(ValidYouTubeVideoIdInputs))]"
+          ]
+        },
+        {
+          "name": "NormalizeYouTubeVideoId_ReturnsNull_ForUnsupportedInput",
+          "kind": "Theory",
+          "line": 73,
+          "attributes": [
+            "[Theory]",
+            "[MemberData(nameof(InvalidYouTubeVideoIdInputs))]"
+          ]
+        },
+        {
+          "name": "ValidateVideoFile_ReturnsError_ForInvalidUpload",
+          "kind": "Theory",
+          "line": 82,
+          "attributes": [
+            "[Theory]",
+            "[MemberData(nameof(InvalidVideoFiles))]"
+          ]
+        },
+        {
+          "name": "ValidateVideoFile_ReturnsNull_ForSupportedUpload",
+          "kind": "Theory",
+          "line": 91,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"video.MP4\", \"video/mp4\", 1024)]",
+            "[InlineData(\"video.mp4\", \"video/mp4\", 1024)]"
+          ]
+        },
+        {
+          "name": "LooksLikeMp4_ReturnsExpectedResult_ForPrefix",
+          "kind": "Theory",
+          "line": 101,
+          "attributes": [
+            "[Theory]",
+            "[MemberData(nameof(Mp4Prefixes))]"
+          ]
+        },
+        {
+          "name": "SanitizeOriginalFileName_ReturnsExpectedName",
+          "kind": "Theory",
+          "line": 110,
+          "attributes": [
+            "[Theory]",
+            "[MemberData(nameof(OriginalFileNames))]"
+          ]
+        },
+        {
+          "name": "PublicVideosReadModel_Deserialize_ReturnsSharedEmptySnapshot_ForEmptyArray",
+          "kind": "Theory",
+          "line": 119,
+          "attributes": [
+            "[Theory]",
+            "[InlineData(\"[]\")]",
+            "[InlineData(\"  []  \")]",
+            "[InlineData(\"\\n[]\\t\")]"
+          ]
+        }
+      ]
+    }
+  ]
+}

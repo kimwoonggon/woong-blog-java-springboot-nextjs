@@ -11,6 +11,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.woongblog.content.ContentService;
+import com.woongblog.common.BadRequestException;
 import com.woongblog.media.MediaService;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -27,7 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("unit")
+@Tag("component")
 class WorkVideoCommandHandlersTest {
     @Mock
     private ContentService contentService;
@@ -67,6 +68,25 @@ class WorkVideoCommandHandlersTest {
                         "uploadUrl",
                         "/api/admin/works/%s/videos/upload?uploadSessionId=%s"
                                 .formatted(workId, store.createdSession.id()));
+    }
+
+    @Test
+    void issueUploadUrlRejectsInvalidFileMetadataBeforeVersionCheck() {
+        UUID workId = UUID.randomUUID();
+        FakeWorkVideoStore store = new FakeWorkVideoStore();
+        IssueWorkVideoUploadUrlCommandHandler handler = new IssueWorkVideoUploadUrlCommandHandler(contentService, store);
+
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> handler.handle(new IssueWorkVideoUploadUrlCommand(
+                        workId,
+                        "clip.txt",
+                        "text/plain",
+                        0L,
+                        7)))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("Valid video file metadata is required.");
+
+        verify(contentService, never()).requireVideoVersion(any(UUID.class), org.mockito.ArgumentMatchers.anyInt());
+        assertThat(store.createdSession).isNull();
     }
 
     @Test

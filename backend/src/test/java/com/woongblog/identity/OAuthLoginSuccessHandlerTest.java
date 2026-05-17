@@ -21,7 +21,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-@Tag("unit")
+@Tag("component")
 class OAuthLoginSuccessHandlerTest {
     @Test
     void rejectsUnsupportedAuthenticationType() throws Exception {

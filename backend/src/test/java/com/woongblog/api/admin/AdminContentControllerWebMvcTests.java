@@ -43,6 +43,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("web")
+@Tag("component")
 class AdminContentControllerWebMvcTests {
     private MockMvc mockMvc;
 

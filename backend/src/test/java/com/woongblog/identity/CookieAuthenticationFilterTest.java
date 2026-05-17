@@ -22,7 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("unit")
+@Tag("component")
 class CookieAuthenticationFilterTest {
     private AppProperties properties;
     private CookieAuthenticationFilter filter;

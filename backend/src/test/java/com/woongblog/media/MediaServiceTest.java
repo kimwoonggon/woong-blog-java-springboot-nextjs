@@ -43,7 +43,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("unit")
+@Tag("component")
 class MediaServiceTest {
     @TempDir
     private Path mediaRoot;
@@ -168,6 +168,17 @@ class MediaServiceTest {
         assertThatThrownBy(() -> mediaService.upload(file, "uploads"))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("file is required.");
+
+        verifyNoInteractions(jdbcTemplate);
+    }
+
+    @Test
+    void uploadRejectsUnsupportedImageTypeBeforePersistingAnything() {
+        MockMultipartFile file = new MockMultipartFile("file", "legacy.bmp", "image/bmp", new byte[] {1, 2, 3});
+
+        assertThatThrownBy(() -> mediaService.upload(file, "blogs/inline"))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessage("Unsupported image type.");
 
         verifyNoInteractions(jdbcTemplate);
     }
