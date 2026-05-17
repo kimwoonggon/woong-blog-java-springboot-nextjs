@@ -8,6 +8,7 @@
     "Updated backend coverage script to enforce thresholds and report executed test counts.",
     "Updated backend tagged-suite scripts to fail on zero executed tests.",
     "Added backend coverage jobs to dev and main runtime CI workflows.",
+    "Added tests/contracts/pacts to the main runtime promotion allowlist for promoted coverage and contract jobs.",
     "Fixed ContentService context null PublishedAt handling exposed by tests."
   ],
   "intentionallyNotChanged": [
@@ -51,7 +52,9 @@
     "git diff --check",
     "Docker Java 21 full backend coverage gate against fresh PostgreSQL",
     "Surefire report total check",
-    "docker ps remaining-container check"
+    "docker ps remaining-container check",
+    "CI Dev run 25989003521 succeeded with backend coverage",
+    "Publish GHCR Dev run 25989128710 succeeded"
   ],
   "evidence": [
     "backend/reports/testing-hardening-2026-05-17/full-backend-coverage-final-2026-05-17.log",
@@ -59,12 +62,14 @@
     "coverage/backend/full/report/index.html",
     ".github/workflows/ci-dev.yml",
     ".github/workflows/ci-main-runtime.yml",
-    "scripts/run-backend-coverage.sh"
+    "scripts/run-backend-coverage.sh",
+    "scripts/main-runtime-allowlist.txt"
   ],
   "risks": [
     "Branch coverage remains 85.28% and is not part of the 99% gate.",
-    "Remote CI, staging image publish, promotion, and main runtime CI must still be observed after push.",
+    "Automatic promotion fails before checkout when PROMOTION_TOKEN is absent; manual release/main-promote PR promotion is being used.",
+    "Regenerated promotion PR CI, main merge, and main publish gates still require observation after the Pact allowlist fix.",
     "The external coverage database container remains running for local evidence inspection."
   ],
-  "recommendation": "Push this slice to dev and observe CI Dev, Publish GHCR Dev, promotion, and CI Main Runtime."
+  "recommendation": "Regenerate release/main-promote after the Pact allowlist fix, verify CI Main Runtime, merge to main, and observe main push/publish gates."
 }

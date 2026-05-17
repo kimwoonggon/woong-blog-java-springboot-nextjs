@@ -57,6 +57,7 @@ scripts/summarize-e2e-latency.mjs
 tsconfig.json
 next.config.ts
 tests/ci-compose-public.spec.ts
+tests/contracts/pacts
 tests/helpers/global-setup.ts
 tests/helpers/auth.ts
 tests/helpers/latency.ts
