@@ -78,6 +78,15 @@ class CqrsArchitectureTest {
                 .contains("ALTER COLUMN \"CreatedAt\" SET DEFAULT now()");
     }
 
+    @Test
+    void pactProviderCiUsesTestClasspathForJdbcTcProviderStartup() throws IOException {
+        String script = read(repoPath("scripts/pact-provider-verify.sh"));
+
+        assertThat(script)
+                .contains("jdbc:tc:postgresql:16-alpine:///pact_provider")
+                .contains("-Dspring-boot.run.useTestClasspath=true");
+    }
+
     private static String read(Path path) throws IOException {
         assertThat(path).exists();
         return Files.readString(path);

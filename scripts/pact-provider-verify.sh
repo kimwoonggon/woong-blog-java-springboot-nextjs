@@ -37,7 +37,7 @@ trap cleanup EXIT
   APP_REQUIRE_HTTPS_METADATA=false \
   SECURITY_USE_HTTPS_REDIRECTION=false \
   SECURITY_USE_HSTS=false \
-  ./mvnw -q spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=${PACT_PROVIDER_PORT}"
+  ./mvnw -q spring-boot:run -Dspring-boot.run.useTestClasspath=true -Dspring-boot.run.jvmArguments="-Dserver.port=${PACT_PROVIDER_PORT}"
 ) >"$PACT_TEMP_ROOT/provider.log" 2>&1 &
 PROVIDER_PID=$!
 
