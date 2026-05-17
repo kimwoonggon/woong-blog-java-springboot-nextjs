@@ -1,0 +1,70 @@
+{
+  "slug": "testing-hardening-2026-05-17",
+  "date": "2026-05-17",
+  "objective": "Prepare Spring Boot backend testing with JUnit 5, Mockito, AssertJ, MockMvc, architecture/component/contract/integration/unit tests, and JaCoCo coverage at 99% or higher.",
+  "changed": [
+    "Expanded backend test suites across unit, web, component, architecture, contract, and integration layers.",
+    "Added Maven JaCoCo coverage-check profile for 99% instruction and line coverage.",
+    "Updated backend coverage script to enforce thresholds and report executed test counts.",
+    "Updated backend tagged-suite scripts to fail on zero executed tests.",
+    "Added backend coverage jobs to dev and main runtime CI workflows.",
+    "Fixed ContentService context null PublishedAt handling exposed by tests."
+  ],
+  "intentionallyNotChanged": [
+    "Branch coverage is measured but not gated.",
+    "No separate staging branch workflow was added.",
+    "Main is promoted through the existing promotion PR flow rather than pushed directly.",
+    "Frontend source behavior was not changed by this slice."
+  ],
+  "coverage": {
+    "instruction": {
+      "covered": 9976,
+      "total": 10072,
+      "percent": 99.05,
+      "gated": true
+    },
+    "line": {
+      "covered": 1784,
+      "total": 1799,
+      "percent": 99.17,
+      "gated": true
+    },
+    "branch": {
+      "covered": 423,
+      "total": 496,
+      "percent": 85.28,
+      "gated": false
+    }
+  },
+  "tests": {
+    "fullBackendCoverage": {
+      "tests": 194,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "duration": "01:13",
+      "timeout": false
+    }
+  },
+  "validations": [
+    "bash -n backend test and coverage scripts",
+    "git diff --check",
+    "Docker Java 21 full backend coverage gate against fresh PostgreSQL",
+    "Surefire report total check",
+    "docker ps remaining-container check"
+  ],
+  "evidence": [
+    "backend/reports/testing-hardening-2026-05-17/full-backend-coverage-final-2026-05-17.log",
+    "coverage/backend/full/report/jacoco.csv",
+    "coverage/backend/full/report/index.html",
+    ".github/workflows/ci-dev.yml",
+    ".github/workflows/ci-main-runtime.yml",
+    "scripts/run-backend-coverage.sh"
+  ],
+  "risks": [
+    "Branch coverage remains 85.28% and is not part of the 99% gate.",
+    "Remote CI, staging image publish, promotion, and main runtime CI must still be observed after push.",
+    "The external coverage database container remains running for local evidence inspection."
+  ],
+  "recommendation": "Push this slice to dev and observe CI Dev, Publish GHCR Dev, promotion, and CI Main Runtime."
+}

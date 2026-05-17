@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Java Spring Boot Testing Hardening Audit - 2026-05-17</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 40px auto; line-height: 1.5; color: #202124; }
+    h1, h2 { line-height: 1.2; }
+    table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+    th, td { border: 1px solid #d0d7de; padding: 8px; vertical-align: top; }
+    th { background: #f6f8fa; text-align: left; }
+    code { background: #f6f8fa; padding: 2px 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Java Spring Boot Testing Hardening Audit - 2026-05-17</h1>
+  <h2>Summary</h2>
+  <p>The backend now has expanded JUnit 5, Mockito, AssertJ, MockMvc, architecture, component, contract, integration, and unit test coverage. JaCoCo instruction and line coverage are enforced at 99% through Maven and CI.</p>
+  <h2>Validation</h2>
+  <ul>
+    <li>Full backend coverage run passed: 194 tests, 0 failures, 0 errors, 0 skipped.</li>
+    <li>JaCoCo instruction coverage: 99.05%.</li>
+    <li>JaCoCo line coverage: 99.17%.</li>
+    <li>JaCoCo branch coverage measured at 85.28% but not gated.</li>
+    <li><code>git diff --check</code> passed.</li>
+    <li><code>bash -n</code> passed for backend test and coverage scripts.</li>
+  </ul>
+  <h2>Requirement Mapping</h2>
+  <table>
+    <thead><tr><th>Requirement</th><th>Evidence</th></tr></thead>
+    <tbody>
+      <tr><td>Test frameworks and categories</td><td><code>backend/pom.xml</code>, <code>backend/src/test/java/com/woongblog/**</code>, and suite scripts.</td></tr>
+      <tr><td>JaCoCo 99%+</td><td><code>coverage/backend/full/report/jacoco.csv</code>: instruction 99.05%, line 99.17%.</td></tr>
+      <tr><td>CI enforcement</td><td><code>.github/workflows/ci-dev.yml</code>, <code>.github/workflows/ci-main-runtime.yml</code>, and <code>scripts/run-backend-coverage.sh</code>.</td></tr>
+      <tr><td>Full test run</td><td><code>backend/reports/testing-hardening-2026-05-17/full-backend-coverage-final-2026-05-17.log</code>.</td></tr>
+      <tr><td>Release path</td><td>Use repository flow: push <code>dev</code>, verify staging image publish, promote through PR to <code>main</code>.</td></tr>
+    </tbody>
+  </table>
+  <h2>Recommendation</h2>
+  <p>Commit and push to <code>dev</code>, then observe <code>CI Dev</code>, <code>Publish GHCR Dev</code>, promotion, and <code>CI Main Runtime</code>.</p>
+</body>
+</html>

@@ -132,6 +132,33 @@ jobs:
       - name: Run backend integration tests
         run: bash ./scripts/run-integration-tests.sh
 
+  backend-coverage:
+    name: Backend JaCoCo 99% coverage
+    runs-on: ubuntu-latest
+    needs:
+      - backend-unit-tests
+      - backend-component-tests
+      - backend-architecture-tests
+      - backend-web-tests
+      - backend-integration-tests
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Check Docker availability for Testcontainers
+        run: docker version
+
+      - name: Run backend coverage gate
+        run: bash ./scripts/run-backend-coverage.sh full
+
   contract-tests:
     name: Pact provider verification
     runs-on: ubuntu-latest
@@ -141,6 +168,7 @@ jobs:
       - backend-architecture-tests
       - backend-web-tests
       - backend-integration-tests
+      - backend-coverage
     timeout-minutes: 15
     steps:
       - name: Checkout
@@ -176,6 +204,7 @@ jobs:
       - backend-architecture-tests
       - backend-web-tests
       - backend-integration-tests
+      - backend-coverage
       - contract-tests
       - compose-verify
     steps:
