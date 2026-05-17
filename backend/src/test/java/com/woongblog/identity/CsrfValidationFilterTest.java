@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-@Tag("unit")
+@Tag("component")
 class CsrfValidationFilterTest {
     private final CsrfValidationFilter filter = new CsrfValidationFilter(new ObjectMapper());
 

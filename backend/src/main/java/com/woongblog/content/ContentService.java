@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -711,7 +712,12 @@ public class ContentService implements BlogQueryStore, BlogCommandStore, WorkQue
     }
 
     private void ensureVideoVersion(UUID workId, int expectedVideosVersion) {
-        Integer actual = jdbcTemplate.queryForObject("SELECT \"VideosVersion\" FROM \"Works\" WHERE \"Id\" = ?", Integer.class, workId);
+        Integer actual;
+        try {
+            actual = jdbcTemplate.queryForObject("SELECT \"VideosVersion\" FROM \"Works\" WHERE \"Id\" = ?", Integer.class, workId);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundException("Work not found.");
+        }
         if (actual == null) {
             throw new NotFoundException("Work not found.");
         }

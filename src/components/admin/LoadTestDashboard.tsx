@@ -367,7 +367,7 @@ export function LoadTestDashboard({ targets, targetLoadWarning }: LoadTestDashbo
     { label: 'DB connection open P95', trend: diagnosticsSummary.dbConnectionOpenP95Ms, metric: 'ms', available: diagnosticsSummary.dbConnectionOpenP95Available },
     { label: 'Slow queries', trend: diagnosticsSummary.dbSlowQueryCount, metric: 'number' },
     { label: 'DB errors', trend: diagnosticsSummary.dbErrorCount, metric: 'number' },
-    { label: 'DB context pool', trend: diagnosticsSummary.dbContextPoolSize, metric: 'number', available: diagnosticsSummary.dbContextPoolAvailable },
+    { label: 'JDBC pool size', trend: diagnosticsSummary.dbContextPoolSize, metric: 'number', available: diagnosticsSummary.dbContextPoolAvailable },
     { label: 'JDBC min pool', trend: diagnosticsSummary.dbNpgsqlMinimumPoolSize, metric: 'number', available: diagnosticsSummary.dbNpgsqlPoolConfigured },
     { label: 'JDBC max pool', trend: diagnosticsSummary.dbNpgsqlMaximumPoolSize, metric: 'number', available: diagnosticsSummary.dbNpgsqlPoolConfigured },
     { label: 'Open connections', trend: diagnosticsSummary.dbOpenConnections, metric: 'number' },
@@ -387,7 +387,7 @@ export function LoadTestDashboard({ targets, targetLoadWarning }: LoadTestDashbo
   const latestDatabaseStatus = latestDiagnosticsSample?.database.status ?? 'unavailable'
   const latestDatabasePool = latestDiagnosticsSample?.database.pool
   const databasePoolSummary = latestDatabasePool
-    ? `DB connection counts are estimated from pg_stat_activity. DB context pool ${numberFormatter.format(latestDatabasePool.dbContextPoolSize)} · JDBC max ${latestDatabasePool.npgsqlMaximumPoolSize === null ? 'unavailable' : numberFormatter.format(latestDatabasePool.npgsqlMaximumPoolSize)} · source ${latestDatabasePool.npgsqlPoolLimitSource}.`
+    ? `DB connection counts are estimated from pg_stat_activity. JDBC pool size ${numberFormatter.format(latestDatabasePool.dbContextPoolSize)} · JDBC max ${latestDatabasePool.npgsqlMaximumPoolSize === null ? 'unavailable' : numberFormatter.format(latestDatabasePool.npgsqlMaximumPoolSize)} · source ${latestDatabasePool.npgsqlPoolLimitSource}.`
     : 'DB connection counts are estimated from pg_stat_activity. JDBC pool settings are read from the running backend configuration.'
   const realBackendStatusText = realBackendSnapshot?.status ?? formatRealBackendPhase(realBackendPhase)
   const realBackendLatencyBreakdown = realBackendSnapshot?.latencyBreakdown

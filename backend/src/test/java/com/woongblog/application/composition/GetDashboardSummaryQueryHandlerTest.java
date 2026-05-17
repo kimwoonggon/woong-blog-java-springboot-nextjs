@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("unit")
+@Tag("component")
 class GetDashboardSummaryQueryHandlerTest {
     @Mock
     private DashboardQueryStore dashboardQueryStore;

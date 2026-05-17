@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-@Tag("unit")
+@Tag("component")
 class RealLoadTestServiceTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private RealLoadTestService service;

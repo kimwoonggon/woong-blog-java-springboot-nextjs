@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Tag("unit")
+@Tag("component")
 @ExtendWith(MockitoExtension.class)
 class RuntimeDiagnosticsServiceTest {
     @Mock

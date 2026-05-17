@@ -34,7 +34,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("unit")
+@Tag("component")
 class ContentServiceBehaviorTests {
     @Mock
     private JdbcTemplate jdbcTemplate;

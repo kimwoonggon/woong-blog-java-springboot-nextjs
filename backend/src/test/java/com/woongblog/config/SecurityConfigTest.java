@@ -9,7 +9,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-@Tag("unit")
+@Tag("component")
 class SecurityConfigTest {
     @Test
     void corsConfigurationAllowsLocalFrontendOriginsForApiRoutes() {
