@@ -18,11 +18,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 @ExtendWith(MockitoExtension.class)
-@Tag("unit")
+@Tag("component")
 class JdbcWorkVideoStoreTest {
     @Mock
     private JdbcTemplate jdbcTemplate;
@@ -155,6 +156,20 @@ class JdbcWorkVideoStoreTest {
                 Integer.class,
                 workId))
                 .thenReturn(null);
+
+        assertThatThrownBy(() -> new JdbcWorkVideoStore(jdbcTemplate).currentVideoVersion(workId))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("Work not found.");
+    }
+
+    @Test
+    void currentVideoVersionThrowsNotFoundWhenJdbcReturnsEmptyResult() {
+        UUID workId = UUID.randomUUID();
+        when(jdbcTemplate.queryForObject(
+                "SELECT \"VideosVersion\" FROM \"Works\" WHERE \"Id\" = ?",
+                Integer.class,
+                workId))
+                .thenThrow(new EmptyResultDataAccessException(1));
 
         assertThatThrownBy(() -> new JdbcWorkVideoStore(jdbcTemplate).currentVideoVersion(workId))
                 .isInstanceOf(NotFoundException.class)

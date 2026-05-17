@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("web")
+@Tag("component")
 class MediaControllerWebMvcTest {
     @Mock
     private MediaService mediaService;

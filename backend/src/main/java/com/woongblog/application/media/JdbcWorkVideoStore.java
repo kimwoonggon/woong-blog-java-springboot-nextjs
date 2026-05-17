@@ -2,6 +2,7 @@ package com.woongblog.application.media;
 
 import com.woongblog.common.NotFoundException;
 import java.util.UUID;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -54,7 +55,12 @@ public class JdbcWorkVideoStore implements WorkVideoStore {
 
     @Override
     public int currentVideoVersion(UUID workId) {
-        Integer version = jdbcTemplate.queryForObject("SELECT \"VideosVersion\" FROM \"Works\" WHERE \"Id\" = ?", Integer.class, workId);
+        Integer version;
+        try {
+            version = jdbcTemplate.queryForObject("SELECT \"VideosVersion\" FROM \"Works\" WHERE \"Id\" = ?", Integer.class, workId);
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundException("Work not found.");
+        }
         if (version == null) {
             throw new NotFoundException("Work not found.");
         }

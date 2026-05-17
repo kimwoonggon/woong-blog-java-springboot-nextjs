@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Integration And Component Test Parity Audit - 2026-05-17</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; line-height: 1.5; color: #1f2937; }
+    table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+    th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; }
+    th { background: #f3f4f6; }
+    code { background: #f3f4f6; padding: 0.1rem 0.25rem; }
+  </style>
+</head>
+<body>
+  <h1>Integration And Component Test Parity Audit - 2026-05-17</h1>
+  <p>ASP.NET Core backend tests were counted and saved, then Spring Boot integration/component coverage was expanded and verified.</p>
+  <table>
+    <thead>
+      <tr><th>Backend</th><th>Total</th><th>Unit</th><th>Web</th><th>Integration</th><th>Component</th><th>Architecture</th><th>Contract</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>ASP.NET Core dev</td><td>41 / 390</td><td>7 / 27</td><td>n/a</td><td>17 / 199</td><td>13 / 126</td><td>3 / 37</td><td>1 / 1</td></tr>
+      <tr><td>Spring Boot before</td><td>42 / 198</td><td>30 / 141</td><td>7 / 34</td><td>2 / 16</td><td>1 / 1</td><td>1 / 5</td><td>1 / 1</td></tr>
+      <tr><td>Spring Boot after</td><td>53 / 292</td><td>10 / 41</td><td>7 / 34</td><td>13 / 107</td><td>28 / 138</td><td>1 / 5</td><td>1 / 1</td></tr>
+    </tbody>
+  </table>
+  <h2>Validation</h2>
+  <ul>
+    <li>Component suite passed: 145 runtime tests.</li>
+    <li>Integration suite passed: 107 runtime tests against fresh Postgres.</li>
+    <li>Unit, web, architecture, and contract suites passed.</li>
+    <li>Contract should remain DB-isolated because mutable integration data can violate pact provider state assumptions.</li>
+  </ul>
+  <h2>Recommendation</h2>
+  <p>Use <code>integration 13/107</code> and <code>component 28/138</code> as the new CI baseline, then schedule a second parity pass if exact ASP.NET Core method parity is required.</p>
+</body>
+</html>
