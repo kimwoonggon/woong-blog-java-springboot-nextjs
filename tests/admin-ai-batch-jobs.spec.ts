@@ -7,6 +7,7 @@ test('admin can create, observe, and apply a blog AI batch job without blocking 
   const state = {
     status: 'idle',
     applied: false,
+    jobVisible: false,
   }
 
   await page.route('**/api/admin/ai/runtime-config', async (route) => {
@@ -36,6 +37,7 @@ test('admin can create, observe, and apply a blog AI batch job without blocking 
 
     if (route.request().method() === 'POST') {
       state.status = 'completed'
+      state.jobVisible = true
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -48,34 +50,47 @@ test('admin can create, observe, and apply a blog AI batch job without blocking 
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify({
-        jobs: [
-          {
-            jobId: 'mock-batch-job',
-            status: state.status === 'idle' ? 'completed' : state.status,
-            selectionMode: 'selected',
-            selectionLabel: '2 selected',
-            selectionKey: 'mock-a,mock-b',
-            autoApply: false,
-            workerCount: 2,
-            totalCount: 2,
-            processedCount: 2,
-            succeededCount: state.applied ? 2 : 2,
-            failedCount: 0,
-            provider: 'codex',
-            model: 'gpt-5.4',
-            reasoningEffort: 'medium',
-            createdAt: '2026-04-13T00:00:00.000Z',
-            startedAt: '2026-04-13T00:00:01.000Z',
-            finishedAt: '2026-04-13T00:00:02.000Z',
-            cancelRequested: false,
-          },
-        ],
+        jobs: state.jobVisible
+          ? [
+              {
+                jobId: 'mock-batch-job',
+                status: state.status,
+                selectionMode: 'selected',
+                selectionLabel: '2 selected',
+                selectionKey: 'mock-a,mock-b',
+                autoApply: false,
+                workerCount: 2,
+                totalCount: 2,
+                processedCount: 2,
+                succeededCount: state.applied ? 2 : 2,
+                failedCount: 0,
+                provider: 'codex',
+                model: 'gpt-5.4',
+                reasoningEffort: 'medium',
+                createdAt: '2026-04-13T00:00:00.000Z',
+                startedAt: '2026-04-13T00:00:01.000Z',
+                finishedAt: '2026-04-13T00:00:02.000Z',
+                cancelRequested: false,
+              },
+            ]
+          : [],
         runningCount: 0,
         queuedCount: 0,
-        completedCount: 1,
+        completedCount: state.jobVisible && state.status === 'completed' ? 1 : 0,
         failedCount: 0,
         cancelledCount: 0,
       }),
+    })
+  })
+
+  await page.route('**/api/admin/ai/blog-fix-batch-jobs/clear-completed', async (route) => {
+    state.jobVisible = false
+    state.status = 'idle'
+    state.applied = false
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ cleared: 1 }),
     })
   })
 

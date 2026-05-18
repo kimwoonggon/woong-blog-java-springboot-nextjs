@@ -41,9 +41,10 @@ test('editor shell keeps at least 80 percent of the viewport width on desktop', 
 
   const editorShell = page.getByTestId('notion-editor-shell')
   await expect(editorShell).toBeVisible()
+  const minimumEditorShellWidth = await page.evaluate(() => Math.floor(document.documentElement.clientWidth * 0.8) - 4)
 
   await expect.poll(
     () => editorShell.evaluate((element) => Math.round(element.getBoundingClientRect().width)),
     { timeout: 10_000 },
-  ).toBeGreaterThanOrEqual(1024)
+  ).toBeGreaterThanOrEqual(minimumEditorShellWidth)
 })

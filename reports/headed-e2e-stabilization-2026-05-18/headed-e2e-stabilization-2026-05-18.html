@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Headed E2E Stabilization Audit - 2026-05-18</title>
+    <style>
+      body { font-family: system-ui, sans-serif; line-height: 1.5; max-width: 920px; margin: 40px auto; padding: 0 20px; color: #111827; }
+      h1, h2 { line-height: 1.2; }
+      code, pre { background: #f3f4f6; border-radius: 6px; }
+      code { padding: 0.1rem 0.25rem; }
+      pre { padding: 1rem; overflow-x: auto; }
+      li { margin: 0.25rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>Headed E2E Stabilization Audit - 2026-05-18</h1>
+    <h2>Summary</h2>
+    <p>The Docker-backed full Playwright exhaustive suite was run in headed mode on Windows screen 2. The first visible run completed with 598 passed, 9 skipped, and 5 failed. The failures were headed-only test fragility and local launch constraints, not production application regressions.</p>
+    <p>Changes were limited to Playwright configuration and E2E specs. Local headed launch controls were added, batch-job and image-upload test races were stabilized, public inline return-to behavior was asserted correctly, and viewport math now uses actual client width to handle headed scrollbar differences.</p>
+    <h2>Intentionally Not Changed</h2>
+    <ul>
+      <li>No production frontend behavior changed.</li>
+      <li>No backend, Docker compose, or CI workflow changes were made.</li>
+      <li>No push or promotion was performed for these local headed-test changes.</li>
+      <li>Existing unrelated dirty files were not touched.</li>
+    </ul>
+    <h2>Goal Verification</h2>
+    <pre>603 passed, 9 skipped
+Latency budget failures: 0
+Latency warnings: 88
+Runtime: 19.4m</pre>
+    <h2>Validations</h2>
+    <ul>
+      <li><code>xrandr --listmonitors</code> confirmed screen 2 at <code>XWAYLAND1 1080x1920+3840+249</code>.</li>
+      <li><code>npm run test:e2e:readiness</code> passed before headed execution.</li>
+      <li>Targeted headed rerun of the five failed spec files passed: 15 passed.</li>
+      <li>Full headed exhaustive rerun on screen 2 passed: 603 passed, 9 skipped.</li>
+      <li><code>npm run typecheck</code> passed.</li>
+      <li>Targeted ESLint on changed files passed.</li>
+      <li><code>git diff --check</code> on changed files passed.</li>
+    </ul>
+    <h2>Risks And Follow-Ups</h2>
+    <ul>
+      <li>The changes are local and unpushed. To share them, use the normal dev/main CI path.</li>
+      <li><code>PLAYWRIGHT_CHROMIUM_ARGS</code> is for local diagnostics; avoid committing machine-specific env values.</li>
+      <li>The final headed run generated Playwright artifacts under <code>test-results/playwright</code>.</li>
+    </ul>
+    <h2>Recommendation</h2>
+    <p>Keep the test stabilization changes. They make the exhaustive suite deterministic in both CI/headless and local headed observation modes without changing application behavior.</p>
+  </body>
+</html>

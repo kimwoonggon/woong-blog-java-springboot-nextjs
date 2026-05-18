@@ -22,9 +22,11 @@ test('blog editor keeps editing state when inline image upload fails', async ({ 
     page.waitForEvent('filechooser'),
     page.getByTitle('Insert Image').click(),
   ])
-  await fileChooser.setFiles(path.resolve('tests/fixtures/avatar.png'))
 
-  await page.waitForResponse((res) => res.url().includes('/api/uploads') && res.request().method() === 'POST' && res.status() === 500)
+  await Promise.all([
+    page.waitForResponse((res) => res.url().includes('/api/uploads') && res.request().method() === 'POST' && res.status() === 500),
+    fileChooser.setFiles(path.resolve('tests/fixtures/avatar.png')),
+  ])
   await expect(page.locator('.tiptap.ProseMirror img')).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Create Post' })).toBeVisible()
 })

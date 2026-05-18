@@ -39,7 +39,6 @@ test('public blog inline editor clears beforeunload after save', async ({ page }
   })
 
   await page.goto(`/blog/${created.slug}?returnTo=%2Fblog%3Fpage%3D1%26pageSize%3D2&relatedPage=1`)
-  const detailUrlPattern = /\/blog\/[^/?#]+(?:\?.*)?$/
   await page.getByRole('button', { name: '글 수정' }).click()
 
   await page.getByLabel('Title').fill(updatedTitle)
@@ -53,7 +52,7 @@ test('public blog inline editor clears beforeunload after save', async ({ page }
     saveButton.click(),
   ])
 
-  await expect(page).toHaveURL(detailUrlPattern)
+  await expect(page).toHaveURL(/\/blog\?page=1&pageSize=2$/)
   await expect(page.getByText(updatedTitle).first()).toBeVisible()
   await expect.poll(async () => page.evaluate(() => typeof window.onbeforeunload)).toBe('object')
   expect(dialogSeen).toBe(false)
