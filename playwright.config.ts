@@ -90,6 +90,18 @@ const PLAYWRIGHT_BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost
 const IGNORE_LOCALHOST_HTTPS_ERRORS = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(
   PLAYWRIGHT_BASE_URL,
 )
+const PLAYWRIGHT_WINDOW_POSITION = process.env.PLAYWRIGHT_WINDOW_POSITION
+const PLAYWRIGHT_WINDOW_SIZE = process.env.PLAYWRIGHT_WINDOW_SIZE
+const PLAYWRIGHT_SLOW_MO_MS = Number(process.env.PLAYWRIGHT_SLOW_MO_MS ?? '0')
+const PLAYWRIGHT_CHROMIUM_ARGS = (process.env.PLAYWRIGHT_CHROMIUM_ARGS ?? '')
+  .split(',')
+  .map((arg) => arg.trim())
+  .filter(Boolean)
+const PLAYWRIGHT_LAUNCH_ARGS = [
+  PLAYWRIGHT_WINDOW_POSITION ? `--window-position=${PLAYWRIGHT_WINDOW_POSITION}` : undefined,
+  PLAYWRIGHT_WINDOW_SIZE ? `--window-size=${PLAYWRIGHT_WINDOW_SIZE}` : undefined,
+  ...PLAYWRIGHT_CHROMIUM_ARGS,
+].filter((arg): arg is string => Boolean(arg))
 
 export default defineConfig({
   testDir: './tests',
@@ -103,6 +115,13 @@ export default defineConfig({
     ignoreHTTPSErrors: IGNORE_LOCALHOST_HTTPS_ERRORS,
     screenshot: 'on',
     video: 'on',
+    launchOptions:
+      PLAYWRIGHT_LAUNCH_ARGS.length > 0 || PLAYWRIGHT_SLOW_MO_MS > 0
+        ? {
+            args: PLAYWRIGHT_LAUNCH_ARGS,
+            slowMo: PLAYWRIGHT_SLOW_MO_MS > 0 ? PLAYWRIGHT_SLOW_MO_MS : undefined,
+          }
+        : undefined,
   },
   webServer: process.env.PLAYWRIGHT_EXTERNAL_SERVER === '1'
     ? undefined
