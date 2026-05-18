@@ -1,0 +1,71 @@
+{
+  "task": "blog-notion-workspace-refactor",
+  "date": "2026-05-18",
+  "summary": "Extracted presentation-only components and helpers from BlogNotionWorkspace while preserving autosave and saveDocument behavior in the parent.",
+  "changedFiles": [
+    "src/components/admin/BlogNotionWorkspace.tsx",
+    "src/components/admin/blog-notion-workspace/LibrarySheet.tsx",
+    "src/components/admin/blog-notion-workspace/WorkspaceHeader.tsx",
+    "src/components/admin/blog-notion-workspace/MetadataForm.tsx",
+    "src/components/admin/blog-notion-workspace/CapabilityHint.tsx",
+    "src/components/admin/blog-notion-workspace/DocumentInfoSidebar.tsx",
+    "src/components/admin/blog-notion-workspace/types.ts",
+    "src/components/admin/blog-notion-workspace/utils.ts",
+    "todolist-2026-05-18.md"
+  ],
+  "auditFiles": [
+    "src/components/admin/blog-notion-workspace/audit/blog-notion-workspace-refactor-2026-05-18.md",
+    "src/components/admin/blog-notion-workspace/audit/blog-notion-workspace-refactor-2026-05-18.html",
+    "src/components/admin/blog-notion-workspace/audit/blog-notion-workspace-refactor-2026-05-18.json"
+  ],
+  "lineCounts": {
+    "before": {
+      "src/components/admin/BlogNotionWorkspace.tsx": 618
+    },
+    "after": {
+      "src/components/admin/BlogNotionWorkspace.tsx": 410,
+      "src/components/admin/blog-notion-workspace/LibrarySheet.tsx": 124,
+      "src/components/admin/blog-notion-workspace/WorkspaceHeader.tsx": 70,
+      "src/components/admin/blog-notion-workspace/MetadataForm.tsx": 53,
+      "src/components/admin/blog-notion-workspace/DocumentInfoSidebar.tsx": 53,
+      "src/components/admin/blog-notion-workspace/CapabilityHint.tsx": 26,
+      "src/components/admin/blog-notion-workspace/types.ts": 16,
+      "src/components/admin/blog-notion-workspace/utils.ts": 36
+    }
+  },
+  "intentionallyNotChanged": [
+    "Autosave timers and saveDocument behavior",
+    "Keyboard shortcut handling",
+    "API payload shape",
+    "Stable test ids, labels, links, and localStorage key",
+    "WorkEditor, LoadTestDashboard, and AdminBlogBatchAiPanel"
+  ],
+  "validations": [
+    {
+      "command": "npm test -- src/test/blog-notion-workspace.test.tsx",
+      "outcome": "passed",
+      "details": "5 tests passed; existing React async act warnings were printed for metadata save and Ctrl+S cases."
+    },
+    {
+      "command": "npx eslint src/components/admin/BlogNotionWorkspace.tsx src/components/admin/blog-notion-workspace/CapabilityHint.tsx src/components/admin/blog-notion-workspace/DocumentInfoSidebar.tsx src/components/admin/blog-notion-workspace/LibrarySheet.tsx src/components/admin/blog-notion-workspace/MetadataForm.tsx src/components/admin/blog-notion-workspace/WorkspaceHeader.tsx src/components/admin/blog-notion-workspace/types.ts src/components/admin/blog-notion-workspace/utils.ts",
+      "outcome": "passed",
+      "details": "No output."
+    },
+    {
+      "command": "git diff --check -- src/components/admin/BlogNotionWorkspace.tsx src/components/admin/blog-notion-workspace todolist-2026-05-18.md",
+      "outcome": "passed",
+      "details": "No whitespace errors."
+    },
+    {
+      "command": "npx tsc --noEmit --pretty false",
+      "outcome": "failed",
+      "details": "Blocked by out-of-scope AdminBlogBatchAiPanel.tsx missing imports/types in the parallel worker area."
+    }
+  ],
+  "risks": [
+    "Targeted tests still emit existing React async act warnings.",
+    "Global TypeScript verification must be rerun after AdminBlogBatchAiPanel errors are repaired.",
+    "No Playwright run was performed for this isolated presentation refactor."
+  ],
+  "recommendation": "Accept this P2 refactor after the parallel AdminBlogBatchAiPanel TypeScript errors are resolved and global typecheck can pass."
+}

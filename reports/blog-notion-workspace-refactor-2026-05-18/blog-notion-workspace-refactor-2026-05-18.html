@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BlogNotionWorkspace Refactor Audit - 2026-05-18</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 900px; }
+    code { background: #f4f4f5; padding: 0.1rem 0.25rem; }
+    li { margin: 0.2rem 0; }
+  </style>
+</head>
+<body>
+  <h1>BlogNotionWorkspace Refactor Audit - 2026-05-18</h1>
+  <h2>Summary</h2>
+  <p>Presentation-only JSX was extracted from <code>src/components/admin/BlogNotionWorkspace.tsx</code> into <code>src/components/admin/blog-notion-workspace/</code>.</p>
+  <ul>
+    <li><code>BlogNotionWorkspace.tsx</code>: 618 lines before, 410 lines after.</li>
+    <li>New major files: <code>LibrarySheet.tsx</code> 124, <code>WorkspaceHeader.tsx</code> 70, <code>MetadataForm.tsx</code> 53, <code>DocumentInfoSidebar.tsx</code> 53, <code>CapabilityHint.tsx</code> 26.</li>
+  </ul>
+  <h2>Not Changed</h2>
+  <p>Autosave, saveDocument, Ctrl+S handling, revalidation throttling, localStorage key, API payload shape, labels, links, and test ids were preserved. No tests or unrelated admin components were modified.</p>
+  <h2>Validations</h2>
+  <ul>
+    <li><code>npm test -- src/test/blog-notion-workspace.test.tsx</code>: passed, 5 tests, with existing React async act warnings.</li>
+    <li>Scoped <code>npx eslint</code> on touched files: passed with no output.</li>
+    <li><code>git diff --check -- src/components/admin/BlogNotionWorkspace.tsx src/components/admin/blog-notion-workspace todolist-2026-05-18.md</code>: passed.</li>
+    <li><code>npx tsc --noEmit --pretty false</code>: failed due out-of-scope <code>AdminBlogBatchAiPanel.tsx</code> missing imports/types.</li>
+  </ul>
+  <h2>Recommendation</h2>
+  <p>Accept this P2 refactor after the parallel AdminBlogBatchAiPanel TypeScript errors are resolved and global typecheck can pass.</p>
+</body>
+</html>

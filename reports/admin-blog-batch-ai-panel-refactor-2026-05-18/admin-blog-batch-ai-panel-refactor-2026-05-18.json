@@ -1,0 +1,79 @@
+{
+  "task": "admin-blog-batch-ai-panel-refactor",
+  "date": "2026-05-18",
+  "summary": "Refactored AdminBlogBatchAiPanel by extracting JSX-heavy sections into focused panel subcomponents without changing user-visible behavior.",
+  "changedFiles": [
+    "src/components/admin/AdminBlogBatchAiPanel.tsx",
+    "src/components/admin/admin-blog-batch-ai-panel/BatchLauncherControls.tsx",
+    "src/components/admin/admin-blog-batch-ai-panel/PromptSettings.tsx",
+    "src/components/admin/admin-blog-batch-ai-panel/JobSidebar.tsx",
+    "src/components/admin/admin-blog-batch-ai-panel/JobProgressPanel.tsx",
+    "src/components/admin/admin-blog-batch-ai-panel/JobPreview.tsx",
+    "src/components/admin/admin-blog-batch-ai-panel/types.ts",
+    "todolist-2026-05-18.md",
+    "reports/admin-blog-batch-ai-panel-refactor-2026-05-18/admin-blog-batch-ai-panel-refactor-2026-05-18.md",
+    "reports/admin-blog-batch-ai-panel-refactor-2026-05-18/admin-blog-batch-ai-panel-refactor-2026-05-18.html",
+    "reports/admin-blog-batch-ai-panel-refactor-2026-05-18/admin-blog-batch-ai-panel-refactor-2026-05-18.json"
+  ],
+  "lineCounts": {
+    "src/components/admin/AdminBlogBatchAiPanel.tsx": {
+      "before": 819,
+      "after": 576
+    },
+    "src/components/admin/admin-blog-batch-ai-panel/BatchLauncherControls.tsx": {
+      "before": 0,
+      "after": 210
+    },
+    "src/components/admin/admin-blog-batch-ai-panel/JobSidebar.tsx": {
+      "before": 0,
+      "after": 145
+    },
+    "src/components/admin/admin-blog-batch-ai-panel/JobProgressPanel.tsx": {
+      "before": 0,
+      "after": 72
+    },
+    "src/components/admin/admin-blog-batch-ai-panel/PromptSettings.tsx": {
+      "before": 0,
+      "after": 47
+    },
+    "src/components/admin/admin-blog-batch-ai-panel/JobPreview.tsx": {
+      "before": 0,
+      "after": 12
+    },
+    "src/components/admin/admin-blog-batch-ai-panel/types.ts": {
+      "before": 0,
+      "after": 12
+    }
+  },
+  "intentionallyNotChanged": [
+    "No tests were modified.",
+    "API endpoints and request payload shape were not changed.",
+    "Button names, aria labels, data-testid values, status text, localStorage keys, and prompt behavior were preserved.",
+    "WorkEditor, LoadTestDashboard, and BlogNotionWorkspace were not edited."
+  ],
+  "validations": [
+    {
+      "command": "npm test -- src/test/admin-blog-batch-ai-panel.test.tsx",
+      "outcome": "passed",
+      "details": "17 tests passed"
+    },
+    {
+      "command": "npm run lint -- src/components/admin/AdminBlogBatchAiPanel.tsx src/components/admin/admin-blog-batch-ai-panel/BatchLauncherControls.tsx src/components/admin/admin-blog-batch-ai-panel/PromptSettings.tsx src/components/admin/admin-blog-batch-ai-panel/JobSidebar.tsx src/components/admin/admin-blog-batch-ai-panel/JobProgressPanel.tsx src/components/admin/admin-blog-batch-ai-panel/JobPreview.tsx src/components/admin/admin-blog-batch-ai-panel/types.ts",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check -- src/components/admin/AdminBlogBatchAiPanel.tsx src/components/admin/admin-blog-batch-ai-panel todolist-2026-05-18.md",
+      "outcome": "passed"
+    },
+    {
+      "command": "npx tsc --noEmit --pretty false",
+      "outcome": "failed",
+      "details": "Failed in unrelated src/components/admin/LoadTestDashboard.tsx symbols owned by the parallel worker; no AdminBlogBatchAiPanel errors emitted."
+    }
+  ],
+  "risks": [
+    "Repo-wide TypeScript remains blocked by unrelated LoadTestDashboard errors.",
+    "Further parent file reduction would require extracting action hooks, which was deferred to avoid behavior coupling risk."
+  ],
+  "recommendation": "Accept this slice after the parallel LoadTestDashboard TypeScript failures are resolved and repo-wide TypeScript can be re-run cleanly."
+}

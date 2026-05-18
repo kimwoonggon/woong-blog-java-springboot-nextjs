@@ -28,6 +28,8 @@ export interface WorkEditorProps {
   onSaved?: (result: { id?: string; slug?: string | null; isEditing: boolean }) => void
 }
 
+export type WorkEditorTab = 'general' | 'media' | 'content'
+
 export interface VideoDraft {
   tempId: string
   kind: 'youtube' | 'file'

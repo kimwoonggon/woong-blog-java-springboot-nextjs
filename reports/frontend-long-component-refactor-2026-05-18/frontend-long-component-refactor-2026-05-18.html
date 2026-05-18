@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Frontend Long Component Refactor Audit - 2026-05-18</title>
+    <style>
+      body { font-family: system-ui, sans-serif; line-height: 1.5; max-width: 880px; margin: 40px auto; padding: 0 20px; color: #172033; }
+      h1, h2 { line-height: 1.2; }
+      code { background: #f3f4f6; padding: 0.1rem 0.25rem; border-radius: 4px; }
+      li { margin: 0.25rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>Frontend Long Component Refactor Audit - 2026-05-18</h1>
+    <h2>Summary</h2>
+    <p>Refactored the four prioritized admin frontend components into smaller containers, sections, hooks, helpers, and presentational components.</p>
+    <ul>
+      <li><code>WorkEditor.tsx</code>: about 2,020 lines to 32 lines.</li>
+      <li><code>LoadTestDashboard.tsx</code>: reduced to 157 lines.</li>
+      <li><code>AdminBlogBatchAiPanel.tsx</code>: reduced to 576 lines.</li>
+      <li><code>BlogNotionWorkspace.tsx</code>: reduced to 410 lines.</li>
+    </ul>
+    <h2>Intentionally Not Changed</h2>
+    <p>No backend production code, Playwright specs, or Vitest test files were intentionally changed. Existing unrelated dirty files were left out of scope.</p>
+    <h2>Validations</h2>
+    <ul>
+      <li>Focused unit suites passed: 90 tests.</li>
+      <li><code>npm run lint</code> passed with unrelated existing warnings only.</li>
+      <li><code>npm run typecheck</code> passed.</li>
+      <li><code>npm test</code> passed: 659 tests.</li>
+      <li><code>npm run build</code> passed.</li>
+      <li>E2E readiness passed with <code>BACKEND_PUBLISH_PORT=18080</code>.</li>
+      <li>Admin load-test dashboard Playwright passed: 2 tests.</li>
+      <li>Exhaustive Playwright passed: 603 passed, 9 skipped, 0 latency budget failures.</li>
+    </ul>
+    <h2>Risks And Follow-Up</h2>
+    <p><code>useWorkEditorController.ts</code>, <code>workVideoHandlers.ts</code>, <code>RealBackendLoadTestPanel.tsx</code>, and <code>useSyntheticLoadTestRunner.ts</code> remain good candidates for later reducer or smaller-slice extraction.</p>
+    <h2>Recommendation</h2>
+    <p>Proceed with dev CI and main promotion after committing only scoped refactor files and audit artifacts.</p>
+  </body>
+</html>

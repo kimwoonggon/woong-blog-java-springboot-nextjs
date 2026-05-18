@@ -1,11 +1,6 @@
 'use client'
 
-import { RefreshCcw, X } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { fetchWithCsrf } from '@/lib/api/auth'
 import { getBrowserApiBaseUrl } from '@/lib/api/browser'
 import {
@@ -14,9 +9,9 @@ import {
   listBlogAiBatchJobsBrowser,
   type AdminAiRuntimeConfig,
   type BlogAiBatchJobDetail,
-  type BlogAiBatchJobListPayload,
   type BlogAiBatchJobSummary,
 } from '@/lib/api/admin-ai'
+import { BatchLauncherControls } from '@/components/admin/admin-blog-batch-ai-panel/BatchLauncherControls'
 import {
   rankStatus,
   readApiPayload,
@@ -24,10 +19,17 @@ import {
   summarizeSelectionTitles,
   type BlogBatchCandidate,
 } from '@/components/admin/admin-blog-batch-ai-panel/helpers'
+import { JobProgressPanel } from '@/components/admin/admin-blog-batch-ai-panel/JobProgressPanel'
+import { JobSidebar } from '@/components/admin/admin-blog-batch-ai-panel/JobSidebar'
+import { PromptSettings } from '@/components/admin/admin-blog-batch-ai-panel/PromptSettings'
+import {
+  savedSystemPromptKey,
+  type BatchAiProvider,
+  type BatchSelectionMode,
+  type JobCounts,
+} from '@/components/admin/admin-blog-batch-ai-panel/types'
 import { useBatchJobPolling } from '@/components/admin/admin-blog-batch-ai-panel/useBatchJobPolling'
 import { toast } from 'sonner'
-
-const savedSystemPromptKey = 'admin-ai-blog-batch-system-prompt'
 
 interface AdminBlogBatchAiPanelProps {
   isOpen: boolean
@@ -49,9 +51,9 @@ export function AdminBlogBatchAiPanel({
   onApplied,
 }: AdminBlogBatchAiPanelProps) {
   const [runtimeConfig, setRuntimeConfig] = useState<AdminAiRuntimeConfig | null>(null)
-  const [selectedProvider, setSelectedProvider] = useState<'openai' | 'azure' | 'codex'>('openai')
+  const [selectedProvider, setSelectedProvider] = useState<BatchAiProvider>('openai')
   const [recentJobs, setRecentJobs] = useState<BlogAiBatchJobSummary[]>([])
-  const [jobCounts, setJobCounts] = useState<Pick<BlogAiBatchJobListPayload, 'runningCount' | 'queuedCount' | 'completedCount' | 'failedCount' | 'cancelledCount'>>({
+  const [jobCounts, setJobCounts] = useState<JobCounts>({
     runningCount: 0,
     queuedCount: 0,
     completedCount: 0,
@@ -61,7 +63,7 @@ export function AdminBlogBatchAiPanel({
   const [activeJobId, setActiveJobId] = useState<string | null>(null)
   const [activeJob, setActiveJob] = useState<BlogAiBatchJobDetail | null>(null)
   const [selectedJobItemId, setSelectedJobItemId] = useState<string | null>(null)
-  const [mode, setMode] = useState<'selected' | 'range' | 'date'>('selected')
+  const [mode, setMode] = useState<BatchSelectionMode>('selected')
   const [rangeStart, setRangeStart] = useState('1')
   const [rangeCount, setRangeCount] = useState('10')
   const [dateStart, setDateStart] = useState('')
@@ -182,8 +184,8 @@ export function AdminBlogBatchAiPanel({
         }
 
         setRuntimeConfig(config)
-        const availableProviders = (config.availableProviders?.length ? config.availableProviders : [config.provider]) as Array<'openai' | 'azure' | 'codex'>
-        const preferredProvider = (savedProvider || config.provider) as 'openai' | 'azure' | 'codex'
+        const availableProviders = (config.availableProviders?.length ? config.availableProviders : [config.provider]) as BatchAiProvider[]
+        const preferredProvider = (savedProvider || config.provider) as BatchAiProvider
         setSelectedProvider(availableProviders.includes(preferredProvider) ? preferredProvider : availableProviders[0])
         setCodexModel(savedModel || config.codexModel || 'gpt-5.5')
         setCodexReasoningEffort(savedReasoning || config.codexReasoningEffort || 'medium')
@@ -223,6 +225,44 @@ export function AdminBlogBatchAiPanel({
     loadRecentJobs,
     loadJobDetail,
   })
+
+  function selectProvider(nextProvider: BatchAiProvider) {
+    setSelectedProvider(nextProvider)
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('admin-ai-provider', nextProvider)
+    }
+  }
+
+  function selectCodexModel(nextModel: string) {
+    setCodexModel(nextModel)
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('admin-ai-codex-model', nextModel)
+    }
+  }
+
+  function selectCodexReasoningEffort(nextReasoningEffort: string) {
+    setCodexReasoningEffort(nextReasoningEffort)
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('admin-ai-codex-reasoning', nextReasoningEffort)
+    }
+  }
+
+  function updateCustomPrompt(value: string) {
+    promptTouchedRef.current = true
+    setCustomPrompt(value)
+  }
+
+  function selectJob(jobId: string) {
+    setActiveJobId(jobId)
+    setSelectedJobItemId(null)
+  }
+
+  function refreshJobs() {
+    void loadRecentJobs(activeJobId)
+    if (activeJobId) {
+      void loadJobDetail(activeJobId)
+    }
+  }
 
   async function createBatchAiJob() {
     if (mode === 'date' && !dateStart && !dateEnd) {
@@ -465,354 +505,71 @@ export function AdminBlogBatchAiPanel({
 
   return (
     <div data-testid="admin-blog-batch-ai-panel" className="border-b border-gray-200 px-4 py-4 dark:border-gray-800">
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="rounded-md border border-dashed border-border/80 bg-muted/20 px-3 py-2 text-sm">
-          <p className="font-medium">{selectedIdsForJob.length} selected</p>
-          <p className="text-xs text-muted-foreground">
-            {selectedIdsForJob.length === 0
-              ? 'Select blog rows to create a batch job.'
-              : selectionSummary}
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm">
-          <Label htmlFor="batch-mode">Mode</Label>
-          <select
-            id="batch-mode"
-            value={mode}
-            onChange={(event) => setMode(event.target.value as 'selected' | 'range' | 'date')}
-            className="bg-transparent text-sm outline-none"
-          >
-            <option value="selected">Selected rows</option>
-            <option value="range">Range</option>
-            <option value="date">Date range</option>
-          </select>
-          {mode === 'range' ? (
-            <>
-              <Label htmlFor="batch-range-start">Start</Label>
-              <input
-                id="batch-range-start"
-                aria-label="Batch range start"
-                value={rangeStart}
-                onChange={(event) => setRangeStart(event.target.value)}
-                className="w-16 rounded-md border border-input bg-background px-2 py-1 text-sm"
-              />
-              <Label htmlFor="batch-range-count">Count</Label>
-              <input
-                id="batch-range-count"
-                aria-label="Batch range count"
-                value={rangeCount}
-                onChange={(event) => setRangeCount(event.target.value)}
-                className="w-16 rounded-md border border-input bg-background px-2 py-1 text-sm"
-              />
-            </>
-          ) : null}
-          {mode === 'date' ? (
-            <>
-              <Label htmlFor="batch-date-start">Start date</Label>
-              <input
-                id="batch-date-start"
-                aria-label="Batch date start"
-                type="date"
-                value={dateStart}
-                onChange={(event) => setDateStart(event.target.value)}
-                className="rounded-md border border-input bg-background px-2 py-1 text-sm"
-              />
-              <Label htmlFor="batch-date-end">End date</Label>
-              <input
-                id="batch-date-end"
-                aria-label="Batch date end"
-                type="date"
-                value={dateEnd}
-                onChange={(event) => setDateEnd(event.target.value)}
-                className="rounded-md border border-input bg-background px-2 py-1 text-sm"
-              />
-              <span className="text-xs text-muted-foreground">publishedAt, fallback updatedAt</span>
-            </>
-          ) : null}
-        </div>
-        <div className="flex flex-wrap items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm">
-          <span className="text-xs text-muted-foreground">Provider</span>
-          {(runtimeConfig?.availableProviders?.length ?? 0) > 1 ? (
-            <select
-              aria-label="Batch AI provider"
-              value={selectedProvider}
-              onChange={(event) => {
-                const nextProvider = event.target.value as 'openai' | 'azure' | 'codex'
-                setSelectedProvider(nextProvider)
-                if (typeof window !== 'undefined') {
-                  window.localStorage.setItem('admin-ai-provider', nextProvider)
-                }
-              }}
-              className="rounded-md border border-input bg-background px-2 py-1 text-sm"
-            >
-              {(runtimeConfig?.availableProviders || []).map((provider) => (
-                <option key={provider} value={provider}>
-                  {provider.toUpperCase()}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <span data-testid="admin-blog-batch-ai-provider" className="font-medium uppercase">{selectedProvider ?? runtimeConfig?.provider ?? 'loading'}</span>
-          )}
-          {selectedProvider === 'codex' ? (
-            <>
-              <Label htmlFor="batch-worker-count">Workers</Label>
-              <input
-                id="batch-worker-count"
-                aria-label="Batch worker count"
-                type="number"
-                min={1}
-                max={8}
-                value={workerCount}
-                onChange={(event) => setWorkerCount(event.target.value)}
-                className="w-16 rounded-md border border-input bg-background px-2 py-1 text-sm"
-              />
-              <span className="text-xs text-muted-foreground">default {runtimeConfig?.batchConcurrency ?? 2}</span>
-              <Label htmlFor="list-codex-model" className="sr-only">Codex model</Label>
-              <select
-                id="list-codex-model"
-                aria-label="Blog batch codex model"
-                value={codexModel}
-                onChange={(event) => {
-                  setCodexModel(event.target.value)
-                  if (typeof window !== 'undefined') {
-                    window.localStorage.setItem('admin-ai-codex-model', event.target.value)
-                  }
-                }}
-                className="bg-transparent text-sm outline-none"
-              >
-                {(runtimeConfig?.allowedCodexModels || []).map((model) => (
-                  <option key={model} value={model}>{model}</option>
-                ))}
-              </select>
-              <Label htmlFor="list-codex-reasoning" className="sr-only">Codex reasoning</Label>
-              <select
-                id="list-codex-reasoning"
-                aria-label="Blog batch codex reasoning"
-                value={codexReasoningEffort}
-                onChange={(event) => {
-                  setCodexReasoningEffort(event.target.value)
-                  if (typeof window !== 'undefined') {
-                    window.localStorage.setItem('admin-ai-codex-reasoning', event.target.value)
-                  }
-                }}
-                className="bg-transparent text-sm outline-none"
-              >
-                {(runtimeConfig?.allowedCodexReasoningEfforts || []).map((effort) => (
-                  <option key={effort} value={effort}>{effort}</option>
-                ))}
-              </select>
-              <label className="ml-2 flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={autoApply}
-                  onChange={(event) => setAutoApply(event.target.checked)}
-                />
-                <span>Auto-apply successful results</span>
-              </label>
-            </>
-          ) : null}
-        </div>
-        <Button type="button" onClick={() => void createBatchAiJob()} disabled={selectedIdsForJob.length === 0 || isCreatingJob}>
-          {isCreatingJob ? 'Creating job...' : 'Generate AI Fix job'}
-        </Button>
-        {activeJob && ['queued', 'running'].includes(activeJob.status) ? (
-          <Button type="button" variant="outline" onClick={() => void cancelJob()} disabled={isCancellingJob}>
-            {isCancellingJob ? 'Cancelling...' : 'Cancel job'}
-          </Button>
-        ) : null}
-      </div>
-      <div className="mt-3 space-y-2 rounded-md border border-input bg-background px-3 py-2">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <Label htmlFor="batch-ai-system-prompt" className="text-xs text-muted-foreground">
-            System prompt
-          </Label>
-          <div className="flex items-center gap-2">
-            {hasUnsavedPrompt ? (
-              <span className="text-xs text-amber-600">Unsaved</span>
-            ) : null}
-            <Button type="button" variant="outline" size="sm" onClick={resetSystemPrompt}>
-              Reset
-            </Button>
-            <Button type="button" variant="secondary" size="sm" onClick={saveSystemPrompt}>
-              Save prompt
-            </Button>
-          </div>
-        </div>
-        <Textarea
-          id="batch-ai-system-prompt"
-          aria-label="Batch AI system prompt"
-          value={customPrompt}
-          onChange={(event) => {
-            promptTouchedRef.current = true
-            setCustomPrompt(event.target.value)
-          }}
-          className="max-h-44 min-h-28 resize-y text-sm"
-        />
-      </div>
+      <BatchLauncherControls
+        selectedCount={selectedIdsForJob.length}
+        selectionSummary={selectionSummary}
+        mode={mode}
+        rangeStart={rangeStart}
+        rangeCount={rangeCount}
+        dateStart={dateStart}
+        dateEnd={dateEnd}
+        runtimeConfig={runtimeConfig}
+        selectedProvider={selectedProvider}
+        workerCount={workerCount}
+        codexModel={codexModel}
+        codexReasoningEffort={codexReasoningEffort}
+        autoApply={autoApply}
+        isCreatingJob={isCreatingJob}
+        showCancelJob={Boolean(activeJob && ['queued', 'running'].includes(activeJob.status))}
+        isCancellingJob={isCancellingJob}
+        onModeChange={setMode}
+        onRangeStartChange={setRangeStart}
+        onRangeCountChange={setRangeCount}
+        onDateStartChange={setDateStart}
+        onDateEndChange={setDateEnd}
+        onProviderChange={selectProvider}
+        onWorkerCountChange={setWorkerCount}
+        onCodexModelChange={selectCodexModel}
+        onCodexReasoningEffortChange={selectCodexReasoningEffort}
+        onAutoApplyChange={setAutoApply}
+        onCreateJob={() => void createBatchAiJob()}
+        onCancelJob={() => void cancelJob()}
+      />
+      <PromptSettings
+        customPrompt={customPrompt}
+        hasUnsavedPrompt={hasUnsavedPrompt}
+        onCustomPromptChange={updateCustomPrompt}
+        onResetSystemPrompt={resetSystemPrompt}
+        onSaveSystemPrompt={saveSystemPrompt}
+      />
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[320px_minmax(0,1fr)]">
-        <aside className="space-y-3 rounded-2xl border border-border/80 bg-muted/10 p-3">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Recent AI jobs</p>
-              <p className="text-xs text-muted-foreground">Refresh on demand while you browse the blog list.</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                running {jobCounts.runningCount} · queued {jobCounts.queuedCount} · completed {jobCounts.completedCount} · failed {jobCounts.failedCount} · cancelled {jobCounts.cancelledCount}
-              </p>
-              {currentRunningJob ? (
-                <p className="mt-1 text-xs text-amber-600" data-testid="admin-blog-current-running-job">
-                  Running now: {currentRunningJob.selectionLabel || currentRunningJob.jobId}
-                </p>
-              ) : null}
-            </div>
-            <div className="flex flex-col items-end gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                type="button"
-                onClick={() => {
-                  void loadRecentJobs(activeJobId)
-                  if (activeJobId) {
-                    void loadJobDetail(activeJobId)
-                  }
-                }}
-              >
-                <RefreshCcw className="mr-2 h-4 w-4" />
-                Refresh jobs
-              </Button>
-              {queuedJobs.length > 0 ? (
-                <Button size="sm" variant="outline" type="button" onClick={() => void cancelQueuedJobs()} disabled={isCancellingJob}>
-                  {isCancellingJob ? 'Cancelling queued...' : `Cancel queued (${queuedJobs.length})`}
-                </Button>
-              ) : null}
-              {jobCounts.completedCount > 0 ? (
-                <Button size="sm" variant="outline" type="button" onClick={() => void clearCompletedJobs()} disabled={isCleaningJobs}>
-                  {isCleaningJobs ? 'Clearing completed...' : `Clear completed (${jobCounts.completedCount})`}
-                </Button>
-              ) : null}
-            </div>
-          </div>
-          {recentJobs.length === 0 ? (
-            <p className="text-xs text-muted-foreground">No AI jobs yet.</p>
-          ) : recentJobs.map((job) => (
-            <div
-              key={job.jobId}
-              onClick={() => {
-                setActiveJobId(job.jobId)
-                setSelectedJobItemId(null)
-              }}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault()
-                  setActiveJobId(job.jobId)
-                  setSelectedJobItemId(null)
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              className={`w-full rounded-xl border px-3 py-2 text-left text-sm transition ${
-                activeJobId === job.jobId ? 'border-primary/40 bg-primary/5' : 'border-border/80 hover:bg-muted/30'
-              }`}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="font-medium uppercase">{job.status}</span>
-                <div className="flex items-center gap-2">
-                  {job.selectionKey && duplicateCounts[job.selectionKey] > 1 ? (
-                    <Badge variant="secondary">duplicate x{duplicateCounts[job.selectionKey]}</Badge>
-                  ) : null}
-                  <span className="text-xs text-muted-foreground">{job.processedCount}/{job.totalCount}</span>
-                  {['completed', 'failed', 'cancelled'].includes(job.status) ? (
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      type="button"
-                      className="h-7 w-7"
-                      aria-label={`Remove ${job.status} job`}
-                      disabled={removingJobId === job.jobId}
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        void removeTerminalJob(job.jobId)
-                      }}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  ) : null}
-                </div>
-              </div>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {job.selectionLabel || job.selectionMode} · {job.provider} · workers {job.workerCount ?? runtimeConfig?.batchConcurrency ?? 2} · {job.model}{job.reasoningEffort ? ` · ${job.reasoningEffort}` : ''}{job.autoApply ? ' · auto-apply' : ''}
-              </p>
-              {['queued', 'running'].includes(job.status) ? (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  type="button"
-                  className="mt-2"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    void cancelJob(job.jobId)
-                  }}
-                >
-                  Cancel queued/running
-                </Button>
-              ) : null}
-            </div>
-          ))}
-        </aside>
+        <JobSidebar
+          recentJobs={recentJobs}
+          jobCounts={jobCounts}
+          currentRunningJob={currentRunningJob}
+          queuedJobsCount={queuedJobs.length}
+          activeJobId={activeJobId}
+          duplicateCounts={duplicateCounts}
+          runtimeBatchConcurrency={runtimeConfig?.batchConcurrency}
+          isCancellingJob={isCancellingJob}
+          isCleaningJobs={isCleaningJobs}
+          removingJobId={removingJobId}
+          onRefreshJobs={refreshJobs}
+          onSelectJob={selectJob}
+          onCancelJob={(jobId) => void cancelJob(jobId)}
+          onCancelQueuedJobs={() => void cancelQueuedJobs()}
+          onClearCompletedJobs={() => void clearCompletedJobs()}
+          onRemoveTerminalJob={(jobId) => void removeTerminalJob(jobId)}
+        />
 
-        <div className="space-y-3 rounded-2xl border border-border/80 bg-muted/10 p-3">
-          {activeJob ? (
-            <>
-              <p data-testid="admin-blog-batch-ai-status" className="text-sm text-muted-foreground">
-                {activeJob.status} · {activeJob.processedCount}/{activeJob.totalCount} processed · {activeJob.succeededCount} succeeded · {activeJob.failedCount} failed
-              </p>
-              {activeJob.autoApply ? (
-                <p className="text-xs text-emerald-600">Auto-apply is enabled for this job. Successful results save automatically.</p>
-              ) : null}
-              {activeJob.status === 'completed' && !activeJob.autoApply ? (
-                <Button
-                  size="sm"
-                  type="button"
-                  onClick={() => void applyJobResults()}
-                  disabled={isApplyingJob || !activeJob.items.some((item) => item.status === 'succeeded' && !item.appliedAt)}
-                >
-                  {isApplyingJob ? 'Applying...' : 'Apply all successful'}
-                </Button>
-              ) : null}
-              <div className="max-h-64 space-y-2 overflow-y-auto">
-                {activeJob.items.map((item) => (
-                  <div key={item.jobItemId} className="rounded-xl border border-border/70 bg-background px-3 py-2 text-sm">
-                    <div className="flex items-center justify-between gap-3">
-                      <button
-                        type="button"
-                        className="min-w-0 flex-1 truncate text-left font-medium"
-                        onClick={() => setSelectedJobItemId(item.jobItemId)}
-                      >
-                        {item.title}
-                      </button>
-                      <Badge variant="secondary">{item.status}</Badge>
-                    </div>
-                    {item.error ? <p className="mt-1 text-xs text-red-500">{item.error}</p> : null}
-                    {item.status === 'succeeded' && !item.appliedAt && !activeJob.autoApply ? (
-                      <Button size="sm" variant="outline" type="button" className="mt-2" onClick={() => void applyJobResults([item.jobItemId])} disabled={isApplyingJob}>
-                        Apply this result
-                      </Button>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-              {previewJobItem?.fixedHtml ? (
-                <div className="rounded-xl border border-border/70 bg-background p-3">
-                  <p className="mb-2 text-xs font-medium text-muted-foreground">Preview</p>
-                  <div className="prose prose-sm dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: previewJobItem.fixedHtml }} />
-                </div>
-              ) : null}
-            </>
-          ) : (
-            <p className="text-sm text-muted-foreground">Open or create a batch AI job to see progress here.</p>
-          )}
-        </div>
+        <JobProgressPanel
+          activeJob={activeJob}
+          previewJobItem={previewJobItem}
+          isApplyingJob={isApplyingJob}
+          onApplyJobResults={(jobItemIds) => void applyJobResults(jobItemIds)}
+          onSelectJobItem={setSelectedJobItemId}
+        />
       </div>
     </div>
   )

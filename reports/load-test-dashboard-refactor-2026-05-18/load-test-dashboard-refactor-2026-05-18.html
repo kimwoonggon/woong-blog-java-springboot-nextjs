@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Load Test Dashboard Refactor Audit - 2026-05-18</title>
+    <style>
+      body { font-family: system-ui, sans-serif; line-height: 1.5; max-width: 960px; margin: 32px auto; padding: 0 16px; color: #111827; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #d1d5db; padding: 6px 8px; text-align: left; }
+      th { background: #f3f4f6; }
+      code { background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>Load Test Dashboard Refactor Audit - 2026-05-18</h1>
+    <p><code>LoadTestDashboard.tsx</code> was reduced from 1606 to 157 lines by extracting presentational panels, hooks, and helpers under <code>src/components/admin/load-test-dashboard/</code>.</p>
+    <h2>Validation</h2>
+    <ul>
+      <li><code>npm test -- src/test/load-test-dashboard.test.ts</code>: passed, 29 tests.</li>
+      <li><code>npx tsc --noEmit --pretty false</code>: passed.</li>
+      <li><code>npx eslint src/components/admin/LoadTestDashboard.tsx src/components/admin/load-test-dashboard</code>: passed.</li>
+      <li><code>npx playwright test tests/admin-load-test-dashboard.spec.ts --workers=1</code>: passed, 2 tests.</li>
+      <li><code>npm run lint</code>, <code>npm run typecheck</code>, <code>npm test</code>, and <code>npm run build</code>: passed.</li>
+      <li><code>npm run test:e2e:exhaustive</code>: passed, 603 passed, 9 skipped, 0 latency budget failures.</li>
+      <li>Selector and ARIA grep diff against backup: passed with no diff.</li>
+    </ul>
+    <h2>Risk</h2>
+    <p>The largest new presentational file is <code>RealBackendLoadTestPanel.tsx</code> at 408 lines. <code>useSyntheticLoadTestRunner.ts</code> is 349 lines and can be split later if browser synthetic scenarios gain more branches.</p>
+    <h2>Recommendation</h2>
+    <p>Accept the refactor as behavior-preserving; consider adding a lightweight render test in a later hardening slice.</p>
+  </body>
+</html>

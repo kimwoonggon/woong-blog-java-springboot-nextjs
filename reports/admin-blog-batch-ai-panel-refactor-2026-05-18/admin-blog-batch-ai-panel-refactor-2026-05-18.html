@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AdminBlogBatchAiPanel Refactor Audit - 2026-05-18</title>
+    <style>
+      body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; max-width: 900px; }
+      code { background: #f4f4f5; padding: 0.1rem 0.25rem; border-radius: 4px; }
+      li { margin: 0.25rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>AdminBlogBatchAiPanel Refactor Audit - 2026-05-18</h1>
+    <p>Refactored <code>src/components/admin/AdminBlogBatchAiPanel.tsx</code> from 819 to 576 lines by extracting JSX-heavy admin batch AI panel sections into focused components.</p>
+    <h2>Changed</h2>
+    <ul>
+      <li><code>BatchLauncherControls.tsx</code>: launcher, selection, provider, and Codex controls.</li>
+      <li><code>PromptSettings.tsx</code>: system prompt controls.</li>
+      <li><code>JobSidebar.tsx</code>: recent jobs sidebar.</li>
+      <li><code>JobProgressPanel.tsx</code>: status, item list, and apply actions.</li>
+      <li><code>JobPreview.tsx</code>: fixed HTML preview.</li>
+      <li><code>types.ts</code>: local panel types/constants.</li>
+    </ul>
+    <h2>Validation</h2>
+    <ul>
+      <li><code>npm test -- src/test/admin-blog-batch-ai-panel.test.tsx</code>: passed, 17 tests.</li>
+      <li><code>npm run lint -- ...batch AI panel files...</code>: passed.</li>
+      <li><code>git diff --check -- ...batch AI panel files...</code>: passed.</li>
+      <li><code>npx tsc --noEmit --pretty false</code>: failed only in unrelated <code>LoadTestDashboard.tsx</code> symbols owned by the parallel worker.</li>
+    </ul>
+    <h2>Recommendation</h2>
+    <p>Accept this slice after the parallel LoadTestDashboard TypeScript failures are resolved and repo-wide TypeScript can be re-run cleanly.</p>
+  </body>
+</html>

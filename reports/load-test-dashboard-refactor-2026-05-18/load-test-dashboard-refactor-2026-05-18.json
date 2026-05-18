@@ -1,0 +1,124 @@
+{
+  "task": "load-test-dashboard-refactor",
+  "date": "2026-05-18",
+  "summary": "Refactored LoadTestDashboard from a 1606-line monolith into a 157-line orchestration component with presentational panels, hooks, and helpers under src/components/admin/load-test-dashboard/.",
+  "changed": [
+    "Extracted formatters, status classes, result upsert, and real backend phase normalization.",
+    "Extracted synthetic scenario controls, run status, real backend panel, metric cards, diagnostics panels, and results table.",
+    "Extracted synthetic browser-run orchestration into hooks/useSyntheticLoadTestRunner.ts.",
+    "Extracted real backend start/stop/poll orchestration into hooks/useRealBackendRun.ts.",
+    "Extracted diagnostics state and metric-row derivation into hooks/useDiagnosticsPolling.ts."
+  ],
+  "intentionallyNotChanged": [
+    "No user-visible behavior changes.",
+    "No labels, button text, data-testid values, or literal aria-label values changed.",
+    "No test files changed.",
+    "No unrelated admin components, backend code, API code, or load-test library code changed."
+  ],
+  "lineCounts": {
+    "src/components/admin/LoadTestDashboard.tsx": {
+      "before": 1606,
+      "after": 157
+    },
+    "src/components/admin/load-test-dashboard/RealBackendLoadTestPanel.tsx": {
+      "before": 0,
+      "after": 408
+    },
+    "src/components/admin/load-test-dashboard/SyntheticLoadTestPanel.tsx": {
+      "before": 0,
+      "after": 175
+    },
+    "src/components/admin/load-test-dashboard/formatters.ts": {
+      "before": 0,
+      "after": 200
+    },
+    "src/components/admin/load-test-dashboard/RuntimeDiagnosticsPanel.tsx": {
+      "before": 0,
+      "after": 103
+    },
+    "src/components/admin/load-test-dashboard/RunStatusCard.tsx": {
+      "before": 0,
+      "after": 85
+    },
+    "src/components/admin/load-test-dashboard/MetricCards.tsx": {
+      "before": 0,
+      "after": 71
+    },
+    "src/components/admin/load-test-dashboard/LoadTestResultsTable.tsx": {
+      "before": 0,
+      "after": 68
+    },
+    "src/components/admin/load-test-dashboard/types.ts": {
+      "before": 0,
+      "after": 35
+    },
+    "src/components/admin/load-test-dashboard/hooks/useSyntheticLoadTestRunner.ts": {
+      "before": 0,
+      "after": 349
+    },
+    "src/components/admin/load-test-dashboard/hooks/useRealBackendRun.ts": {
+      "before": 0,
+      "after": 269
+    },
+    "src/components/admin/load-test-dashboard/hooks/useDiagnosticsPolling.ts": {
+      "before": 0,
+      "after": 105
+    }
+  },
+  "validations": [
+    {
+      "command": "npm test -- src/test/load-test-dashboard.test.ts",
+      "outcome": "passed",
+      "details": "1 file passed, 29 tests passed"
+    },
+    {
+      "command": "npx tsc --noEmit --pretty false",
+      "outcome": "passed",
+      "details": "no output"
+    },
+    {
+      "command": "npx eslint src/components/admin/LoadTestDashboard.tsx src/components/admin/load-test-dashboard",
+      "outcome": "passed",
+      "details": "no output"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 BACKEND_PUBLISH_PORT=18080 npx playwright test tests/admin-load-test-dashboard.spec.ts --workers=1",
+      "outcome": "passed",
+      "details": "2 tests passed"
+    },
+    {
+      "command": "npm run lint",
+      "outcome": "passed",
+      "details": "5 existing warnings outside changed source files"
+    },
+    {
+      "command": "npm run typecheck",
+      "outcome": "passed"
+    },
+    {
+      "command": "npm test",
+      "outcome": "passed",
+      "details": "95 files passed, 659 tests passed"
+    },
+    {
+      "command": "npm run build",
+      "outcome": "passed"
+    },
+    {
+      "command": "PLAYWRIGHT_EXTERNAL_SERVER=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 BACKEND_PUBLISH_PORT=18080 npm run test:e2e:exhaustive",
+      "outcome": "passed",
+      "details": "603 passed, 9 skipped, 0 latency budget failures, 62 warnings"
+    }
+  ],
+  "risks": [
+    "The targeted Vitest suite does not render LoadTestDashboard itself, but Playwright browser coverage was run after the hook extraction.",
+    "RealBackendLoadTestPanel.tsx is the largest extracted presentational file and may warrant future subdivision if it grows.",
+    "useSyntheticLoadTestRunner.ts is 349 lines and can be split later if browser synthetic scenarios gain more branches."
+  ],
+  "recommendation": "Accept this behavior-preserving refactor and consider adding a lightweight render test in a later hardening slice.",
+  "auditArtifacts": {
+    "markdown": "reports/load-test-dashboard-refactor-2026-05-18/load-test-dashboard-refactor-2026-05-18.md",
+    "html": "reports/load-test-dashboard-refactor-2026-05-18/load-test-dashboard-refactor-2026-05-18.html",
+    "json": "reports/load-test-dashboard-refactor-2026-05-18/load-test-dashboard-refactor-2026-05-18.json"
+  }
+}
